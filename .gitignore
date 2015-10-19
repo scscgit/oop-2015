@@ -1,0 +1,2 @@
+training.project/*
+!training.project/src
