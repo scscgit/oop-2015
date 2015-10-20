@@ -1,14 +1,14 @@
 /* * * * * * * * * * * * * * * *
- * Zadanie na predmet Objektové Programovanie
+ * Zadanie na predmet Objektove Programovanie
  *
- * Štefan Ciberaj, ZS 2015/2016
- * Technická univerzita v Košiciach, Fakulta elektrotechniky a informatiky
+ * scsc
+ * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
  *
- * Licencia: Voľný softvér, Open-Source GNU GPL v3+
- * Všeobecná verejná licencia. Program je dovolené voľne šíriť a upravovať.
- * Upravený program / časť programu môže ktokoľvek využiť ako na osobné,
- * tak aj komerčné účely, ale nemôže ho vydať s vlastným copyrightom,
- * ktorý nie je kompatibilný s GNU GPL v3+.
+ * Licencia: Volny softver, Open-Source GNU GPL v3+
+ * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
+ * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
+ * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
+ * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
  *
  * This program is free software: you can redistribute it and/or modify
@@ -107,15 +107,10 @@ public class SystemHack extends Computer
     @Override
     public void act()
     {
-	if(key(Input.Key.Q))
+	/*if(key(Input.Key.Q))
 	{
 	    
-	}
-	
-	if(key(Input.Key.W))
-	{
-	    add(this.cooler);
-	}
+	}*/
 	
 	if(key(Input.Key.E))
 	{
@@ -128,7 +123,7 @@ public class SystemHack extends Computer
 	    {
 		this.helicopter.searchAndDestroy();
 	    }
-	}
+	} else
 	
 	if(key(Input.Key.R))
 	{
@@ -139,6 +134,7 @@ public class SystemHack extends Computer
 	
 	if(key(Input.Key.T))
 	{
+	    this.reactor.increaseTemperature(1000);
 	    add(this.teleport1);
 	}
 	
@@ -148,17 +144,17 @@ public class SystemHack extends Computer
 	    this.teleport1.intertwineWith(this.teleport2);
 	}
 	
-	if(key(Input.Key.U))
-	{
-	    
-	}
-	
 	if(key(Input.Key.I))
 	{
-	    
+	    Hammer hammer = new Hammer();
+	    hammer.setPosition(10, 10);
+	    hammer.addedToWorld(getWorld());
+	    System.out.println("pred:"+this.reactor.getDamage()+":"+this.reactor.getTemperature());
+	    this.reactor.repair(hammer);
+	    System.out.println(" po :"+this.reactor.getDamage()+":"+this.reactor.getTemperature());
 	}
 	
-	if(key(Input.Key.O))
+	/*if(key(Input.Key.O))
 	{
 	    
 	}
@@ -166,10 +162,11 @@ public class SystemHack extends Computer
 	if(key(Input.Key.P))
 	{
 	    //add(pocitadlo);
-	}
+	}*/
 	
 	if(key(Input.Key.L))
 	{
+	    add(this.cooler);
 	    add(this.light);
 	    this.light.toggle();
 	}

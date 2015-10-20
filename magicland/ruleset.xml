@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset name="Text game ruleset"
+    xmlns="http://pmd.sf.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd"
+    xsi:noNamespaceSchemaLocation="http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+  <description>
+    This ruleset is for checking of nasty stuff in student's project code.
+  </description>
+
+  <!-- Here are some rules we'll specify one at a time -->
+
+  <rule ref="rulesets/java/basic.xml/ReturnFromFinallyBlock" message="Nepouzivajte prikaz ''return'' vo vnutri bloku ''finally''." />
+  <rule ref="rulesets/java/basic.xml/UnconditionalIfStatement" message="Nepouzivajte prikazy ''if'', ktore su vzdy pravdive alebo vzdy nepravdive (lebo tento je taky)." />
+  <rule ref="rulesets/java/basic.xml/CollapsibleIfStatements" message="Spojte nasledujuce dva za sebou iduce ''if'' prikazy do jedneho (podmienky zlucite logickym operatorom &amp;&amp;)" />
+
+  <rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength" message="Metoda obsahuje viac ako 99 prikazov. Skuste redukovat jej velkost vytvorenim pomocnych metod." />
+  <rule ref="rulesets/java/codesize.xml/ExcessiveParameterList" message="Nepouzivajte viac ako 9 parametrov metody. Skuste tie parametre zapuzdrit do objektu, pripadne pola." />
+  <rule ref="rulesets/java/codesize.xml/ExcessiveClassLength" message="Obmedzte pocet metod/prikazov v triede. Trieda musi mat menej ako 1000 riadkov." />
+  <rule ref="rulesets/java/codesize.xml/ExcessivePublicCount" message="Trieda nesmie mat viac ako 44 verejnych datovych clenov/metod. Prehodnotte, ci trieda naozaj pokryva funkcionalitu iba jedneho aspektu/objektu realneho sveta." />
+  <rule ref="rulesets/java/codesize.xml/CyclomaticComplexity" showClassesComplexity="false" message="Znizte pocet: ''if'', ''while'', ''for'', ''case'' prikazov v ramci ''{0} {1}'' (zlozitost je {2} z 10)."/>
+  <rule ref="rulesets/java/codesize.xml/TooManyFields" message="Trieda by nemala mat viac ako 14 datovych clenov." />
+  <rule ref="rulesets/java/codesize.xml/TooManyMethods" message="Trieda by nemala mat viac ako 15 metod.">
+    <properties>
+      <property name="maxmethods" value="15" />
+    </properties>
+  </rule>
+
+  <rule ref="rulesets/java/controversial.xml/AssignmentInOperand" message="Nepouzivajte priradenie hodnoty premennym, ktore vystupuju ako operandy inej operacie (napr. 'if ((x = getX()) != 3)')." />
+
+  <rule ref="rulesets/java/coupling.xml/CouplingBetweenObjects" message="V triede by sa nemalo pouzivat prilis vela rozdielnych typov (20 a viac: datove cleny, premenne, ''return'' prikazy), lebo to indikuje vysoky 'coupling'." />
+  <rule ref="rulesets/java/coupling.xml/ExcessiveImports" message="Znizte pocet importov (nesmie ich byt viac ako 30)" />
+  <rule ref="rulesets/java/coupling.xml/LooseCoupling" message="Pretypujte deklaraciu (namiesto typu ''{0}'' pouzite rozhranie, ktore tento typ implementuje)."/>
+
+  <rule ref="rulesets/java/design.xml/SwitchStmtsShouldHaveDefault" message="Pridajte do prikazu ''switch'' aj ''default:'' znacku." />
+  <rule ref="rulesets/java/design.xml/AvoidDeeplyNestedIfStmts" message="Nepouzivajte viac ako dve vnorenia podmienky 'if..then'." />
+  <rule ref="rulesets/java/design.xml/AvoidReassigningParameters" message="Vyhnite sa priradeniam hodnoty do parametra ''{0}'' - radsej si vytvorte novu lokalnu premennu." />
+  <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt" message="Umiestnite znacku ''default:'' v prikaze ''switch'' ako poslednu." />
+  <rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement" message="V prikaze ''switch'' nepouzivajte znacky bez klucoveho slova ''case''. Bud dopiste ''case '' pred tuto znacku, alebo ju uplne vyhodte." />
+  <rule ref="rulesets/java/design.xml/EqualsNull" message="Nepouzivajte volanie ''obj.equals(null)'', ale klasicke porovnanie (''obj == null'')." />
+  <rule ref="rulesets/java/design.xml/IdempotentOperations" message="Nepouzivajte idempotentne operacie (ako napr. priradenie premennej samej sebe)."/>
+  <rule ref="rulesets/java/design.xml/AssignmentToNonFinalStatic" message="Bud deklarujte staticku premennu ''{0}'' ako final, alebo sa vyhnite priradeniu jej hodnoty v konstruktore."/>
+  <rule ref="rulesets/java/design.xml/MissingStaticMethodInNonInstantiatableClass" message="Do triedy doplnte bud verejny konstruktor, alebo staticke metody, pretoze teraz je tato trieda nepouzitelna." />
+  <rule ref="rulesets/java/design.xml/MissingBreakInSwitch" message="V celom prikaze ''switch'' sa nenachadza ziadny prikaz ''break''."/>
+  <rule ref="rulesets/java/design.xml/AvoidInstanceofChecksInCatchClause" message="Pri odchyteni vynimky nepouzivajte operator ''instanceof'' na zistenie, o aku vynimku ide. Radsej umiestnite kazdy typ vynimky do samostatneho bloku ''catch''."/>
+  <rule ref="rulesets/java/design.xml/SimplifyConditional" message="Vymazte kontrolu premennej na ''null'', ked pouzivate operator ''instanceof'' (napr. 'if (x != null &amp;&amp; x instanceof X)')." />
+  <rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn" message="Vyhnite sa vytvaraniu zbytocnych lokalnych premennych, ako je napr. tato: ''int x = getX(); return x;''."/>
+  <rule ref="rulesets/java/design.xml/AvoidConstantsInterface" message="Rozhranie musi obsahovat aj deklaraciu metod, nielen konstant." />
+  <rule ref="rulesets/java/design.xml/UseCollectionIsEmpty" message="Nahradte test 'obj.size() == 0' (prip. 'obj.size() != 0') volanim metody 'obj.isEmpty()' na prislusnom objekte (kolekcii)." />
+  <rule ref="rulesets/java/design.xml/EmptyMethodInAbstractClassShouldBeAbstract" message="Prazdna metoda v abstraktnej triede by mala byt abstraktna (doplnte klucove slovo ''abstract'' za modifikator viditelnosti a zmazte telo metody)." />
+  <rule ref="rulesets/java/design.xml/SingularField" message="Nahradte datovy clen ''{0}'' lokalnou premennou, pretoze sa pouziva len v jedinej metode." />
+  <rule ref="rulesets/java/design.xml/AbstractClassWithoutAnyMethod" message="V abstraktnej triede nie je ziadna abstraktna metoda - doplnte aspon jednu. Ak ste mali v umysle iba zabranit moznosti vytvorit instanciu triedy, pouzite radsej sukromny alebo chraneny konstruktor." />
+  <rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement" message="Prikaz ''switch'' s menej ako 3 vetvami je neefektivny, radsej ho zamente za prikazy ''if''." />
+
+  <rule ref="rulesets/java/empty.xml/EmptyCatchBlock" message="Vlozte nejaky prikaz na osetrenie vynimky." />
+  <rule ref="rulesets/java/empty.xml/EmptyIfStmt" message="Vyhnite sa prazdnym ''if'' prikazom (ak vsak mate napisany kod iba pre negaciu tejto prazdnej podmienky - cez ''else'', tak tuto podmienku radsej negujte takto: ''!(POVODNA_PODMIENKA)'' a presunte kod tam)." />
+  <rule ref="rulesets/java/empty.xml/EmptyWhileStmt" message="Vyhnite sa prazdnym ''while'' cyklom (v pripade, ze v podmienke robite nieco uzitocne, presunte to radsej do tela cyklu)." />
+  <rule ref="rulesets/java/empty.xml/EmptyTryBlock" message="Vyhnite sa prazdnym ''try'' blokom (zmazte ho)." />
+  <rule ref="rulesets/java/empty.xml/EmptyFinallyBlock" message="Vyhnite sa prazdnym ''finally'' blokom (zmazte ho alebo doplnte nejaky kod)." />
+  <rule ref="rulesets/java/empty.xml/EmptyStatementNotInLoop" message="Zmazte prazdny prikaz (bodkociarka navyse, alebo osamote)." />
+
+  <rule ref="rulesets/java/imports.xml/DuplicateImports" message="Vymazte tento duplicitny import: ''{0}''." />
+  <rule ref="rulesets/java/imports.xml/DontImportJavaLang" message="Neimportujte nic z balicka 'java.lang' (vsetky triedy z tohto balicka su importovane automaticky)." />
+  <rule ref="rulesets/java/imports.xml/UnusedImports" message="Odstrante tento nepouzity import: ''{0}''."/>
+  <rule ref="rulesets/java/imports.xml/ImportFromSamePackage" message="Neimportujte nic, co sa nachadza v tom istom balicku." />
+
+  <rule ref="rulesets/java/junit.xml/JUnitStaticSuite" message="Metoda 'suite()' nie je verejna a staticka zaroven, teda ju JUnit nebude akceptovat. Pridajte preto modifikatory ''public'' a ''static''." />
+  <rule ref="rulesets/java/junit.xml/JUnitSpelling" message="Nespravne ste napisali nazov metody frameworku JUnit ('setUp' alebo 'tearDown')." />
+  <rule ref="rulesets/java/junit.xml/JUnitAssertionsShouldIncludeMessage" message="JUnit predpoklady (assertions) by mali mat ako prvy parameter nejaku textovu spravu." />
+  <rule ref="rulesets/java/junit.xml/JUnitTestsShouldIncludeAssert" message="JUnit testy by mali obsahovat aspon jedno volanie metody 'assert()' alebo 'fail()'." />
+  <rule ref="rulesets/java/junit.xml/TestClassWithoutTestCases" message="Triedy, ktorych nazov konci na 'Test' su chapane ako testovacie triedy. Tato trieda vsak neobahuje ziadne testovacie pripady (metody zacinajuce na 'test')." />
+  <rule ref="rulesets/java/junit.xml/UnnecessaryBooleanAssertion" message="Vymazte nepotrebny predpoklad: prikaz 'assertTrue(true)' alebo jemu podobny." />
+  <rule ref="rulesets/java/junit.xml/UseAssertNullInsteadOfAssertTrue" message="Miesto prikazu 'assertTrue(x==null)', prip. 'assertFalse(x==null)', pouzite prikaz 'assertNull(x)', prip. 'assertNotNull(x)'." />
+  <rule ref="rulesets/java/junit.xml/SimplifyBooleanAssertion" message="Prikaz 'assertTrue(!vyraz)' nahradte lepsim: 'assertFalse(vyraz)'." />
+
+  <rule ref="rulesets/java/naming.xml/LongVariable" message="Nazov premennej ''{0}'' je prilis dlhy (musi mat menej ako 17 znakov)." />
+  <rule ref="rulesets/java/naming.xml/ShortMethodName" message="Nazov metody je prilis kratky (musi mat viac ako 2 znaky)." />
+  <rule ref="rulesets/java/naming.xml/VariableNamingConventions" message="{0} premenna ''{1}'' musi zacinat {2}." />
+  <rule ref="rulesets/java/naming.xml/MethodNamingConventions" message="Nazov metody by mal vzdy zacinat malym pismenom, a nemal by obsahovat podtrzniky (_)." />
+  <rule ref="rulesets/java/naming.xml/ClassNamingConventions" message="Nazov triedy by mal vzdy zacinat velkym pismenom." />
+  <rule ref="rulesets/java/naming.xml/AbstractNaming" message="Nazov abstraktnych tried by mal mat formu: 'AbstractXXX'." />
+  <rule ref="rulesets/java/naming.xml/AvoidDollarSigns" message="Nepouzivajte symbol dolara v nazve premennej/metody/triedy/rozhrania." />
+  <rule ref="rulesets/java/naming.xml/MethodWithSameNameAsEnclosingClass" message="Trieda by nemala obsahovat metody s rovnakym nazvom ako nazov triedy (okrem konstruktorov)." />
+  <rule ref="rulesets/java/naming.xml/SuspiciousHashcodeMethodName" message="Nazov metody a jej navratovy typ sa az prilis podobaju standardnej metode vsetkych objektov s nazvom 'hashCode()'. Bud ju takto pomenujte (cim pretazite povodnu metodu), alebo lepsie zmente jej signaturu (staci nazov)." />
+  <rule ref="rulesets/java/naming.xml/SuspiciousConstantFieldName" message="Nazov premennej nesmie byt zlozeny len z velkych pismen, ak sa nejedna o konstantu. Avsak ak ide o konstantu, deklarujte premennu ako ''final''." />
+  <rule ref="rulesets/java/naming.xml/SuspiciousEqualsMethodName" message="Nazov metody, pripadne typ parametra sa az prilis podobaju na standardnu metodu pre vsetky objekty s nazvom 'equals(Object)'. Bud ju takto pomenujte (cim pretazite povodnu metodu), alebo lepsie zmente jej signaturu (staci nazov)." />
+  <rule ref="rulesets/java/naming.xml/AvoidFieldNameMatchingTypeName" message="Zmente pomenovanie datoveho clena, aby sa nezhodoval s nazvom triedy."/>
+  <rule ref="rulesets/java/naming.xml/AvoidFieldNameMatchingMethodName" message="Zmente pomenovanie datoveho clena, aby sa nezhodoval s nazvom metody."/>
+  <rule ref="rulesets/java/naming.xml/NoPackage" message="Doplnte nazov balicka na zaciatok suboru triedy/rozhrania (vlozte riadok ''package nazov'', kde nazov je cesta adresarov, v ktorych sa trieda/rozhranie nachadza)." />
+  <rule ref="rulesets/java/naming.xml/PackageCase" message="Nazov balicka nesmie obsahovat velke pismena." />
+  <rule ref="rulesets/java/naming.xml/MisleadingVariableName" message="Vymazte z premennej prefix 'm_' (tento sa väcsinou pouziva len ako prefix pre nazvy datovych clenov)." />
+  <!--  <rule ref="rulesets/java/naming.xml/BooleanGetMethodName" /> -->
+
+  <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation" message="Tato typova konverzia sa da zoptimalizovat ak vynechate pomocny objekt, ktory si vytvarate (napr. 'i = Integer.valueOf(s).intValue();' - toto vytvara zbytocny objekt; 'i = Integer.parseInt(s);' - toto je uz lepsie)." />
+  <rule ref="rulesets/java/optimizations.xml/AddEmptyString" message="Na konverziu nepridavajte prazdny retazec (je to neefektivne, radsej to urobte cez volanie ''String.valueOf()'')."/>
+
+  <rule ref="rulesets/java/strictexception.xml/ExceptionAsFlowControl" message="Nepouzivajte volania a zachytavanie vynimiek na riadenie toku programu (teda umely 'goto' prikaz)." />
+  <rule ref="rulesets/java/strictexception.xml/AvoidCatchingThrowable" message="Nepouzivajte odchytavanie vynimiek typu 'Throwable'." />
+  <rule ref="rulesets/java/strictexception.xml/AvoidCatchingNPE" message="Nepouzivajte odchytavanie vynimky typu 'NullPointerException'; radsej skuste predist tejto vynimke dodatocnou kontrolou." />
+  <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNullPointerException" message="Nehadzte vynimky typu 'NullPointerException', radsej miesto nej 'IllegalArgumentException'." />
+  <rule ref="rulesets/java/strictexception.xml/AvoidRethrowingException" message="Nehadzte tu istu vynimku v 'catch' bloku." />
+  <rule ref="rulesets/java/strictexception.xml/DoNotThrowExceptionInFinally" message="Nehadzte vynimky v bloku 'finally'." />
+  <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNewInstanceOfSameException" message="Nehadzte tu istu vynimku v 'catch' bloku (ani jej novu instanciu)." />
+
+  <rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals" message="Retazec {0} sa vyskytuje {1}-krat (viac ako 3; prvy vyskyt: riadok {2}); deklarujte ho ako datovy clen typu ''final static String'' a pouzite takto definovanu premennu v kazdom vyskyte retazca."/>
+  <rule ref="rulesets/java/strings.xml/StringInstantiation" message="Nevytvarajte instanciu objektu String priamo (''new String()''); obycajne je to zbytocne." />
+  <rule ref="rulesets/java/strings.xml/StringToString" message="Nepouzivajte volanie ''toString()'' metody na objektoch typu 'String'." />
+  <rule ref="rulesets/java/strings.xml/UnnecessaryCaseChange" message="Volanie metody ''equalsIgnoreCase()'' je lepsie ako volanie ''toUpperCase/toLowerCase().equals()''."  />
+  <rule ref="rulesets/java/strings.xml/UseIndexOfChar" message="Miesto 'String.indexOf(''retazec'')' pouzite 'String.indexOf('znak')'." />
+  <rule ref="rulesets/java/strings.xml/UselessStringValueOf" message="Nie je potrebne volat ''String.valueOf()'' na konverziu, ak tento objekt chcete pridat k retazcu." />
+  <rule ref="rulesets/java/strings.xml/UseEqualsToCompareStrings" message="Pri porovnavani retazcov volajte metodu ''equals()'' miesto pouzitia operatorov  ''=='', pripadne ''!=''." />
+
+  <rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable" /> <!-- message="Vymazte nepouzitu lokalnu premennu ''{0}''."/>-->
+  <rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField" message="Vymazte nepouzity datovy clen ''{0}''." />
+  <rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod" message="Vymazte nepouzitu (ani raz nikde nevolanu) sukromnu metodu: ''{0}''." />
+  <rule ref="rulesets/java/unusedcode.xml/UnusedFormalParameter" message="Vymazte nepouzity(e) parameter(tre) ''{1}'' v mieste: {0}."/>
+
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryConversionTemporary" message="Nepouzivajte docasnu premennu pri konvertovani nejakeho objektu na retazec (''String''). Staci tuto konverziu napisat rovno za prikaz ''return''." />
+  <rule ref="rulesets/java/unnecessary.xml/UnnecessaryReturn" message="Vymazte tento nepotrebny ''return'' prikaz." />
+  <rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod" message="Pretazenie metody je zbytocne, pretoze nerobi nic, iba vola svojho predka." />
+
+</ruleset>

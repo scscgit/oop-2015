@@ -1,2 +1,13 @@
+magicland/*
+!magicland/ruleset.xml
+!magicland/core
+
+magicland/core/*
+!magicland/core/assets
+!magicland/core/src
+
 training.project/*
 !training.project/src
+
+project.hellen/*
+#!project.hellen/src

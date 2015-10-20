@@ -1,14 +1,14 @@
 /* * * * * * * * * * * * * * * *
- * Zadanie na predmet Objektové Programovanie
+ * Zadanie na predmet Objektove Programovanie
  *
- * Štefan Ciberaj, ZS 2015/2016
- * Technická univerzita v Košiciach, Fakulta elektrotechniky a informatiky
+ * scsc
+ * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
  *
- * Licencia: Voľný softvér, Open-Source GNU GPL v3+
- * Všeobecná verejná licencia. Program je dovolené voľne šíriť a upravovať.
- * Upravený program / časť programu môže ktokoľvek využiť ako na osobné,
- * tak aj komerčné účely, ale nemôže ho vydať s vlastným copyrightom,
- * ktorý nie je kompatibilný s GNU GPL v3+.
+ * Licencia: Volny softver, Open-Source GNU GPL v3+
+ * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
+ * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
+ * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
+ * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ package sk.tuke.oop.aliens;
  * 
  * @author Steve
  */
-public class Cooler extends AdvancedActor implements Switchable
+public class Cooler extends AbstractAdvancedActor implements Switchable
 {
     /************************************\
     |* Week 4 Cooler, act()
@@ -40,8 +40,8 @@ public class Cooler extends AdvancedActor implements Switchable
     private Reactor reactor;
     private boolean on;
     
-    private int animation_runningFan;
-    private int animation_stoppedFan;
+    private int animationRun;
+    private int animationStop;
     
     //private static final sk.tuke.oop.framework.Animation stoppedFanAnimation = new sk.tuke.oop.framework.Animation("resources/images/fan.png", 32, 32, 200);
     
@@ -54,8 +54,8 @@ public class Cooler extends AdvancedActor implements Switchable
 	setReactor(reactor);
 	
 	//Animacie
-	this.animation_runningFan = addAnimation("fan",32,32,200);
-	this.animation_stoppedFan = addAnimation("fan",32,32,200,false,false);
+	this.animationRun = addAnimation("fan",32,32,200);
+	this.animationStop = addAnimation("fan",32,32,200,false,false);
 	updateAnimation();
     }
     
@@ -63,11 +63,11 @@ public class Cooler extends AdvancedActor implements Switchable
     {
 	if(isOn())
 	{
-	    updateAnimation(this.animation_runningFan);
+	    updateAnimation(this.animationRun);
 	}
 	else
 	{
-	    updateAnimation(this.animation_stoppedFan);
+	    updateAnimation(this.animationStop);
 	}
     }
 

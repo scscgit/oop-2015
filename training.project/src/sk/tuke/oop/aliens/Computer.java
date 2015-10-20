@@ -1,14 +1,14 @@
 /* * * * * * * * * * * * * * * *
- * Zadanie na predmet Objektové Programovanie
+ * Zadanie na predmet Objektove Programovanie
  *
- * Štefan Ciberaj, ZS 2015/2016
- * Technická univerzita v Košiciach, Fakulta elektrotechniky a informatiky
+ * scsc
+ * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
  *
- * Licencia: Voľný softvér, Open-Source GNU GPL v3+
- * Všeobecná verejná licencia. Program je dovolené voľne šíriť a upravovať.
- * Upravený program / časť programu môže ktokoľvek využiť ako na osobné,
- * tak aj komerčné účely, ale nemôže ho vydať s vlastným copyrightom,
- * ktorý nie je kompatibilný s GNU GPL v3+.
+ * Licencia: Volny softver, Open-Source GNU GPL v3+
+ * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
+ * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
+ * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
+ * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,16 +30,16 @@ import java.util.Random;
 
 interface Matematika
 {
-    public int add(int a, int b);
-    public double add(double a, double b);
-    public int sub(int a, int b);
-    public double sub(double a, double b);
+    int add(int a, int b);
+    double add(double a, double b);
+    int sub(int a, int b);
+    double sub(double a, double b);
 }
 
 //Menej presny kvantovy pocitac
 class RandomComputer extends Computer implements Matematika, EnergyConsumer
 {
-    protected Random randomgen;
+    private Random randomgen;
     
     public RandomComputer()
     {
@@ -121,7 +121,7 @@ class RandomComputer extends Computer implements Matematika, EnergyConsumer
  * 
  * @author Steve
  */
-public class Computer extends AdvancedActor implements Matematika, EnergyConsumer
+public class Computer extends AbstractAdvancedActor implements Matematika, EnergyConsumer
 {
     /************************************\
     |* Week 2 - Doplnkove ulohy
@@ -129,8 +129,8 @@ public class Computer extends AdvancedActor implements Matematika, EnergyConsume
     
     private boolean electricity;
     
-    private int animation_running;
-    private int animation_stopped;
+    private int animationRunning;
+    private int animationStopped;
     
     public Computer()
     {
@@ -138,8 +138,8 @@ public class Computer extends AdvancedActor implements Matematika, EnergyConsume
 	this.electricity=false;
 	
 	//Animacie
-        this.animation_running = addAnimation("computer",80,48,80);
-	this.animation_stopped = addAnimation("computer",80,48,80,false,false);
+        this.animationRunning = addAnimation("computer",80,48,80);
+	this.animationStopped = addAnimation("computer",80,48,80,false,false);
         updateAnimation();
     }
     
@@ -147,11 +147,11 @@ public class Computer extends AdvancedActor implements Matematika, EnergyConsume
     {
 	if(isPowered())
 	{
-	    updateAnimation(this.animation_running);
+	    updateAnimation(this.animationRunning);
 	}
 	else
 	{
-	    updateAnimation(this.animation_stopped);
+	    updateAnimation(this.animationStopped);
 	}
     }
     

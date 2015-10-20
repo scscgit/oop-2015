@@ -1,14 +1,14 @@
 /* * * * * * * * * * * * * * * *
- * Zadanie na predmet Objektové Programovanie
+ * Zadanie na predmet Objektove Programovanie
  *
- * Štefan Ciberaj, ZS 2015/2016
- * Technická univerzita v Košiciach, Fakulta elektrotechniky a informatiky
+ * scsc
+ * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
  *
- * Licencia: Voľný softvér, Open-Source GNU GPL v3+
- * Všeobecná verejná licencia. Program je dovolené voľne šíriť a upravovať.
- * Upravený program / časť programu môže ktokoľvek využiť ako na osobné,
- * tak aj komerčné účely, ale nemôže ho vydať s vlastným copyrightom,
- * ktorý nie je kompatibilný s GNU GPL v3+.
+ * Licencia: Volny softver, Open-Source GNU GPL v3+
+ * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
+ * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
+ * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
+ * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ package sk.tuke.oop.aliens;
  * 
  * @author Steve
  */
-public class TimeBomb extends AdvancedActor
+public class TimeBomb extends AbstractAdvancedActor
 {
     /************************************\
     |* Week 4 Doplnkove ulohy
@@ -44,8 +44,8 @@ public class TimeBomb extends AdvancedActor
     private int time;
     private boolean armed;
     private boolean exploding;
-    private int exploding_timer;
-    private boolean exploded; //TODO: Overit, ci po odstraneni actora neprestane actor existovat. Vtedy by tato premenna bola zbytocna.
+    private int explodingTimer;
+    private boolean exploded; //Mozno po odstraneni actora prestane actor existovat. Vtedy by tato premenna bola zbytocna.
     
     public TimeBomb(int time)
     {
@@ -107,7 +107,7 @@ public class TimeBomb extends AdvancedActor
     private void explode()
     {
 	this.exploding=true;
-	this.exploding_timer=EXPLODING_TIMER;
+	this.explodingTimer=EXPLODING_TIMER;
 	updateAnimation();
     }
     
@@ -136,14 +136,14 @@ public class TimeBomb extends AdvancedActor
 	    //Ak nastal vybuch, po skonceni treba bombu zmazat
 	    if(isExploding())
 	    {
-		if(this.exploding_timer <= 0)
+		if(this.explodingTimer <= 0)
 		{
 		    this.exploded=true;
 		    getWorld().removeActor(this);
 		}
 		else
 		{
-		    this.exploding_timer--;
+		    this.explodingTimer--;
 		}
 	    }
 	}

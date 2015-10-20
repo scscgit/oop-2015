@@ -1,14 +1,14 @@
 /* * * * * * * * * * * * * * * *
- * Zadanie na predmet Objektové Programovanie
+ * Zadanie na predmet Objektove Programovanie
  *
- * Štefan Ciberaj, ZS 2015/2016
- * Technická univerzita v Košiciach, Fakulta elektrotechniky a informatiky
+ * scsc
+ * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
  *
- * Licencia: Voľný softvér, Open-Source GNU GPL v3+
- * Všeobecná verejná licencia. Program je dovolené voľne šíriť a upravovať.
- * Upravený program / časť programu môže ktokoľvek využiť ako na osobné,
- * tak aj komerčné účely, ale nemôže ho vydať s vlastným copyrightom,
- * ktorý nie je kompatibilný s GNU GPL v3+.
+ * Licencia: Volny softver, Open-Source GNU GPL v3+
+ * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
+ * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
+ * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
+ * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 package sk.tuke.oop.aliens;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Vyznam AdvancedActora:
@@ -37,94 +38,40 @@ import java.util.ArrayList;
  * 
  * @author Steve
  */
-public abstract class AdvancedActor extends sk.tuke.oop.aliens.actor.AbstractActor
+public abstract class AbstractAdvancedActor extends sk.tuke.oop.aliens.actor.AbstractActor
 {
     /************************************\
     |* Week 3, AdvancedActor by Steve
     \************************************/
     
-    private ArrayList<Animacia> animacie; //Pole animacii
+    private List<Animacia> animacie; //Pole animacii
     private Animacia currentAnimacia; //Aktualne zapnuta animacia
-    private int animacie_index; //Index urcujuci nasledujucu animaciu na vznik, tj. pocet existujucich animacii
+    private int animacieIndex; //Index urcujuci nasledujucu animaciu na vznik, tj. pocet existujucich animacii
     
-    //Objekt na ulozenie animacie
-    public class Animacia
+    public AbstractAdvancedActor()
     {
-	private sk.tuke.oop.framework.Animation normalAnimation;
-	private int index;
-        private String png;
-        private int x;
-        private int y;
-        private int speed;
-	private boolean pingpong;
-	private boolean looping;
-
-        public Animacia(String png, int x, int y, int speed, boolean pingpong, boolean looping)
-        {
-	    if(pingpong&&!looping){System.out.println("Warning: "+png+"has pingpong without looping, expecting crash!");}; //Pomocka pre pripad, ze nabuduce nebudem vediet preco to crashlo
-	    this.normalAnimation = new sk.tuke.oop.framework.Animation("resources/images/"+png+".png", x, y, speed);
-	    normalAnimation.setPingPong(pingpong);
-	    normalAnimation.setLooping(looping);
-            this.png = png;
-            this.x = x;
-            this.y = y;
-            this.speed = speed;
-	    this.pingpong = pingpong;
-	    this.looping = looping;
-	    
-	    this.index = animacie_index;
-	    animacie_index++;
-        }
-	
-	//Implicitne parametre konstruktora
-	public Animacia(String png, int x, int y, int speed)
-        {
-	    this(png, x, y, speed, true, true);
-        }
-	
-	//Semanticka rovnost dvoch animacii
-	//V tomto pripade je definovana rovnostou vsetkych clenov. (Trivia: stara verzia to definovala na zaklade rovnakeho stringu png textury)
-	public boolean equals(Animacia a)
-	{
-	    return (this.png.equals(a.png) && this.x == a.x && this.y == a.y && this.speed == a.speed && this.pingpong == a.pingpong && this.looping == looping);
-	}
-	
-	public int getSpeed()
-        {
-            return this.speed;
-        }
-	
-	@Override
-        public String toString()
-        {
-            return this.png;
-        }
-    }
-    
-    public AdvancedActor()
-    {
-        currentAnimacia = new Animacia("",0,0,0); //Defaultna null animacia, ktorou sa ziadna skutocna animacia nesmie rovnat
+        currentAnimacia = new Animacia(0,"",0,0,0); //Defaultna null animacia, ktorou sa ziadna skutocna animacia nesmie rovnat
         animacie = new ArrayList<>(); //Inicializacia pola animacii
-	animacie_index = 0; //Animacie zacnu od cisla indexu 0, po inicializacii existuje 0 animacii
+	animacieIndex = 0; //Animacie zacnu od cisla indexu 0, po inicializacii existuje 0 animacii
     }
     
     //Prida novu animaciu, pripadne vrati index existujucej, ktora je semanticky ekvivalentna novej
     protected int addAnimation(String png, int x, int y, int speed, boolean pingpong, boolean looping)
     {
-	Animacia novaAnimacia = new Animacia(png, x, y, speed, pingpong, looping);
+	Animacia novaAnimacia = new Animacia(this.animacieIndex++, png, x, y, speed, pingpong, looping);
         for(Animacia i: animacie)
         {
             //ak sa i-ta animacia semanticky rovna novej animacii, tak uz existuje
-            if(i.equals(novaAnimacia))
+            if(i.equalsAnimacia(novaAnimacia))
             {
                 //vratim jej index a usetrim miesto v pamati tym, ze ju nemusim znovu vyrabat
-                return i.index;
+                return i.getIndex();
             }
         }
         //Ak nebola najdena, tak ju pridam do pola
         animacie.add(novaAnimacia);
 	//Vraciam novy index
-	return novaAnimacia.index;
+	return novaAnimacia.getIndex();
     }
     
     //Implicitne parametre
@@ -136,19 +83,19 @@ public abstract class AdvancedActor extends sk.tuke.oop.aliens.actor.AbstractAct
     //Nastavi novu rychlost aktualnej animacie, bez jej aktualizacie v poli animacii. Nezmeni premenne aktualnej animacie.
     protected void setAnimationSpeed(int speed)
     {
-        currentAnimacia.normalAnimation.setDuration(speed);
+        currentAnimacia.getNormalAnimation().setDuration(speed);
     }
     
     //Pokial bola zmenena rychlost animacie, moze byt potrebne ziskat naspat defaultnu rychlost animacie.
     protected int getAnimationSpeed()
     {
-        return currentAnimacia.speed;
+        return currentAnimacia.getSpeed();
     }
     
     //Nastavi opakovanie animacie, bez jej aktualizacie v poli animacii. Nezmeni premenne aktualnej animacie.
     protected void setAnimationLooping(boolean on)
     {
-        currentAnimacia.normalAnimation.setLooping(on);
+        currentAnimacia.getNormalAnimation().setLooping(on);
     }
     
     //Prepne aktualnu animaciu na novu, ktora uz existuje v poli animacie, pricom ju definuje nazvom png.
@@ -156,13 +103,13 @@ public abstract class AdvancedActor extends sk.tuke.oop.aliens.actor.AbstractAct
     protected void updateAnimation(String png)
     {
         //Ak nastala zmena animacie
-        if(!this.currentAnimacia.png.equals(png))
+        if(!this.currentAnimacia.getPng().equals(png))
         {
             //Najdem danu animaciu v zozname animacii
             for(Animacia i: animacie)
             {
                 //ak ma i-ta animacia meno png suboru = png
-                if(i.png.equals(png))
+                if(i.getPng().equals(png))
                 {
                     //tak jej animaciu spustim a nastavim ju na novu aktualnu animaciu
                     runAnimacia(i);
@@ -178,13 +125,13 @@ public abstract class AdvancedActor extends sk.tuke.oop.aliens.actor.AbstractAct
     protected void updateAnimation(int index)
     {
 	//Ak nastala zmena animacie
-        if(this.currentAnimacia.index != index)
+        if(this.currentAnimacia.getIndex() != index)
         {
             //Najdem danu animaciu v zozname animacii
             for(Animacia i: animacie)
             {
                 //ak ma i-ta animacia meno png suboru = png
-                if(i.index == index)
+                if(i.getIndex() == index)
                 {
                     //tak jej animaciu spustim a nastavim ju na novu aktualnu animaciu
                     runAnimacia(i);
@@ -198,8 +145,18 @@ public abstract class AdvancedActor extends sk.tuke.oop.aliens.actor.AbstractAct
     
     private void runAnimacia(Animacia a)
     {
-	setAnimation(a.normalAnimation);
-	currentAnimacia = a;
+	setAnimation(a.getNormalAnimation());
+	this.currentAnimacia = a;
+    }
+    
+    public final int getAnimacieIndex()
+    {
+	return this.animacieIndex;
+    }
+    
+    public final void increaseAnimacieIndex()
+    {
+	this.animacieIndex++;
     }
     
     /* Obsolete funkcie, ktore nemaju uplatnenie
