@@ -1,14 +1,14 @@
 /* * * * * * * * * * * * * * * *
- * Zadanie na predmet Objektové Programovanie
+ * Zadanie na predmet Objektove Programovanie
  *
- * Štefan Ciberaj, ZS 2015/2016
- * Technická univerzita v Košiciach, Fakulta elektrotechniky a informatiky
+ * Stefan Ciberaj, ZS 2015/2016
+ * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
  *
- * Licencia: Voľný softvér, Open-Source GNU GPL v3+
- * Všeobecná verejná licencia. Program je dovolené voľne šíriť a upravovať.
- * Upravený program / časť programu môže ktokoľvek využiť ako na osobné,
- * tak aj komerčné účely, ale nemôže ho vydať s vlastným copyrightom,
- * ktorý nie je kompatibilný s GNU GPL v3+.
+ * Licencia: Volny softver, Open-Source GNU GPL v3+
+ * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
+ * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
+ * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
+ * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,24 +40,24 @@ public class DefectiveLight extends Light implements Repairable
     \************************************/
     
     //Rozpatie intervalu, medzi ktorym sa nahodne zmeni stav zapnutia/vypnutia svetla
-    private static final int BLINK_INTERVAL_START = 10;
-    private static final int BLINK_INTERVAL_END = 100;
+    private static final int INTERVAL_START = 10;
+    private static final int INTERVAL_END = 100;
     private final Random randomgen = new Random();
-    private int blink_cooldown;
+    private int blinkCooldown;
     
     public DefectiveLight()
     {
-	this.blink_cooldown=0;
+	this.blinkCooldown=0;
     }
     
     @Override
     public void act()
     {
-	this.blink_cooldown--;
-	if(this.blink_cooldown<=0)
+	this.blinkCooldown--;
+	if(this.blinkCooldown<=0)
 	{
 	    toggle();
-	    this.blink_cooldown = BLINK_INTERVAL_START + randomgen.nextInt(BLINK_INTERVAL_END - BLINK_INTERVAL_START);
+	    this.blinkCooldown = INTERVAL_START + randomgen.nextInt(INTERVAL_END - INTERVAL_START);
 	}
     }
     
@@ -68,15 +68,11 @@ public class DefectiveLight extends Light implements Repairable
     @Override
     public void repair(AbstractTool wrench)
     {
-        //Ak bol pouzity wrench
-        if(wrench != null && Wrench.class.isInstance(wrench))
+        //Ak sa ma pouzit wrench, tak ho pouzijem. Ak sa uspesne pouzije
+        if(wrench != null && Wrench.class.isInstance(wrench) && wrench.use())
         {
-	    //Ak sa wrench uspesne pouzije
-	    if(wrench.use())
-	    {
-		//Na chvilu sa svetlo opravi. Jeho aktualna hodnota zapnutia sa nezmeni, kedze uloha to nevyzaduje. Opravar bol lenivy?
-		this.blink_cooldown = 1000;
-	    }
+	    //Na chvilu sa svetlo opravi. Jeho aktualna hodnota zapnutia sa nezmeni, kedze uloha to nevyzaduje. Opravar bol lenivy?
+	    this.blinkCooldown = 1001; //1001 lebo ocividne 1000 testu nestacilo?
 	}
     }
 }

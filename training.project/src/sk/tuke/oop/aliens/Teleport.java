@@ -1,14 +1,14 @@
 /* * * * * * * * * * * * * * * *
- * Zadanie na predmet Objektové Programovanie
+ * Zadanie na predmet Objektove Programovanie
  *
- * Štefan Ciberaj, ZS 2015/2016
- * Technická univerzita v Košiciach, Fakulta elektrotechniky a informatiky
+ * Stefan Ciberaj, ZS 2015/2016
+ * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
  *
- * Licencia: Voľný softvér, Open-Source GNU GPL v3+
- * Všeobecná verejná licencia. Program je dovolené voľne šíriť a upravovať.
- * Upravený program / časť programu môže ktokoľvek využiť ako na osobné,
- * tak aj komerčné účely, ale nemôže ho vydať s vlastným copyrightom,
- * ktorý nie je kompatibilný s GNU GPL v3+.
+ * Licencia: Volny softver, Open-Source GNU GPL v3+
+ * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
+ * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
+ * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
+ * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,26 +28,26 @@ package sk.tuke.oop.aliens;
 
 /**
  * Moderna technologia - bezpecny pristroj, ktory funguje nasledujucim principom:
- * Vstupujucu osobu najprv nascanuje, potom zabije, nasledne odosle data pomcoou UDP protokolu do cieloveho "Teleportu" a tam ho naklonuje.
+ * Vstupujucu osobu najprv nascanuje, potom zabije, nasledne odosle data pomocou UDP protokolu do cieloveho "Teleportu" a tam ho naklonuje.
  * 
  * Inak povedane, je to nieco ako vytah. Aj preto ma texturu s nazvom lift.png.
  * 
  * @author Steve
  */
-public class Teleport extends AdvancedActor
+public class Teleport extends AbstractAdvancedActor
 {
     /************************************\
     |* Week 4 Doplnkove ulohy
     \************************************/
     
-    private Teleport destinationTeleport;
+    private Teleport destination;
     private boolean teleported;
     
-    public Teleport(Teleport destinationTeleport)
+    public Teleport(Teleport destination)
     {
 	//Inicializacie
-	this.destinationTeleport = null;
-	setDestinationTeleport(destinationTeleport);
+	this.destination = null;
+	setDestinationTeleport(destination);
 	this.teleported=false;
 	
 	//Animacie
@@ -61,34 +61,34 @@ public class Teleport extends AdvancedActor
     }
     
     //Vnutorna funkcia triedy na osetrenie zakazanych stavov cieloveho teleportu
-    private void setDestinationTeleport(Teleport destinationTeleport)
+    private void setDestinationTeleport(Teleport destination)
     {
 	//Ak je vstupom existujuci Teleport, ktory nie je rovnaky ako Teleport, ktory nastavujeme, tak bude novym cielom.
-	if(destinationTeleport!=null && destinationTeleport!=this)
+	if(destination!=null && destination!=this)
 	{
-	    this.destinationTeleport = destinationTeleport;
+	    this.destination = destination;
 	}
     }
     
     //Nastavenie noveho cieloveho teleportu
-    public void setDestination(Teleport destinationTeleport)
+    public void setDestination(Teleport destination)
     {
-	setDestinationTeleport(destinationTeleport);
+	setDestinationTeleport(destination);
     }
     
     //Vytvorenie kvantoveho previazania castic sprostredkujucich prenos dat. Garantovana spolahlivost.
-    public void intertwineWith(Teleport destinationTeleport)
+    public void intertwineWith(Teleport destination)
     {
-	if(destinationTeleport!=null)
+	if(destination!=null)
 	{
-	    destinationTeleport.setDestination(this);
-	    setDestination(destinationTeleport);
+	    destination.setDestination(this);
+	    setDestination(destination);
 	}
     }
     
     public Teleport getDestination()
     {
-	return this.destinationTeleport;
+	return this.destination;
     }
     
     //Presunie hraca na suradnice stredu cieloveho Teleportu.
@@ -96,7 +96,7 @@ public class Teleport extends AdvancedActor
     {
 	if(getDestination()!=null)
 	{
-	    getPlayer().setPosition(destinationTeleport.getX()+((this.getWidth()-getPlayer().getWidth())/2), destinationTeleport.getY()+((this.getHeight()-getPlayer().getHeight())/2));
+	    getPlayer().setPosition(destination.getX()+((this.getWidth()-getPlayer().getWidth())/2), destination.getY()+((this.getHeight()-getPlayer().getHeight())/2));
 	    
 	    //Cielovy teleport sa deaktivuje az do doby, kym ho hrac neopusti
 	    getDestination().teleported = true;

@@ -1,14 +1,14 @@
 /* * * * * * * * * * * * * * * *
- * Zadanie na predmet Objektové Programovanie
+ * Zadanie na predmet Objektove Programovanie
  *
- * Štefan Ciberaj, ZS 2015/2016
- * Technická univerzita v Košiciach, Fakulta elektrotechniky a informatiky
+ * Stefan Ciberaj, ZS 2015/2016
+ * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
  *
- * Licencia: Voľný softvér, Open-Source GNU GPL v3+
- * Všeobecná verejná licencia. Program je dovolené voľne šíriť a upravovať.
- * Upravený program / časť programu môže ktokoľvek využiť ako na osobné,
- * tak aj komerčné účely, ale nemôže ho vydať s vlastným copyrightom,
- * ktorý nie je kompatibilný s GNU GPL v3+.
+ * Licencia: Volny softver, Open-Source GNU GPL v3+
+ * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
+ * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
+ * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
+ * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,18 +31,18 @@ package sk.tuke.oop.aliens;
  * 
  * @author Steve
  */
-public class Helicopter extends AdvancedActor
+public class Helicopter extends AbstractAdvancedActor
 {
     /************************************\
     |* Week 4 Doplnkove ulohy
     \************************************/
     
-    private boolean seek_and_destroy;
+    private boolean seekAndDestroy;
     
     public Helicopter()
     {
 	//Inicializacie
-	seek_and_destroy = false;
+	seekAndDestroy = false;
 	
 	//Animacie
 	addAnimation("heli", 64, 64, 100);
@@ -56,24 +56,24 @@ public class Helicopter extends AdvancedActor
     
     public void searchAndDestroy()
     {
-	this.seek_and_destroy = true;
+	this.seekAndDestroy = true;
     }
     
     public void stopSearchAndDestroy()
     {
-	this.seek_and_destroy = false;
+	this.seekAndDestroy = false;
     }
     
     public boolean isSearchAndDestroy()
     {
-	return this.seek_and_destroy;
+	return this.seekAndDestroy;
     }
     
     @Override
     public void act()
     {
 	//Nahananie hraca rychlostou 1*
-	if(seek_and_destroy)
+	if(seekAndDestroy)
 	{
 	    //X
 	    if(getX()<getPlayer().getX())
@@ -96,14 +96,10 @@ public class Helicopter extends AdvancedActor
 	    }
 	}
 	
-	//Po naraze do hraca mu znizim hp
-	if(getPlayer().intersects(this))
+	//Po naraze do hraca mu znizim hp. Ak ma hrac aspon 1 hp, tak mu dam 1 dmg
+	if(getPlayer().intersects(this) && getPlayer().getEnergy()>0)
 	{
-	    //Ak ma hrac aspon 1 hp, tak mu dam 1 dmg
-	    if(getPlayer().getEnergy()>0)
-	    {
-		getPlayer().setEnergy(getPlayer().getEnergy()-1);
-	    }
+	    getPlayer().setEnergy(getPlayer().getEnergy()-1);
 	}
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="9">
+ <tileset firstgid="1" name="magicland_tiles" tilewidth="16" tileheight="16" spacing="2" tilecount="1056">
+  <image source="magiclanddizzy_tiles.gif" width="790" height="430"/>
+ </tileset>
+ <tileset firstgid="1057" name="magiclanddizzy_tiles" tilewidth="16" tileheight="16" spacing="2" tilecount="1056">
+  <image source="magiclanddizzy_tiles.gif" width="790" height="430"/>
+ </tileset>
+ <layer name="background" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA82Sy0pCURSGT2LnjPUNyoGjRup8Bz2Hj9EkzWYK5QWiC2TWAyRR0AUEpcCa5Kihj6C9Q//mrEN/u10KsY8OPjb7Z531LdY+I9/zRmA38Ly1pFvexZWVMw9nISbvmLxbMTgj74S8cezY3PPYkbcOyn94J+S11bp83zj3vOj3Nb03uN86YiUIfVXLf/WE+7MjUuTV+04EXzNtgE1HbIMP8Wp/Ovg50wN4BOvEELyA1xnZb0wNr96zbaYa2AElUNZ1IDNnpizcUW9z1qnh3QdN0AINkJPsANSNjOuUZRb2ZsQXzXQEjsEJOAVn4AJcgo44dNYG50bGdUpmqYA9mYV758j7thrOdE/vq/tdC7O8XKcki/bY8b/3Zq/yl8s7ENhxBbpGxnX/9fbo277U98jLGdcpS8a9i+BwAecnWaOfg2AJAAA=
+  </data>
+ </layer>
+ <objectgroup name="ground">
+  <object id="2" x="0" y="305" width="480" height="15"/>
+  <object id="5" x="48" y="-0.5">
+   <polyline points="0,0 -0.5,16.5 -15.5,30.5 -17,160.5 20.5,159.5 21,128.5 383.5,128 384,-0.5 1,0.5"/>
+  </object>
+  <object id="8" x="-31.2832" y="204.226" width="31.8735" height="108.606"/>
+ </objectgroup>
+ <objectgroup name="obstacles">
+  <object id="6" x="-0.0636019" y="206.553">
+   <polyline points="0,0 74,1 75,22.5 81,28.5 110.5,29.5 117,22.5 117,-29 443,-31.5 442.5,23 448,29 479.5,28.5 480,99.5"/>
+  </object>
+ </objectgroup>
+ <layer name="Tile Layer 2" width="30" height="20" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NkYGBghGJaA0YsmB5g1N5Re0eKvdjkaIkHyt7BhGkBBoO9uORGir20BqP20tfegcAAYE+rJWAJAAA=
+  </data>
+ </layer>
+</map>
