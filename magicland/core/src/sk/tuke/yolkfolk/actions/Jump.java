@@ -37,6 +37,7 @@ import sk.tuke.yolkfolk.actors.player.Player;
  *
  * Created by Steve on 2.12.2015.
  */
+@Deprecated
 public class Jump extends AbstractAction
 {
 	public Jump()

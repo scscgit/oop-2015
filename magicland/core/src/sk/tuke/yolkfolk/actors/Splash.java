@@ -30,13 +30,16 @@ package sk.tuke.yolkfolk.actors;
 import sk.tuke.gamelib2.Item;
 
 /**
+ * Po smrti Devila reprezentuje pekelne ohne.
+ *
  * Created by Steve on 3.12.2015.
  */
-public class Splash extends AbstractActor implements Item //TODO impl item or something like that, no collision
+public class Splash extends AbstractActor implements Item
 {
 	//Constants
 	public static final int ANIMATION_TIME = 60;
 
+	//Variables
 	private int deleteCounter;
 
 	public Splash(String name)

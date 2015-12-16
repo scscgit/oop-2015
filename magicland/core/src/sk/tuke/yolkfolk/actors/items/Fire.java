@@ -50,6 +50,7 @@ public class Fire extends AbstractActor implements Item, Observer<Cursable>
 
 	public void notified(Cursable actor)
 	{
+		//Fire represents willpower and luck of Dizzy. After him being cursed, he loses all hope.
 		if(actor instanceof Player)
 		{
 			//System.out.println("Player acted on "+getName()+" by his curse.");

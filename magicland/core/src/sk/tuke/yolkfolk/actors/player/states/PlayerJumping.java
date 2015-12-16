@@ -142,6 +142,7 @@ public class PlayerJumping extends AbstractPlayerState
 		//Zastavi skok iba po dopade na zem //TODO: reimplement after gradle fix gets released
 		float ySpeed = PhysicsHelper.getLinearVelocity(getPlayer())[1];
 		if(ySpeed==0)
+		//if(getPlayer().isOnGround())
 		{
 			//getPlayer().stopAnimationJump();
 			setStateStanding();
