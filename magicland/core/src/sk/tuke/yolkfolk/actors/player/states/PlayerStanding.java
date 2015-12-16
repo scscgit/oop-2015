@@ -34,7 +34,7 @@ import sk.tuke.yolkfolk.actions.*;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
- * Player is not doing anything and being bored. TODO: ADD random animation
+ * Player is not doing anything and being bored.
  * Basically a neutral state where player can do usual stuff.
  *
  * Created by Steve on 14.12.2015.

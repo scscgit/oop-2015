@@ -83,7 +83,7 @@ public class PlayerWalking extends AbstractPlayerState
 			}
 			else
 			{
-				setVelocity(Direction.LEFT);
+				setStateWalking(Direction.LEFT);
 			}
 		}
 		else if(CustomInput.right())
@@ -94,7 +94,7 @@ public class PlayerWalking extends AbstractPlayerState
 			}
 			else
 			{
-				setVelocity(Direction.RIGHT);
+				setStateWalking(Direction.RIGHT);
 			}
 		}
 		else
@@ -126,11 +126,14 @@ public class PlayerWalking extends AbstractPlayerState
 		getPlayer().setState(new PlayerStanding(getPlayer(),null));
 	}
 
+	protected void setStateWalking(Direction direction)
+	{
+		getPlayer().setState(new PlayerWalking(getPlayer(), direction));
+	}
+
 	@Override
 	public void act()
 	{
-		walk();
-
 		//Vykona vsetky zakladne operacie
 		resetActions();
 		addAction(new Use());
@@ -140,5 +143,7 @@ public class PlayerWalking extends AbstractPlayerState
 
 		//Necha playera vykonat svoje operacie po novom pohybe
 		getPlayer().afterMovement();
+
+		walk();
 	}
 }

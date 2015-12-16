@@ -35,6 +35,7 @@ import sk.tuke.yolkfolk.actors.player.Player;
 /**
  * Created by Steve on 23.11.2015.
  */
+@Deprecated
 public class MoveLeft extends AbstractAction
 {
 	public MoveLeft()

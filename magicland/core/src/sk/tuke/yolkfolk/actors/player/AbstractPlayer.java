@@ -58,7 +58,7 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 		setEnergy(100);
 		setFlyable(false);
 		setStep(0); //Inicializacia dlzky kroku pohybu hraca na hodnotu 0, kazdy hrac musi tuto hodnotu prepisat ak sa chce pohybovat
-		setJumpHeight(0);
+		setJumpHeight(0); //Inicializacia vysky skoku
 
 		//Inicializacia objektov patriacich hracovi
 		backpack = new BackpackImpl(this);

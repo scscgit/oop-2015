@@ -30,12 +30,13 @@ package sk.tuke.yolkfolk.actions;
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Input;
 import sk.tuke.gamelib2.Message;
+import sk.tuke.yolkfolk.CustomInput;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.actors.Usable;
 import sk.tuke.yolkfolk.collectables.Collectable;
 
 /**
- * Akcia na pouzitie, pripadne zodvihnutie predmetu do inventara.
+ * Akcia na pouzitie objektu, pripadne zodvihnutie predmetu a jeho ulozenie do inventara.
  *
  * Created by Steve on 2.12.2015.
  */
@@ -51,7 +52,7 @@ public class Use extends AbstractAction
 	public void doAction(Actor actor)
 	{
 		//Do all enter key actions that are meant to be done by any Player
-		if (actor instanceof Player && (Input.isKeyJustPressed(Input.Key.ENTER) || Input.isKeyJustPressed(Input.Key.E)))
+		if (actor instanceof Player && CustomInput.enterRising())
 		{
 			Player player = (Player) actor;
 
@@ -70,7 +71,7 @@ public class Use extends AbstractAction
 	//@return true if collision happened, in both successful action or error, e.g. picking up item to a full inventory
 	private boolean collisionActions(Player player)
 	{
-		//Store information about happening of collission
+		//Store information about happening of collision
 		boolean collisionHappened = false;
 
 		for (Actor collisionActor : player.getWorld())
@@ -88,7 +89,7 @@ public class Use extends AbstractAction
 							player.getWorld().removeActor(collisionActor);
 							collisionHappened = true;
 
-							//Only collect one
+							//Only collect one item
 							break;
 						}
 						else
@@ -111,10 +112,10 @@ public class Use extends AbstractAction
 					Usable usable = (Usable) collisionActor;
 					usable.use(player);
 
-					//Assume success of usage
+					//Assume success of usage (use returns void)
 					collisionHappened = true;
 
-					//Go to next item
+					//Only use one item
 					break;
 				}
 			}

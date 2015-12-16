@@ -58,8 +58,13 @@ public class CustomInput
 		return Input.isKeyPressed(Input.Key.UP) || Input.isKeyPressed(Input.Key.W);
 	}
 
-	public static boolean enter()
+	public static boolean enterRising()
 	{
-		return Input.isKeyPressed(Input.Key.ENTER) || Input.isKeyPressed(Input.Key.E);
+		return Input.isKeyJustPressed(Input.Key.ENTER) || Input.isKeyJustPressed(Input.Key.E);
+	}
+
+	public static boolean escape()
+	{
+		return Input.isKeyPressed(Input.Key.ESCAPE);
 	}
 }

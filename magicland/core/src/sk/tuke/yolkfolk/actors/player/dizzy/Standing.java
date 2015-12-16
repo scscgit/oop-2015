@@ -33,6 +33,8 @@ import sk.tuke.yolkfolk.actors.player.states.PlayerStanding;
 import sk.tuke.yolkfolk.actors.player.states.PlayerWalking;
 
 /**
+ * Dizzy Standing state
+ *
  * Created by Steve on 15.12.2015.
  */
 public class Standing extends PlayerStanding implements DizzyState
@@ -40,7 +42,6 @@ public class Standing extends PlayerStanding implements DizzyState
 	public Standing(Player player)
 	{
 		super(player, new Animation("sprites/dozy.png",22,15));
-		System.out.println(getPlayer().getName()+" is in state Standing");
 	}
 
 	@Override

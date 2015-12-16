@@ -27,10 +27,8 @@
 
 package sk.tuke.yolkfolk.actors.player.states;
 
-import sk.tuke.gamelib2.Animation;
 import sk.tuke.yolkfolk.actions.AbstractAction;
 import sk.tuke.yolkfolk.actors.player.Player;
-import sk.tuke.yolkfolk.actors.player.states.PlayerState;
 
 /**
  * Abstract implementation for each of the Player States.
@@ -56,7 +54,7 @@ public abstract class AbstractPlayerState implements PlayerState
 		return this.player;
 	}
 
-	//Deletes all actions and lets garbage collector do the job it was meant to do
+	//Deletes all actions and lets the garbage collector do the job it was meant to do
 	public void resetActions()
 	{
 		this.first = null;
