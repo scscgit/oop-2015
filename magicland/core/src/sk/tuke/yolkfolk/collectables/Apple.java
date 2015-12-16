@@ -25,74 +25,40 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.items;
+package sk.tuke.yolkfolk.collectables;
 
 import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
-import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.actors.Usable;
 
 /**
- * Obycajny lacny diamant, ktory vylieci Dizzyho.
+ * Ringo, a.k.a an apple.
+ * Is poisoned for some unknown reason.
  *
  * Created by Steve on 23.11.2015.
  */
-public class Diamond extends AbstractActor implements Item, Usable
+public class Apple extends AbstractActor implements Collectable, Usable
 {
-	//Constants
 	public static final int HEALS_HP = 50;
 
-	//Variables
-	private int value; //Hodnota diamantu, o kolko sa pocet diamantov zvacsi po jeho zodvihnuti
-
-	private static String constructorAnimation(String color)
+	public Apple()
 	{
-		if(color.equals("silver") || color.equals("green"))
-		{
-			return "sprites/"+color+"diamond.png";
-		}
-		else //if(color == "blue")
-		{
-			return "sprites/bluediamond.png";
-		}
+		super("Ringo","sprites/poisonapple.png",16,16);
 	}
 
-	public Diamond(String color, int value)
-	{
-		super("Diamond",constructorAnimation(color),16,16);
-		this.value = value;
-	}
-
-	public Diamond(String color)
-	{
-		this(color, 1);
-	}
-
-	public int getValue()
-	{
-		return this.value;
-	}
-
+	@Override
 	public void use(Actor actor)
 	{
 		if(actor instanceof Player)
 		{
 			Player player = (Player) actor;
 
-			//Collect and remove the diamond from world
-			player.setDiamonds(player.getNumberOfDiamonds() + getValue());
-			getWorld().removeActor(this);
-
-			//Inform relevant people of the occurred event
-			System.out.println("Dizzy haz " + player.getNumberOfDiamonds() + " diamond"+(player.getNumberOfDiamonds()>1?"s":"")+((player.getNumberOfDiamonds()>9)?" and his bag is getting heavy.":"."));
-			new Message("Dizzy got a new treasure!", "Well, you find a diamond!", this);
-
-			//Heal our Hero
-			if (player.getEnergy() < player.MAX_HP)
+			//Heal player
+			if (player.getEnergy() < Player.MAX_HP)
 			{
 				player.setEnergy(player.getEnergy() + HEALS_HP);
+				getWorld().removeActor(this);
 			}
 		}
 	}

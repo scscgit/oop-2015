@@ -27,6 +27,7 @@
 
 package sk.tuke.yolkfolk.actors.player.states;
 
+import sk.tuke.gamelib2.PhysicsHelper;
 import sk.tuke.yolkfolk.actions.AbstractAction;
 import sk.tuke.yolkfolk.actors.player.Player;
 
@@ -83,6 +84,62 @@ public abstract class AbstractPlayerState implements PlayerState
 		{
 			this.first.doAction(getPlayer());
 		}
+	}
+
+	//Nastavi horizontalnu rychlost hraca na pohyb v danom smere
+	protected void setVelocity(PlayerWalking.Direction direction)
+	{
+		if(direction == PlayerWalking.Direction.LEFT)
+		{
+			PhysicsHelper.setLinearVelocity(getPlayer(), -getPlayer().getStep(), PhysicsHelper.getLinearVelocity(getPlayer())[1]);
+		}
+		else if(direction == PlayerWalking.Direction.RIGHT)
+		{
+			PhysicsHelper.setLinearVelocity(getPlayer(), getPlayer().getStep(), PhysicsHelper.getLinearVelocity(getPlayer())[1]);
+		}
+		//Possibly can add option of direction UP later, but my design works in opposite way
+	}
+
+	//Zastavi horizontalny pohyb, vyzadovane napriklad pred nastavenim posobenia sily
+	protected void stopVelocity(boolean keepVertical)
+	{
+		PhysicsHelper.setLinearVelocity(getPlayer(),0f,keepVertical?PhysicsHelper.getLinearVelocity(getPlayer())[1]:0f);
+	}
+
+	//Overload, implicitna odpoved na otazku, ci pri zastaveni horizontalneho pohybu ponechat vertikalny poheb
+	protected void stopVelocity()
+	{
+		stopVelocity(false);
+	}
+
+	protected void setStateJumping(PlayerWalking.Direction direction)
+	{
+		getPlayer().setState(new PlayerJumping(getPlayer(),direction));
+	}
+
+	protected void setStateWalking(PlayerWalking.Direction direction)
+	{
+		getPlayer().setState(new PlayerWalking(getPlayer(),direction));
+	}
+
+	protected void setStateStanding()
+	{
+		getPlayer().setState(new PlayerStanding(getPlayer(),null));
+	}
+
+	protected void setStateDying()
+	{
+		getPlayer().setState(new PlayerDying(getPlayer(),null));
+	}
+
+	protected void setStateFalling()
+	{
+		getPlayer().setState(new PlayerFalling(getPlayer()));
+	}
+
+	protected boolean isPlayerDead()
+	{
+		return getPlayer().getEnergy() == 0;
 	}
 
 	//Odvodeny stav ma povinnost implementovat act

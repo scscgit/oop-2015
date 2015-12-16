@@ -83,14 +83,9 @@ public class Lever extends AbstractActor implements Item, Usable, Observer<Boole
 	@Override
 	public void use(Actor actor)
 	{
-		if(actor instanceof Player && this.elevator instanceof AbstractMovingPlatform)
+		if(actor instanceof Player && this.elevator instanceof AbstractMovingPlatform && this.elevator.isOn() == state)
 		{
-			//if elevator state is the same state as lever, change state of elevator
-			if(this.elevator.isOn() == state)
-			{
-				this.elevator.use(actor);
-			}
-			//setState(!this.state); //Namiesto setState budeme spoliehat na notifikaciu ako observer
+			this.elevator.use(actor);
 		}
 	}
 

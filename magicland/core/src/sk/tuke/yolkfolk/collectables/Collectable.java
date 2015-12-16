@@ -27,11 +27,13 @@
 
 package sk.tuke.yolkfolk.collectables;
 
+import sk.tuke.gamelib2.Item;
+
 /**
  * Item, that can be collected to the backpack of a Player.
  *
  * Created by Steve on 28.11.2015.
  */
-public interface Collectable
+public interface Collectable extends Item
 {
 }

@@ -27,106 +27,67 @@
 
 package sk.tuke.yolkfolk.actors.player.states;
 
-import sk.tuke.yolkfolk.input.CustomInput;
-import sk.tuke.yolkfolk.actions.*;
+import sk.tuke.gamelib2.PhysicsHelper;
+import sk.tuke.yolkfolk.actions.Cheats;
+import sk.tuke.yolkfolk.actions.Exit;
 import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.input.CustomInput;
 
 /**
- * State of walking in any direction, but not upwards.
+ * Trieda definujuca spolocne funkcionality pre stavy, v ktorych sa Dizzy nachadza vo vzduchu.
  *
- * Created by Steve on 11.12.2015.
+ * Created by Steve on 17.12.2015.
  */
-public class PlayerWalking extends AbstractPlayerState
+public class AbstractAirborneState extends AbstractPlayerState
 {
-	private Direction direction;
-
-	//Enumerator vyuzivany aj v tejto, aj v ostatnych triedach pracujucich so smerom pohybu
-	public enum Direction
-	{
-		LEFT, RIGHT, UP
-	}
-
-	public PlayerWalking(Player player, Direction direction)
+	public AbstractAirborneState(Player player)
 	{
 		super(player);
-		this.direction = direction;
-
-		//Spusti pohyb v zadanom smere
-		setVelocity(direction);
-
-		//Nastavi relevantne animacie
-		updateAnimation();
 	}
 
-	//Nastavi sa pohyb v pozadovanom smere
-	protected void updateAnimation()
-	{
-		getPlayer().stopAnimationLeft();
-		getPlayer().stopAnimationRight();
-		getPlayer().stopAnimationJump();
-
-		if(this.direction == Direction.LEFT)
-		{
-			getPlayer().runAnimationLeft();
-		}
-		else if(this.direction == Direction.RIGHT)
-		{
-			getPlayer().runAnimationRight();
-		}
-	}
-
-	//Vykona pohyb podla stlacenej klavesy, pricom zachova rychlost v osi Y
-	protected void walk()
+	//Podla stlacenej klavesy umozni dodatocne skoky z dovodu lietania
+	protected void fly()
 	{
 		if(CustomInput.left())
 		{
-			if(CustomInput.up())
-			{
-				setStateJumping(Direction.LEFT);
-			}
-			else
-			{
-				setStateWalking(Direction.LEFT);
-			}
+			setStateJumping(PlayerWalking.Direction.LEFT);
 		}
 		else if(CustomInput.right())
 		{
-			if(CustomInput.up())
-			{
-				setStateJumping(Direction.RIGHT);
-			}
-			else
-			{
-				setStateWalking(Direction.RIGHT);
-			}
+			setStateJumping(PlayerWalking.Direction.RIGHT);
 		}
 		else
 		{
-			setStateStanding();
+			setStateJumping(PlayerWalking.Direction.UP);
 		}
 	}
 
 	@Override
 	public void act()
 	{
-		//Vykona vsetky zakladne operacie
+		//Vykona pozadovane akcie s vynimkou pouzitia predmetu
 		resetActions();
-		addAction(new Use());
 		addAction(new Exit());
 		addAction(new Cheats());
 		runActions();
 
+		//Pripad lietania
+		if(getPlayer().isFlyable() && CustomInput.up())
+		{
+			fly();
+		}
+
 		//Necha playera vykonat svoje operacie po novom pohybe
 		getPlayer().afterMovement();
 
-		getPlayer().fall();
-		if(!getPlayer().isOnGround())
+		//Zastavi skok iba po dopade na zem //TODO: reimplement after gradle fix gets released
+		float ySpeed = PhysicsHelper.getLinearVelocity(getPlayer())[1];
+		if(ySpeed==0)
+		//if(getPlayer().isOnGround())
 		{
-			setStateFalling();
+			//getPlayer().stopAnimationJump();
+			setStateStanding();
 		}
-
-		//Ak nastal prikaz na pohyb, tak ho vykona
-		walk();
 
 		//Ak hrac zomrel, tak nastavim prislusny stav
 		if(isPlayerDead())

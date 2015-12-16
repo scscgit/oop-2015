@@ -33,6 +33,8 @@ import sk.tuke.yolkfolk.actors.player.Player;
 import java.awt.geom.Rectangle2D;
 
 /**
+ * Basic functionality for any Actor existing in a physical World.
+ *
  * Created by Steve on 9.11.2015.
  */
 public abstract class AbstractActor implements Actor
@@ -45,7 +47,7 @@ public abstract class AbstractActor implements Actor
 
 	//Zakladna animacia actora a svet, v ktorom sa dany actor nachadza
 	private Animation currentAnimation;
-	private Animation defaultAnimation;
+	private final Animation defaultAnimation;
 	private World world;
 
     public AbstractActor(String name, String animationString, int animationX, int animationY)
@@ -202,6 +204,11 @@ public abstract class AbstractActor implements Actor
     public World getWorld() {
         return this.world;
     }
+	//Experimental - removes actor from the current world
+	public final void removeFromWorld()
+	{
+		getWorld().removeActor(this);
+	}
 
     @Override
     public String getName()

@@ -37,24 +37,31 @@ import sk.tuke.gamelib2.Actor;
  */
 public abstract class AbstractAction
 {
-	protected AbstractAction nextAction;
+	private /*protected*/ AbstractAction nextAction;
 
 	public AbstractAction()
 	{
 		this.nextAction = null;
 	}
 
+	//Nastavi novu nasledujucu akciu pre danu akciu
 	public final void setNextAction(AbstractAction action)
 	{
 		this.nextAction = action;
 	}
 
-	public void doAction(Actor actor)
+	//Ak existuje nasledujuca akcia, tak sa spusti
+	public final void doNextAction(Actor actor)
 	{
-		//Kazda akcia by mala spustat nasledujucu akciu
-		if (nextAction != null)
+		if (nextAction instanceof AbstractAction)
 		{
 			nextAction.doAction(actor);
 		}
+	}
+
+	public void doAction(Actor actor)
+	{
+		//Kazda akcia by mala spustat nasledujucu akciu
+		doNextAction(actor);
 	}
 }

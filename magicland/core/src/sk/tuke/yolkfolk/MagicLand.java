@@ -34,8 +34,8 @@ import sk.tuke.yolkfolk.actors.*;
 import sk.tuke.yolkfolk.actors.items.*;
 import sk.tuke.yolkfolk.actors.player.dizzy.Dizzy;
 import sk.tuke.yolkfolk.collectables.Key;
-import sk.tuke.yolkfolk.items.Apple;
-import sk.tuke.yolkfolk.items.Diamond;
+import sk.tuke.yolkfolk.collectables.Apple;
+import sk.tuke.yolkfolk.actors.items.Diamond;
 
 /**
  * Welcome to MagicLand! Let the hate flow...

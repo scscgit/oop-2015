@@ -49,14 +49,17 @@ public class PlayerStanding extends AbstractPlayerState
 	public PlayerStanding(Player player, Animation boredomAnimation)
 	{
 		super(player);
-		this.standbyTime = BOREDOM_TIMER;
+		resetBoredom();
 		this.boredomAnimation = boredomAnimation;
 
 		//Zastavi pohyb hraca
-		stop();
+		stopVelocity();
 
 		//Nastavi relevantne animacie
 		updateAnimation();
+
+		//Pred vykonanim prveho cyklu vyskusa, ci sa stav nema zmenit na novy, kedze tento stav sa spusta vzdy po dokonceni ineho pohybu
+		move();
 	}
 
 	//V pripade, ze hrac stoji sa zastavia vsetky animacie reprezentujuce pohyb
@@ -67,7 +70,7 @@ public class PlayerStanding extends AbstractPlayerState
 		getPlayer().stopAnimationJump();
 	}
 
-	//Aktualizuje stav nudy hraca.
+	//Aktualizuje stav nudy hraca
 	protected void updateBoredom()
 	{
 		if(this.standbyTime<=0 && getPlayer() instanceof Player && this.boredomAnimation instanceof Animation)
@@ -78,6 +81,12 @@ public class PlayerStanding extends AbstractPlayerState
 		{
 			this.standbyTime--;
 		}
+	}
+
+	//Resets the timer before Dizzy gets bored
+	protected void resetBoredom()
+	{
+		this.standbyTime = BOREDOM_TIMER;
 	}
 
 	//Zacne vykonavat pohyb na zaklade stlacenej klavesy
@@ -92,35 +101,22 @@ public class PlayerStanding extends AbstractPlayerState
 		{
 			if(CustomInput.left())
 			{
-				setStateWaking(PlayerWalking.Direction.LEFT);
+				setStateWalking(PlayerWalking.Direction.LEFT);
 			}
 			else if(CustomInput.right())
 			{
-				setStateWaking(PlayerWalking.Direction.RIGHT);
+				setStateWalking(PlayerWalking.Direction.RIGHT);
 			}
 		}
-	}
-
-	//Zastavi pohyb hraca
-	protected void stop()
-	{
-		PhysicsHelper.setLinearVelocity(getPlayer(), 0, PhysicsHelper.getLinearVelocity(getPlayer())[1]);
-	}
-
-	protected void setStateJumping(PlayerWalking.Direction direction)
-	{
-		getPlayer().setState(new PlayerJumping(getPlayer(),direction));
-	}
-
-	protected void setStateWaking(PlayerWalking.Direction direction)
-	{
-		getPlayer().setState(new PlayerWalking(getPlayer(),direction));
 	}
 
 	@Override
 	public void act()
 	{
 		updateBoredom();
+
+		//Hrac dopadol na zem
+		getPlayer().fall();
 
 		//Vykonanie akcii
 		resetActions();
@@ -129,6 +125,13 @@ public class PlayerStanding extends AbstractPlayerState
 		addAction(new Cheats());
 		runActions();
 
+		//Vyskusa, ci je potrebne zmenit stav
 		move();
+
+		//Ak hrac zomrel, tak nastavim prislusny stav
+		if(isPlayerDead())
+		{
+			setStateDying();
+		}
 	}
 }

@@ -32,7 +32,7 @@ import sk.tuke.yolkfolk.actors.player.states.PlayerJumping;
 import sk.tuke.yolkfolk.actors.player.states.PlayerWalking;
 
 /**
- * Dizzy Jumping state
+ * Dizzy Jumping state.
  *
  * Created by Steve on 16.12.2015.
  */
@@ -53,5 +53,11 @@ public class Jumping extends PlayerJumping implements DizzyState
 	protected void setStateStanding()
 	{
 		getPlayer().setState(new Standing(getPlayer()));
+	}
+
+	@Override
+	protected void setStateDying()
+	{
+		getPlayer().setState(new Dying(getPlayer()));
 	}
 }

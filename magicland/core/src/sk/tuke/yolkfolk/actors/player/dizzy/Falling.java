@@ -25,47 +25,20 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.player;
+package sk.tuke.yolkfolk.actors.player.dizzy;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.yolkfolk.actors.player.states.PlayerState;
+import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.actors.player.states.PlayerFalling;
 
 /**
- * Rozhranie definujuce zakladne predpoklady pre posobenie actora ako Hraca, ktoreho ovlada pouzivatel.
+ * Dizzy Falling state.
  *
- * Created by Steve on 2.12.2015.
+ * Created by Steve on 17.12.2015.
  */
-public interface Player extends Actor, AnimatedMovement
+public class Falling extends PlayerFalling implements DizzyState
 {
-	//Constants
-	int MAX_HP = 100;
-
-	void setStep(float step);
-	float getStep();
-
-	void fall();
-	void setFallLimit(float fallLimit);
-	void setFallDamageRatio(float fallDamageRatio);
-
-	void setJumpHeight(float jumpHeight);
-	float getJumpHeight();
-
-	boolean isFlyable();
-	void setFlyable(boolean flying);
-
-	int getNumberOfDiamonds();
-	void setDiamonds(int diamonds);
-
-	int getEnergy();
-	void setEnergy(int energy);
-	void decreaseEnergy(int energy);
-
-	boolean addToBackpack(Actor actor);
-	void showBackpack();
-	void hideBackpack();
-
-	void afterMovement();
-
-	void setState(PlayerState state);
-	PlayerState getState();
+	public Falling(Player player)
+	{
+		super(player);
+	}
 }

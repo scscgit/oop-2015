@@ -25,43 +25,29 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.items;
+package sk.tuke.yolkfolk.actors.player.states;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
-import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.player.Player;
-import sk.tuke.yolkfolk.actors.Usable;
-import sk.tuke.yolkfolk.collectables.Collectable;
 
 /**
- * Ringo, a.k.a an apple.
- * Is poisoned for some unknown reason.
+ * Analogicke ako PlayerJumping, akurat nedobrovolne, sposobene neocakavanymi okolnostami a nie z klavesnice.
  *
- * Created by Steve on 23.11.2015.
+ * Created by Steve on 17.12.2015.
  */
-public class Apple extends AbstractActor implements Collectable, Usable, Item
+public class PlayerFalling extends AbstractAirborneState
 {
-	public static final int HEALS_HP = 50;
-
-	public Apple()
+	public PlayerFalling(Player player)
 	{
-		super("Ringo","sprites/poisonapple.png",16,16);
+		super(player);
+
+		//Nastavi relevantnu animaciu
+		updateAnimation();
 	}
 
-	@Override
-	public void use(Actor actor)
+	protected void updateAnimation()
 	{
-		if(actor instanceof Player)
-		{
-			Player player = (Player) actor;
-
-			//Heal player
-			if (player.getEnergy() < player.MAX_HP)
-			{
-				player.setEnergy(player.getEnergy() + HEALS_HP);
-				getWorld().removeActor(this);
-			}
-		}
+		getPlayer().stopAnimationLeft();
+		getPlayer().stopAnimationRight();
+		getPlayer().runAnimationJump();
 	}
 }
