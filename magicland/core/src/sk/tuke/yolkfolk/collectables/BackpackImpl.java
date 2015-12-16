@@ -111,7 +111,7 @@ public class BackpackImpl implements Backpack
 			{
 				new Message("Inventory problem", exception.getMessage(), this.player);
 			}
-		};
+		}
 	}
 
 	//Show a new instance of backpack on screen
@@ -156,10 +156,10 @@ public class BackpackImpl implements Backpack
 		while(backpackUIIterator.hasNext())
 		{
 			BackpackUI backpackUI = backpackUIIterator.next();
-			if (backpackUI != null)
+			if (backpackUI instanceof BackpackUI)
 			{
 				backpackUI.close();
-				listBackpackUI.remove(backpackUIIterator);
+				backpackUIIterator.remove();
 			}
 		}
 	}

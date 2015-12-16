@@ -45,7 +45,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	private boolean state;
 	private float start;
 	private float end;
-	private boolean direction; //inicializovane funkciou initFinal(), false = smer dole, true = smer hore
+	private boolean direction; //inicializovane funkciou initFinal(), urcuje aktualny smer, false = smer dole, true = smer hore
 	private float speed;
 	private int paused;
 	private int pause;
@@ -79,7 +79,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	}
 
 	//Registers a new observer
-	public void register(Observer<Boolean> observer)
+	public final void register(Observer<Boolean> observer)
 	{
 		if(!getObserverList().contains(observer))
 		{
@@ -88,7 +88,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	}
 
 	//Metoda zabezpecujuca notifikaciu observerov o novej hodnote stavu
-	protected void notifyObservers()
+	protected final void notifyObservers()
 	{
 		for(Observer<Boolean> observer: getObserverList())
 		{
@@ -108,6 +108,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		if(actor instanceof Player)
 		{
 			this.state = !isOn();
+			setPause(getPause()/2); //Delay before running is a half of the standard pause duration
 			notifyObservers();
 		}
 	}

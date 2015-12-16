@@ -28,8 +28,7 @@
 package sk.tuke.yolkfolk.actions;
 
 import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Input;
-import sk.tuke.yolkfolk.CustomInput;
+import sk.tuke.yolkfolk.input.CustomInput;
 
 /**
  * Akcia na utek do bezpecia operacneho systemu pre pripad, ze niekto nema okna a nedokaze stlacit tlacidlo X.

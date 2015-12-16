@@ -45,29 +45,29 @@ public class Cheats extends AbstractAction
 	public void doAction(final Actor actor)
 	{
 		//Try to read cheat commands from keyboard and execute them
-		cheatFly(actor);
-		cheatPos(actor);
+		Cheats.cheatFly(actor);
+		Cheats.cheatPos(actor);
 
 		//Do implicit action
 		super.doAction(actor);
 	}
 
 	//Allows current Player to fly
-	private void cheatFly(final Actor actor)
+	private static void cheatFly(final Actor actor)
 	{
 		if (Input.isKeyPressed(Input.Key.F))
 		{
-			this.currentCheat = "F";
+			Cheats.currentCheat = "F";
 		}
 
-		if (Input.isKeyPressed(Input.Key.L) && this.currentCheat.compareTo("F") == 0)
+		if (Input.isKeyPressed(Input.Key.L) && Cheats.currentCheat.compareTo("F") == 0)
 		{
-			this.currentCheat = "FL";
+			Cheats.currentCheat = "FL";
 		}
 
-		if (Input.isKeyPressed(Input.Key.Y) && this.currentCheat.compareTo("FL") == 0)
+		if (Input.isKeyPressed(Input.Key.Y) && Cheats.currentCheat.compareTo("FL") == 0)
 		{
-			this.currentCheat = "";
+			Cheats.currentCheat = "";
 			if(actor instanceof Player)
 			{
 				final Player player = (Player) actor;
@@ -78,21 +78,21 @@ public class Cheats extends AbstractAction
 	}
 
 	//Makes current player output his positions for debugging or other purposes
-	public void cheatPos(final Actor actor)
+	public static void cheatPos(final Actor actor)
 	{
 		if (Input.isKeyPressed(Input.Key.P))
 		{
-			this.currentCheat = "P";
+			Cheats.currentCheat = "P";
 		}
 
-		if (Input.isKeyPressed(Input.Key.O) && this.currentCheat.compareTo("P") == 0)
+		if (Input.isKeyPressed(Input.Key.O) && Cheats.currentCheat.compareTo("P") == 0)
 		{
-			this.currentCheat = "PO";
+			Cheats.currentCheat = "PO";
 		}
 
-		if (Input.isKeyPressed(Input.Key.S) && this.currentCheat.compareTo("PO") == 0)
+		if (Input.isKeyPressed(Input.Key.S) && Cheats.currentCheat.compareTo("PO") == 0)
 		{
-			this.currentCheat = "";
+			Cheats.currentCheat = "";
 			new Message("Positional debugger","X="+actor.getX()+" Y="+actor.getY(),actor);
 		}
 	}

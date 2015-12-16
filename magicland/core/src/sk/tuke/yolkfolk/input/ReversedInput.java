@@ -25,36 +25,32 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actions;
-
-import sk.tuke.gamelib2.Actor;
+package sk.tuke.yolkfolk.input;
 
 /**
- * Ready, set, action!
- * Chain of responsibility superclass
+ * Dizzy is.. dizzy... get it?
  *
- * Created by Steve on 23.11.2015.
+ * Created by Steve on 16.12.2015.
  */
-public abstract class AbstractAction
+public class ReversedInput extends CustomInput
 {
-	protected AbstractAction nextAction;
-
-	public AbstractAction()
+	public static boolean left()
 	{
-		this.nextAction = null;
+		return CustomInput.rightDefault();
 	}
 
-	public final void setNextAction(AbstractAction action)
+	public static boolean right()
 	{
-		this.nextAction = action;
+		return CustomInput.leftDefault();
 	}
 
-	public void doAction(Actor actor)
+	public static boolean up()
 	{
-		//Kazda akcia by mala spustat nasledujucu akciu
-		if (nextAction != null)
-		{
-			nextAction.doAction(actor);
-		}
+		return CustomInput.downDefault();
+	}
+
+	public static boolean down()
+	{
+		return CustomInput.upDefault();
 	}
 }

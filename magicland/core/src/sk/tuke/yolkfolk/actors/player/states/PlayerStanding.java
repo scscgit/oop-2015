@@ -29,7 +29,7 @@ package sk.tuke.yolkfolk.actors.player.states;
 
 import sk.tuke.gamelib2.Animation;
 import sk.tuke.gamelib2.PhysicsHelper;
-import sk.tuke.yolkfolk.CustomInput;
+import sk.tuke.yolkfolk.input.CustomInput;
 import sk.tuke.yolkfolk.actions.*;
 import sk.tuke.yolkfolk.actors.player.Player;
 

@@ -55,7 +55,7 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 
 		//Default parametre hraca
 		setDiamonds(0);
-		setEnergy(100);
+		setEnergy(MAX_HP);
 		setFlyable(false);
 		setStep(0); //Inicializacia dlzky kroku pohybu hraca na hodnotu 0, kazdy hrac musi tuto hodnotu prepisat ak sa chce pohybovat
 		setJumpHeight(0); //Inicializacia vysky skoku
@@ -103,11 +103,11 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 	public boolean isFlyable()
 	{
 		return this.isFlyable;
-	};
+	}
 	public void setFlyable(boolean flying)
 	{
 		this.isFlyable = flying;
-	};
+	}
 
 	public int getNumberOfDiamonds()
 	{
@@ -124,9 +124,9 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 	}
 	public void setEnergy(int energy)
 	{
-		if(energy > 100)
+		if(energy > MAX_HP)
 		{
-			this.energy = 100;
+			this.energy = MAX_HP;
 		}
 		else if(energy < 0)
 		{

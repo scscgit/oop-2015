@@ -37,6 +37,9 @@ import sk.tuke.yolkfolk.actors.player.states.PlayerState;
  */
 public interface Player extends Actor, AnimatedMovement
 {
+	//Constants
+	int MAX_HP = 100;
+
 	void setStep(float step);
 	float getStep();
 

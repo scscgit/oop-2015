@@ -28,7 +28,7 @@
 package sk.tuke.yolkfolk.actors.player.states;
 
 import sk.tuke.gamelib2.PhysicsHelper;
-import sk.tuke.yolkfolk.CustomInput;
+import sk.tuke.yolkfolk.input.CustomInput;
 import sk.tuke.yolkfolk.actions.*;
 import sk.tuke.yolkfolk.actors.player.Player;
 
@@ -74,7 +74,7 @@ public class PlayerJumping extends AbstractPlayerState
 	//Vykona skok v zadanom smere
 	protected void jump(PlayerWalking.Direction direction)
 	{
-		//V pripade skoku v danom horizontalnom smere explicitne zacnem dany pohyb
+		//V pripade skoku v zadanom horizontalnom smere explicitne zacnem dany pohyb
 		setVelocity(direction);
 
 		//Vyvinie silu v smere proti gravitacii

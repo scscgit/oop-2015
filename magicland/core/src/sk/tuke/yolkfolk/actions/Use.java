@@ -28,9 +28,8 @@
 package sk.tuke.yolkfolk.actions;
 
 import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Input;
 import sk.tuke.gamelib2.Message;
-import sk.tuke.yolkfolk.CustomInput;
+import sk.tuke.yolkfolk.input.CustomInput;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.actors.Usable;
 import sk.tuke.yolkfolk.collectables.Collectable;

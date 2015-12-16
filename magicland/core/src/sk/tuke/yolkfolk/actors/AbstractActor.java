@@ -63,23 +63,27 @@ public abstract class AbstractActor implements Actor
     }
 
     @Override
-    public float getX() {
+    public final float getX() {
         return this.x;
     }
     @Override
-    public float getY() {
+    public final float getY() {
         return this.y;
     }
 
     @Override
-    public float getWidth() {
+    public final float getWidth() {
         if(this.currentAnimation !=null)
-            return this.currentAnimation.getWidth();
+		{
+			return this.currentAnimation.getWidth();
+		}
         else
-            return 0;
+		{
+			return 0;
+		}
     }
     @Override
-    public float getHeight() {
+    public final float getHeight() {
         if(this.currentAnimation !=null)
             return this.currentAnimation.getHeight();
         else
@@ -115,14 +119,14 @@ public abstract class AbstractActor implements Actor
     }
 
     //Nastavenie defaultnej animacie ako novej aktualnej animacie actora
-    public void setAnimation() {
+    public final void setAnimation() {
         this.currentAnimation = this.defaultAnimation;
     }
 
 	//Funkcia zabezpecujuca periodicke vykonavanie pozadovanych akcii
     @Override
-    public void act() {
-
+    public void act()
+	{
     }
 
 	//Zistenie pravdivosti dotyku s inym actorom
@@ -132,25 +136,31 @@ public abstract class AbstractActor implements Actor
         return
 			(
 				//Exists
-				(actor!=null)
+				actor instanceof Actor
 			&&
 				//X intersects
-				Math.abs
-				(
-					(actor.getX()+actor.getWidth()/2)-(this.getX()+this.getWidth()/2)
-				)
-			<
-				(actor.getWidth()/2)+(this.getWidth()/2)
+				intersectsX(actor)
 			&&
 				//Y intersects
 				Math.abs
 				(
 					(actor.getY()+actor.getHeight()/2)-(this.getY()+this.getHeight()/2)
 				)
-			<
+			<=
 				(actor.getHeight()/2)+(this.getHeight()/2)
 			);
     }
+
+	private boolean intersectsX(Actor actor)
+	{
+		return
+			Math.abs
+			(
+				(actor.getX()+actor.getWidth()/2)-(this.getX()+this.getWidth()/2)
+			)
+			<=
+			(actor.getWidth()/2)+(this.getWidth()/2);
+	}
 
 	//Zistenie pravdivosti dotyku s inym actorom vo vyske yAbove nad actorom
 	public boolean intersectsAbove(Actor actor, float yAbove)
@@ -159,17 +169,12 @@ public abstract class AbstractActor implements Actor
 		return
 			(
 				//Exists
-				(actor instanceof Actor)
+				actor instanceof Actor
 			&&
 				//X intersects
-				Math.abs
-				(
-					(actor.getX()+actor.getWidth()/2)-(this.getX()+this.getWidth()/2)
-				)
-				<
-				(actor.getWidth()/2)+(this.getWidth()/2)
+				intersectsX(actor)
 			&&
-				//Y intersects
+				//Y intersects above
 				yDelta <= yAbove
 			&&
 				yDelta >= 0
@@ -219,7 +224,7 @@ public abstract class AbstractActor implements Actor
         return this.onGround;
     }
     @Override
-    public void setOnGround(boolean onGround) {
+    public final void setOnGround(boolean onGround) {
 		this.onGround = onGround;
     }
 
@@ -228,7 +233,9 @@ public abstract class AbstractActor implements Actor
 		for(Actor actor : getWorld())
 		{
 			if(actor instanceof Player)
+			{
 				return (Player) actor;
+			}
 		}
 		return null;
 	}
@@ -237,7 +244,7 @@ public abstract class AbstractActor implements Actor
 	{
 		for(Actor actor : getWorld())
 		{
-			if(actor != null && actor.getName() == name)
+			if(actor != null && actor.getName().equals(name))
 				return actor;
 		}
 		return null;

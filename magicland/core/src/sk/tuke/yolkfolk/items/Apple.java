@@ -42,6 +42,8 @@ import sk.tuke.yolkfolk.collectables.Collectable;
  */
 public class Apple extends AbstractActor implements Collectable, Usable, Item
 {
+	public static final int HEALS_HP = 50;
+
 	public Apple()
 	{
 		super("Ringo","sprites/poisonapple.png",16,16);
@@ -55,9 +57,9 @@ public class Apple extends AbstractActor implements Collectable, Usable, Item
 			Player player = (Player) actor;
 
 			//Heal player
-			if (player.getEnergy() < 100)
+			if (player.getEnergy() < player.MAX_HP)
 			{
-				player.setEnergy(player.getEnergy() + 50);
+				player.setEnergy(player.getEnergy() + HEALS_HP);
 				getWorld().removeActor(this);
 			}
 		}
