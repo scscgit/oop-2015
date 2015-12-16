@@ -33,7 +33,7 @@ import sk.tuke.yolkfolk.actors.player.states.PlayerStanding;
 import sk.tuke.yolkfolk.actors.player.states.PlayerWalking;
 
 /**
- * Dizzy Standing state
+ * Dizzy Standing state.
  *
  * Created by Steve on 15.12.2015.
  */
@@ -51,8 +51,14 @@ public class Standing extends PlayerStanding implements DizzyState
 	}
 
 	@Override
-	protected void setStateWaking(PlayerWalking.Direction direction)
+	protected void setStateWalking(PlayerWalking.Direction direction)
 	{
 		getPlayer().setState(new Walking(getPlayer(),direction));
+	}
+
+	@Override
+	protected void setStateDying()
+	{
+		getPlayer().setState(new Dying(getPlayer()));
 	}
 }

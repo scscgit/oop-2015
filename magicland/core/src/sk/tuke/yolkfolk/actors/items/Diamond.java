@@ -25,7 +25,7 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.items;
+package sk.tuke.yolkfolk.actors.items;
 
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
@@ -90,7 +90,7 @@ public class Diamond extends AbstractActor implements Item, Usable
 			new Message("Dizzy got a new treasure!", "Well, you find a diamond!", this);
 
 			//Heal our Hero
-			if (player.getEnergy() < player.MAX_HP)
+			if (player.getEnergy() < Player.MAX_HP)
 			{
 				player.setEnergy(player.getEnergy() + HEALS_HP);
 			}

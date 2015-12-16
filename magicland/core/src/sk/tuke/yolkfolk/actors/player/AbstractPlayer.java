@@ -44,6 +44,11 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 	private int diamonds;
 	private int energy;
 
+	//Variables for falling purposes
+	private float fallPosition;
+	private float fallLimit;
+	private float fallDamageRatio;
+
 	//Objects
 	private BackpackImpl backpack;
 	private PlayerState currentState;
@@ -52,13 +57,18 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 	{
 		//Player vyzaduje vytvorenie zakladnych parametrov
 		super(name,animationString,animationX,animationY);
+		this.fallPosition = getY();
+		setEnergy(MAX_HP);
+		setFlyable(false);
 
 		//Default parametre hraca
 		setDiamonds(0);
-		setEnergy(MAX_HP);
-		setFlyable(false);
 		setStep(0); //Inicializacia dlzky kroku pohybu hraca na hodnotu 0, kazdy hrac musi tuto hodnotu prepisat ak sa chce pohybovat
 		setJumpHeight(0); //Inicializacia vysky skoku
+
+		//Default parametre tykajuce sa padania
+		setFallLimit(0);
+		setFallDamageRatio(100);
 
 		//Inicializacia objektov patriacich hracovi
 		backpack = new BackpackImpl(this);
@@ -89,6 +99,36 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 	public String toString()
 	{
 		return super.toString()+" "+getX()+" "+getY()+" "+getNumberOfDiamonds()+" "+ getEnergy();
+	}
+
+	//Nastavi aktualnu poziciu suradnice Y hraca ako novu poziciu dopadu a v pripade velkeho rozdielu od minulej hodnoty udeli hracovi zranenie.
+	public final void fall()
+	{
+		float y = getY();
+		float fallDistance = this.fallPosition - y;
+
+		if(getFallDamageRatio() > 0 && fallDistance > 0 && fallDistance > getFallLimit())
+		{
+			decreaseEnergy((int)(fallDistance*getFallDamageRatio()));
+		}
+		System.out.println(getPlayer().getName()+" has "+getPlayer().getEnergy()+" HP"); //TODO delete
+		this.fallPosition = y;
+	}
+	protected final float getFallLimit()
+	{
+		return fallLimit;
+	}
+	public final void setFallLimit(float fallLimit)
+	{
+		this.fallLimit = fallLimit;
+	}
+	protected final float getFallDamageRatio()
+	{
+		return fallDamageRatio;
+	}
+	public final void setFallDamageRatio(float fallDamageRatio)
+	{
+		this.fallDamageRatio = fallDamageRatio;
 	}
 
 	public void setJumpHeight(float jumpHeight)
@@ -136,6 +176,10 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 		{
 			this.energy = energy;
 		}
+	}
+	public void decreaseEnergy(int energy)
+	{
+		setEnergy(getEnergy()-energy);
 	}
 
 	public boolean addToBackpack(Actor actor)

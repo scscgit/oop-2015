@@ -27,7 +27,6 @@
 
 package sk.tuke.yolkfolk.collectables;
 
-import sk.tuke.gamelib2.Item;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
@@ -35,7 +34,7 @@ import sk.tuke.yolkfolk.actors.AbstractActor;
  *
  * Created by Steve on 28.11.2015.
  */
-public class Key extends AbstractActor implements Item, Collectable
+public class Key extends AbstractActor implements Collectable
 {
 	public Key()
 	{

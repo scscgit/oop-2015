@@ -25,73 +25,41 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.collectables;
 
 import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.actors.Usable;
 
 /**
- * Paka, ktora sa pripoji na vytah a vyuziva obojsmernu komunikaciu na synchronizaciu stavu.
- * Je ale kompatibilna aj s inymi platformami.
+ * Ringo, a.k.a an apple.
+ * Is poisoned for some unknown reason.
  *
- * Created by Steve on 26.11.2015.
+ * Created by Steve on 23.11.2015.
  */
-public class Lever extends AbstractActor implements Item, Usable, Observer<Boolean>
+public class Apple extends AbstractActor implements Collectable, Usable
 {
-	private boolean state;
-	private AbstractMovingPlatform elevator;
+	public static final int HEALS_HP = 50;
 
-	public Lever()
+	public Apple()
 	{
-		super("Lever", "sprites/lever.png", 16, 16);
-
-		//Zastavena animacia, aktualna snimka reprezentuje binarne stav paky
-		getAnimation().stop();
-
-		setState(false);
-		this.elevator=null;
-	}
-
-	public Lever(AbstractMovingPlatform elevator)
-	{
-		this();
-		connectElevator(elevator);
-	}
-
-	public void connectElevator(AbstractMovingPlatform elevator)
-	{
-		if(elevator instanceof AbstractMovingPlatform)
-		{
-			this.elevator = elevator;
-			setState(this.elevator.isOn());
-			elevator.register(this);
-		}
-	}
-
-	public boolean isOn()
-	{
-		return this.state;
-	}
-
-	private void setState(boolean state)
-	{
-		this.state = state;
-		getAnimation().setCurrentFrame(!this.state?0:1);
+		super("Ringo","sprites/poisonapple.png",16,16);
 	}
 
 	@Override
 	public void use(Actor actor)
 	{
-		if(actor instanceof Player && this.elevator instanceof AbstractMovingPlatform && this.elevator.isOn() == state)
+		if(actor instanceof Player)
 		{
-			this.elevator.use(actor);
-		}
-	}
+			Player player = (Player) actor;
 
-	@Override
-	public void notified(Boolean newState)
-	{
-		setState(newState);
+			//Heal player
+			if (player.getEnergy() < Player.MAX_HP)
+			{
+				player.setEnergy(player.getEnergy() + HEALS_HP);
+				getWorld().removeActor(this);
+			}
+		}
 	}
 }

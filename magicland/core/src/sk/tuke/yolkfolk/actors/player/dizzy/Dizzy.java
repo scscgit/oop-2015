@@ -57,8 +57,12 @@ public class Dizzy extends AbstractPlayer implements Cursable
 		setAnimationJumpRight(new Animation("sprites/dizzy_jump_right.png",25,25));
 
 		//Dlzka kroku Dizzyho - jeho rychlost a vyska skoku
-		setStep(1.5f);
-		setJumpHeight(20f);
+		setStep(1.75f);
+		setJumpHeight(45f);
+
+		//Parametre tykajuce sa padania
+		setFallLimit(200);
+		setFallDamageRatio(2);
 
 		//Inicializacia vedlajsich premennych
 		this.cursed = false;

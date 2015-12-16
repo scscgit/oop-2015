@@ -33,6 +33,8 @@ import sk.tuke.gamelib2.PhysicsHelper;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
+ * Deprecated action for movement.
+ *
  * Created by Steve on 23.11.2015.
  */
 @Deprecated

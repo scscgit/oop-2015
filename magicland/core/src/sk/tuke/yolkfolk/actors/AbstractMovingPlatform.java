@@ -48,7 +48,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	private boolean direction; //inicializovane funkciou initFinal(), urcuje aktualny smer, false = smer dole, true = smer hore
 	private float speed;
 	private int paused;
-	private int pause;
+	private int pauseDuration;
 	private boolean initializedStart;
 	private boolean initializedEnd;
 	private boolean initialized;
@@ -58,13 +58,13 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	{
 		super(name,"sprites/elevator.png",32,9);
 		this.state=false;
-		this.paused = 0; //current remaining time of pause before continuing in opposite direction
+		this.paused = 0; //current remaining time of pauseDuration before continuing in opposite direction
 		this.initializedStart=false;
 		this.initializedEnd=false;
 		this.initialized=false;
 
 		//Overridable variables that define a concrete elevator
-		setPause(50); //default pause time set by manufacturer
+		setPauseDuration(50); //default pauseDuration time set by manufacturer
 		setSpeed(0.5f); //default speed set by manufacturer
 	}
 
@@ -108,7 +108,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		if(actor instanceof Player)
 		{
 			this.state = !isOn();
-			setPause(getPause()/2); //Delay before running is a half of the standard pause duration
+			pause(getPauseDuration()/2); //Delay before running is a half of the standard pauseDuration duration
 			notifyObservers();
 		}
 	}
@@ -229,31 +229,39 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	}
 
 	//Nastavi casovy interval, ako dlho sa pozastavi vytah pred jeho otocenim smeru na opacny pocas jeho rutiny pohybu
-	public void setPause(int pause)
+	public final void setPauseDuration(int pauseDuration)
 	{
-		if(pause>=0)
+		if(pauseDuration >=0)
 		{
-			//If the pause is currently pending, it gets incremented by the delta pause
-			if (this.paused > 0 && pause > this.paused)
+			//If the pauseDuration is currently pending, it gets incremented by the delta pauseDuration
+			if (this.paused > 0 && pauseDuration > this.paused)
 			{
-				this.paused += (pause - this.paused);
+				this.paused += (pauseDuration - this.paused);
 			}
-			this.pause = pause;
+			this.pauseDuration = pauseDuration;
 		}
 		else
 		{
-			this.pause = 0;
+			this.pauseDuration = 0;
 		}
 	}
-	protected int getPause()
+	protected final int getPauseDuration()
 	{
-		return this.pause;
+		return this.pauseDuration;
+	}
+	//Pocka pozadovany pocet cyklov pred pokracovanim v pohybe
+	public final void pause(int duration)
+	{
+		if(duration>0 && duration>this.paused)
+		{
+			this.paused = duration;
+		}
 	}
 
 	//Obrati smer pohybu jazdy a podla potreby pozastavi vytah
 	public void reverse()
 	{
 		this.direction=!this.direction;
-		this.paused = getPause();
+		pause(getPauseDuration());
 	}
 }

@@ -31,7 +31,7 @@ import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.actors.player.states.PlayerWalking;
 
 /**
- * Dizzy Walking state
+ * Dizzy Walking state.
  *
  * Created by Steve on 15.12.2015.
  */
@@ -54,8 +54,21 @@ public class Walking extends PlayerWalking implements DizzyState
 		getPlayer().setState(new Standing(getPlayer()));
 	}
 
+	@Override
 	protected void setStateWalking(Direction direction)
 	{
 		getPlayer().setState(new Walking(getPlayer(), direction));
+	}
+
+	@Override
+	protected void setStateDying()
+	{
+		getPlayer().setState(new Dying(getPlayer()));
+	}
+
+	@Override
+	protected void setStateFalling()
+	{
+		getPlayer().setState(new Falling(getPlayer()));
 	}
 }

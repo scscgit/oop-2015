@@ -35,10 +35,11 @@ import sk.tuke.yolkfolk.actors.player.Player;
 /**
  * State of being high.
  * Cannot get higher or change direction.
+ * Also cannot use items.
  *
  * Created by Steve on 11.12.2015.
  */
-public class PlayerJumping extends AbstractPlayerState
+public class PlayerJumping extends AbstractAirborneState
 {
 	public PlayerJumping(Player player, PlayerWalking.Direction direction)
 	{
@@ -74,81 +75,17 @@ public class PlayerJumping extends AbstractPlayerState
 	//Vykona skok v zadanom smere
 	protected void jump(PlayerWalking.Direction direction)
 	{
-		//V pripade skoku v zadanom horizontalnom smere explicitne zacnem dany pohyb
-		setVelocity(direction);
+		//Povodne rychlosti
+		//float oldVerticalVelocity = PhysicsHelper.getLinearVelocity(getPlayer())[1];
+		//float oldHorizontalVelocity = PhysicsHelper.getLinearVelocity(getPlayer())[0];
+
+		//Zastavi pohyb pred skokom z dovodu ako funguje kniznica sprostredkujuca PhysicsHelper
+		stopVelocity();
 
 		//Vyvinie silu v smere proti gravitacii
 		PhysicsHelper.applyForce(getPlayer(), 0f, getPlayer().getJumpHeight());
 
-		//Necha playera vykonat svoje operacie po novom pohybe
-		getPlayer().afterMovement();
-	}
-
-	//Podla stlacenej klavesy umozni dodatocne skoky z dovodu lietania
-	protected void fly()
-	{
-		if(CustomInput.left())
-		{
-			setStateJumping(PlayerWalking.Direction.LEFT);
-		}
-		else if(CustomInput.right())
-		{
-			setStateJumping(PlayerWalking.Direction.RIGHT);
-		}
-		else
-		{
-			setStateJumping(PlayerWalking.Direction.UP);
-		}
-	}
-
-	//Nastavi horizontalnu rychlost hraca na pohyb v danom smere
-	protected void setVelocity(PlayerWalking.Direction direction)
-	{
-		if(direction == PlayerWalking.Direction.LEFT)
-		{
-			PhysicsHelper.setLinearVelocity(getPlayer(), -getPlayer().getStep(), PhysicsHelper.getLinearVelocity(getPlayer())[1]);
-		}
-		else if(direction == PlayerWalking.Direction.RIGHT)
-		{
-			PhysicsHelper.setLinearVelocity(getPlayer(), getPlayer().getStep(), PhysicsHelper.getLinearVelocity(getPlayer())[1]);
-		}
-	}
-
-	protected void setStateJumping(PlayerWalking.Direction direction)
-	{
-		getPlayer().setState(new PlayerJumping(getPlayer(),direction));
-	}
-
-	protected void setStateStanding()
-	{
-		getPlayer().setState(new PlayerStanding(getPlayer(),null));
-	}
-
-	@Override
-	public void act()
-	{
-		resetActions();
-		addAction(new Use());
-		addAction(new Exit());
-		addAction(new Cheats());
-		runActions();
-
-		//Pripad lietania
-		if(getPlayer().isFlyable() && CustomInput.up())
-		{
-			fly();
-		}
-
-		//Zastavi skok iba po dopade na zem //TODO: reimplement after gradle fix gets released
-		float ySpeed = PhysicsHelper.getLinearVelocity(getPlayer())[1];
-		if(ySpeed==0)
-		//if(getPlayer().isOnGround())
-		{
-			//getPlayer().stopAnimationJump();
-			setStateStanding();
-		}
-
-		//Necha playera vykonat svoje operacie po novom pohybe
-		getPlayer().afterMovement();
+		//V pripade skoku v zadanom horizontalnom smere explicitne zacnem dany pohyb
+		setVelocity(direction);
 	}
 }

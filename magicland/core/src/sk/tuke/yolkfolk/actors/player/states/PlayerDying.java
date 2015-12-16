@@ -25,39 +25,66 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.player.dizzy;
+package sk.tuke.yolkfolk.actors.player.states;
 
+import sk.tuke.gamelib2.Animation;
+import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.player.Player;
-import sk.tuke.yolkfolk.actors.player.states.PlayerJumping;
-import sk.tuke.yolkfolk.actors.player.states.PlayerWalking;
+import sk.tuke.yolkfolk.input.CustomInput;
 
 /**
- * Dizzy Jumping state.
+ * Player in a state of permanently getting out of misery (life).
  *
  * Created by Steve on 16.12.2015.
  */
-public class Jumping extends PlayerJumping implements DizzyState
+public class PlayerDying extends AbstractPlayerState
 {
-	public Jumping(Player player, PlayerWalking.Direction direction)
+	private Message gameOverMessage;
+	private Animation dyingAnimation;
+
+	public PlayerDying(Player player, Animation dyingAnimation)
 	{
-		super(player, direction);
+		super(player);
+		this.gameOverMessage = null;
+		setDyingAnimation(dyingAnimation);
+	}
+
+	protected Animation getDyingAnimation()
+	{
+		return this.dyingAnimation;
+	}
+
+	//Sets a game over animation for the player
+	protected void setDyingAnimation(Animation dyingAnimation)
+	{
+		if(dyingAnimation instanceof Animation)
+		{
+			this.dyingAnimation = dyingAnimation;
+			getPlayer().setAnimation(dyingAnimation);
+			this.dyingAnimation.setLooping(false);
+		}
+		else
+		{
+			this.dyingAnimation = null;
+		}
+	}
+
+	public boolean animationEnded()
+	{
+		return getDyingAnimation() instanceof Animation && getDyingAnimation().getCurrentFrame() == getDyingAnimation().getFrameCount()-1;
 	}
 
 	@Override
-	protected void setStateJumping(PlayerWalking.Direction direction)
+	public void act()
 	{
-		getPlayer().setState(new Jumping(getPlayer(),direction));
-	}
+		if(animationEnded() && gameOverMessage == null)
+		{
+			this.gameOverMessage = new Message("Unfortunate accident",getPlayer().getName()+" has died :(\nPress Enter to exit the game.",getPlayer());
+		}
 
-	@Override
-	protected void setStateStanding()
-	{
-		getPlayer().setState(new Standing(getPlayer()));
-	}
-
-	@Override
-	protected void setStateDying()
-	{
-		getPlayer().setState(new Dying(getPlayer()));
+		if(CustomInput.enterRising())
+		{
+			System.exit(0);
+		}
 	}
 }

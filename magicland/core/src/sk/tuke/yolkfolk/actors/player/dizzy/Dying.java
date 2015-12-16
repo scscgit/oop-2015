@@ -25,43 +25,21 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.items;
+package sk.tuke.yolkfolk.actors.player.dizzy;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
-import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.gamelib2.Animation;
 import sk.tuke.yolkfolk.actors.player.Player;
-import sk.tuke.yolkfolk.actors.Usable;
-import sk.tuke.yolkfolk.collectables.Collectable;
+import sk.tuke.yolkfolk.actors.player.states.PlayerDying;
 
 /**
- * Ringo, a.k.a an apple.
- * Is poisoned for some unknown reason.
+ * Dizzy on the borderline between life and death.
  *
- * Created by Steve on 23.11.2015.
+ * Created by Steve on 16.12.2015.
  */
-public class Apple extends AbstractActor implements Collectable, Usable, Item
+public class Dying extends PlayerDying implements DizzyState
 {
-	public static final int HEALS_HP = 50;
-
-	public Apple()
+	public Dying(Player player)
 	{
-		super("Ringo","sprites/poisonapple.png",16,16);
-	}
-
-	@Override
-	public void use(Actor actor)
-	{
-		if(actor instanceof Player)
-		{
-			Player player = (Player) actor;
-
-			//Heal player
-			if (player.getEnergy() < player.MAX_HP)
-			{
-				player.setEnergy(player.getEnergy() + HEALS_HP);
-				getWorld().removeActor(this);
-			}
-		}
+		super(player, new Animation("sprites/game_over.png", 25, 25));
 	}
 }

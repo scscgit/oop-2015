@@ -25,47 +25,29 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.player;
+package sk.tuke.yolkfolk.actors.player.states;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.yolkfolk.actors.player.states.PlayerState;
+import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
- * Rozhranie definujuce zakladne predpoklady pre posobenie actora ako Hraca, ktoreho ovlada pouzivatel.
+ * Analogicke ako PlayerJumping, akurat nedobrovolne, sposobene neocakavanymi okolnostami a nie z klavesnice.
  *
- * Created by Steve on 2.12.2015.
+ * Created by Steve on 17.12.2015.
  */
-public interface Player extends Actor, AnimatedMovement
+public class PlayerFalling extends AbstractAirborneState
 {
-	//Constants
-	int MAX_HP = 100;
+	public PlayerFalling(Player player)
+	{
+		super(player);
 
-	void setStep(float step);
-	float getStep();
+		//Nastavi relevantnu animaciu
+		updateAnimation();
+	}
 
-	void fall();
-	void setFallLimit(float fallLimit);
-	void setFallDamageRatio(float fallDamageRatio);
-
-	void setJumpHeight(float jumpHeight);
-	float getJumpHeight();
-
-	boolean isFlyable();
-	void setFlyable(boolean flying);
-
-	int getNumberOfDiamonds();
-	void setDiamonds(int diamonds);
-
-	int getEnergy();
-	void setEnergy(int energy);
-	void decreaseEnergy(int energy);
-
-	boolean addToBackpack(Actor actor);
-	void showBackpack();
-	void hideBackpack();
-
-	void afterMovement();
-
-	void setState(PlayerState state);
-	PlayerState getState();
+	protected void updateAnimation()
+	{
+		getPlayer().stopAnimationLeft();
+		getPlayer().stopAnimationRight();
+		getPlayer().runAnimationJump();
+	}
 }

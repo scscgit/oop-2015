@@ -47,6 +47,7 @@ public class Cheats extends AbstractAction
 		//Try to read cheat commands from keyboard and execute them
 		Cheats.cheatFly(actor);
 		Cheats.cheatPos(actor);
+		Cheats.cheatKill(actor);
 
 		//Do implicit action
 		super.doAction(actor);
@@ -55,17 +56,17 @@ public class Cheats extends AbstractAction
 	//Allows current Player to fly
 	private static void cheatFly(final Actor actor)
 	{
-		if (Input.isKeyPressed(Input.Key.F))
+		if (Input.isKeyJustPressed(Input.Key.F))
 		{
 			Cheats.currentCheat = "F";
 		}
 
-		if (Input.isKeyPressed(Input.Key.L) && Cheats.currentCheat.compareTo("F") == 0)
+		if (Input.isKeyJustPressed(Input.Key.L) && Cheats.currentCheat.compareTo("F") == 0)
 		{
 			Cheats.currentCheat = "FL";
 		}
 
-		if (Input.isKeyPressed(Input.Key.Y) && Cheats.currentCheat.compareTo("FL") == 0)
+		if (Input.isKeyJustPressed(Input.Key.Y) && Cheats.currentCheat.compareTo("FL") == 0)
 		{
 			Cheats.currentCheat = "";
 			if(actor instanceof Player)
@@ -80,20 +81,49 @@ public class Cheats extends AbstractAction
 	//Makes current player output his positions for debugging or other purposes
 	public static void cheatPos(final Actor actor)
 	{
-		if (Input.isKeyPressed(Input.Key.P))
+		if (Input.isKeyJustPressed(Input.Key.P))
 		{
 			Cheats.currentCheat = "P";
 		}
 
-		if (Input.isKeyPressed(Input.Key.O) && Cheats.currentCheat.compareTo("P") == 0)
+		if (Input.isKeyJustPressed(Input.Key.O) && Cheats.currentCheat.compareTo("P") == 0)
 		{
 			Cheats.currentCheat = "PO";
 		}
 
-		if (Input.isKeyPressed(Input.Key.S) && Cheats.currentCheat.compareTo("PO") == 0)
+		if (Input.isKeyJustPressed(Input.Key.S) && Cheats.currentCheat.compareTo("PO") == 0)
 		{
 			Cheats.currentCheat = "";
 			new Message("Positional debugger","X="+actor.getX()+" Y="+actor.getY(),actor);
+		}
+	}
+
+	//Makes current player output his positions for debugging or other purposes
+	public static void cheatKill(final Actor actor)
+	{
+		if (Input.isKeyJustPressed(Input.Key.K))
+		{
+			Cheats.currentCheat = "K";
+		}
+
+		if (Input.isKeyJustPressed(Input.Key.I) && Cheats.currentCheat.compareTo("K") == 0)
+		{
+			Cheats.currentCheat = "KI";
+		}
+
+		if (Input.isKeyJustPressed(Input.Key.L) && Cheats.currentCheat.compareTo("KI") == 0)
+		{
+			Cheats.currentCheat = "KIL";
+		}
+
+		if (Input.isKeyJustPressed(Input.Key.L) && Cheats.currentCheat.compareTo("KIL") == 0)
+		{
+			Cheats.currentCheat = "";
+			if(actor instanceof Player)
+			{
+				final Player player = (Player) actor;
+				player.decreaseEnergy(Player.MAX_HP);
+			}
 		}
 	}
 }

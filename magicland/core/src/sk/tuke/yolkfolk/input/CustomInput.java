@@ -56,12 +56,12 @@ public class CustomInput
 		return Input.isKeyPressed(Input.Key.DOWN) || Input.isKeyPressed(Input.Key.S);
 	}
 
-	protected static boolean enterRisingDefault()
+	protected static final boolean enterRisingDefault()
 	{
 		return Input.isKeyJustPressed(Input.Key.ENTER) || Input.isKeyJustPressed(Input.Key.E);
 	}
 
-	protected static boolean escapeDefault()
+	protected static final boolean escapeDefault()
 	{
 		return Input.isKeyPressed(Input.Key.ESCAPE);
 	}
