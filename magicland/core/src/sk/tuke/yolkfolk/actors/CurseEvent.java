@@ -37,6 +37,10 @@ import java.util.List;
  */
 public class CurseEvent
 {
+	private CurseEvent()
+	{
+	}
+
 	private static List<Observer<Cursable>> observerList = null;
 
 	//Singleton implementation of list of observers

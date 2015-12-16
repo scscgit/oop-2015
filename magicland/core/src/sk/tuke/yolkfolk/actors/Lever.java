@@ -77,21 +77,18 @@ public class Lever extends AbstractActor implements Item, Usable, Observer<Boole
 	private void setState(boolean state)
 	{
 		this.state = state;
-		getAnimation().setCurrentFrame(this.state==false?0:1);
+		getAnimation().setCurrentFrame(!this.state?0:1);
 	}
 
 	@Override
 	public void use(Actor actor)
 	{
-		if(actor instanceof Player)
+		if(actor instanceof Player && this.elevator instanceof AbstractMovingPlatform)
 		{
-			if(this.elevator instanceof AbstractMovingPlatform)
+			//if elevator state is the same state as lever, change state of elevator
+			if(this.elevator.isOn() == state)
 			{
-				//if elevator state is the same state as lever, change state of elevator
-				if(this.elevator.isOn() == state)
-				{
-					this.elevator.use(actor);
-				}
+				this.elevator.use(actor);
 			}
 			//setState(!this.state); //Namiesto setState budeme spoliehat na notifikaciu ako observer
 		}

@@ -25,33 +25,32 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actions;
-
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.yolkfolk.input.CustomInput;
+package sk.tuke.yolkfolk.input;
 
 /**
- * Akcia na utek do bezpecia operacneho systemu pre pripad, ze niekto nema okna a nedokaze stlacit tlacidlo X.
+ * Dizzy is.. dizzy... get it?
  *
- * Created by Steve on 2.12.2015.
+ * Created by Steve on 16.12.2015.
  */
-public class Exit extends AbstractAction
+public class ReversedInput extends CustomInput
 {
-	public Exit()
+	public static boolean left()
 	{
-		super();
+		return CustomInput.rightDefault();
 	}
 
-	@Override
-	public void doAction(Actor actor)
+	public static boolean right()
 	{
-		//On escape key press allow user to safely escape to the safe environment of Linux, or some other OS.
-		if (CustomInput.escape())
-		{
-			System.exit(0);
-		}
+		return CustomInput.leftDefault();
+	}
 
-		//Do implicit action
-		super.doAction(actor);
+	public static boolean up()
+	{
+		return CustomInput.downDefault();
+	}
+
+	public static boolean down()
+	{
+		return CustomInput.upDefault();
 	}
 }

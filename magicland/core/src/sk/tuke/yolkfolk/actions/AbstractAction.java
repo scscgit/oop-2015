@@ -44,7 +44,7 @@ public abstract class AbstractAction
 		this.nextAction = null;
 	}
 
-	public void setNextAction(AbstractAction action)
+	public final void setNextAction(AbstractAction action)
 	{
 		this.nextAction = action;
 	}

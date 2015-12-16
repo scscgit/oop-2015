@@ -28,6 +28,8 @@
 package sk.tuke.yolkfolk.collectables;
 
 /**
+ * Item, that can be collected to the backpack of a Player.
+ *
  * Created by Steve on 28.11.2015.
  */
 public interface Collectable

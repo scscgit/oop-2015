@@ -57,91 +57,80 @@ public abstract class AbstractAnimatedActor extends AbstractActor implements Ani
 		this.isAnimationJump = false;
 	}
 
-	public void setAnimationLeft(Animation aniLeft)
+	public final void setAnimationLeft(Animation aniLeft)
 	{
 		this.aniLeft = aniLeft;
 	}
-	public void setAnimationRight(Animation aniRight)
+	public final void setAnimationRight(Animation aniRight)
 	{
 		this.aniRight = aniRight;
 	}
-	public void setAnimationJump(Animation aniJump)
+	public final void setAnimationJump(Animation aniJump)
 	{
 		this.aniJump = aniJump;
 	}
-	public void setAnimationJumpLeft(Animation aniJumpLeft)
+	public final void setAnimationJumpLeft(Animation aniJumpLeft)
 	{
 		this.aniJumpLeft = aniJumpLeft;
 	}
-	public void setAnimationJumpRight(Animation aniJumpRight)
+	public final void setAnimationJumpRight(Animation aniJumpRight)
 	{
 		this.aniJumpRight = aniJumpRight;
 	}
 
-	public void runAnimationLeft()
+	public final void runAnimationLeft()
 	{
 		this.isAnimationLeft = true;
 		updateAnimation();
 	}
-	public void runAnimationRight()
+	public final void runAnimationRight()
 	{
 		this.isAnimationRight = true;
 		updateAnimation();
 	}
-	public void runAnimationJump()
+	public final void runAnimationJump()
 	{
 		this.isAnimationJump = true;
 		updateAnimation();
 	}
 
-	public void stopAnimationLeft()
+	public final void stopAnimationLeft()
 	{
 		this.isAnimationLeft = false;
 		updateAnimation();
 	}
-	public void stopAnimationRight()
+	public final void stopAnimationRight()
 	{
 		this.isAnimationRight = false;
 		updateAnimation();
 	}
-	public void stopAnimationJump()
+	public final void stopAnimationJump()
 	{
 		this.isAnimationJump = false;
 		updateAnimation();
 	}
 
-	private void updateAnimation()
+	private final void updateAnimation()
 	{
-		if
-			(
-				this.isAnimationJump
-				&&
-				(
-					(this.isAnimationLeft && this.isAnimationRight)
-						||
-						(!this.isAnimationLeft && !this.isAnimationRight)
-				)
-			)
+		if(this.isAnimationJump)
 		{
-			//Only jump
-			setAnimation(this.aniJump);
+			if (this.isAnimationLeft == this.isAnimationRight)
+			{
+				//Only jump
+				setAnimation(this.aniJump);
+			}
+			else if (this.isAnimationLeft)
+			{
+				//Jump left
+				setAnimation(this.aniJumpLeft);
+			}
+			else /*if (this.isAnimationRight)*/
+			{
+				//Jump right
+				setAnimation(this.aniJumpRight);
+			}
 		}
-		else if(this.isAnimationJump && this.isAnimationLeft)
-		{
-			//Jump left
-			setAnimation(this.aniJumpLeft);
-		}
-		else if(this.isAnimationJump /* && this.isAnimationRight*/)
-		{
-			//Jump right
-			setAnimation(this.aniJumpRight);
-		}
-		else if
-			(
-				(this.isAnimationLeft && this.isAnimationRight)
-				||
-				(!this.isAnimationLeft && !this.isAnimationRight)
-			)
+		else if(this.isAnimationLeft == this.isAnimationRight)
 		{
 			//Default animation
 			setAnimation();
@@ -151,15 +140,10 @@ public abstract class AbstractAnimatedActor extends AbstractActor implements Ani
 			//Move left
 			setAnimation(this.aniLeft);
 		}
-		else if(this.isAnimationRight)
+		else /*if(this.isAnimationRight)*/
 		{
 			//Move right
 			setAnimation(this.aniRight);
-		}
-		else
-		{
-			//Default animation
-			setAnimation();
 		}
 	}
 }

@@ -41,11 +41,15 @@ import sk.tuke.yolkfolk.actors.Usable;
  */
 public class Diamond extends AbstractActor implements Item, Usable
 {
+	//Constants
+	public static final int HEALS_HP = 50;
+
+	//Variables
 	private int value; //Hodnota diamantu, o kolko sa pocet diamantov zvacsi po jeho zodvihnuti
 
 	private static String constructorAnimation(String color)
 	{
-		if(color == "silver" || color == "green")
+		if(color.equals("silver") || color.equals("green"))
 		{
 			return "sprites/"+color+"diamond.png";
 		}
@@ -86,9 +90,9 @@ public class Diamond extends AbstractActor implements Item, Usable
 			new Message("Dizzy got a new treasure!", "Well, you find a diamond!", this);
 
 			//Heal our Hero
-			if (player.getEnergy() < 100)
+			if (player.getEnergy() < player.MAX_HP)
 			{
-				player.setEnergy(player.getEnergy() + 50);
+				player.setEnergy(player.getEnergy() + HEALS_HP);
 			}
 		}
 	}

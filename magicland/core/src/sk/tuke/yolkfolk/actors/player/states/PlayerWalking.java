@@ -28,7 +28,7 @@
 package sk.tuke.yolkfolk.actors.player.states;
 
 import sk.tuke.gamelib2.PhysicsHelper;
-import sk.tuke.yolkfolk.CustomInput;
+import sk.tuke.yolkfolk.input.CustomInput;
 import sk.tuke.yolkfolk.actions.*;
 import sk.tuke.yolkfolk.actors.player.Player;
 
@@ -67,9 +67,13 @@ public class PlayerWalking extends AbstractPlayerState
 		getPlayer().stopAnimationJump();
 
 		if(this.direction == Direction.LEFT)
+		{
 			getPlayer().runAnimationLeft();
+		}
 		else if(this.direction == Direction.RIGHT)
+		{
 			getPlayer().runAnimationRight();
+		}
 	}
 
 	//Vykona pohyb podla stlacenej klavesy, pricom zachova rychlost v osi y

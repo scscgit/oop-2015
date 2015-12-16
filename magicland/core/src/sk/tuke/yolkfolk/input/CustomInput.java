@@ -25,7 +25,7 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk;
+package sk.tuke.yolkfolk.input;
 
 import sk.tuke.gamelib2.Input;
 
@@ -36,14 +36,44 @@ import sk.tuke.gamelib2.Input;
  */
 public class CustomInput
 {
-	public static boolean left()
+	protected static final boolean leftDefault()
 	{
 		return Input.isKeyPressed(Input.Key.LEFT) || Input.isKeyPressed(Input.Key.A);
 	}
 
-	public static boolean right()
+	protected static final boolean rightDefault()
 	{
 		return Input.isKeyPressed(Input.Key.RIGHT) || Input.isKeyPressed(Input.Key.D);
+	}
+
+	protected static final boolean upDefault()
+	{
+		return Input.isKeyPressed(Input.Key.UP) || Input.isKeyPressed(Input.Key.W) || Input.isKeyPressed(Input.Key.SPACE);
+	}
+
+	protected static final boolean downDefault()
+	{
+		return Input.isKeyPressed(Input.Key.DOWN) || Input.isKeyPressed(Input.Key.S);
+	}
+
+	protected static boolean enterRisingDefault()
+	{
+		return Input.isKeyJustPressed(Input.Key.ENTER) || Input.isKeyJustPressed(Input.Key.E);
+	}
+
+	protected static boolean escapeDefault()
+	{
+		return Input.isKeyPressed(Input.Key.ESCAPE);
+	}
+
+	public static boolean left()
+	{
+		return CustomInput.leftDefault();
+	}
+
+	public static boolean right()
+	{
+		return CustomInput.rightDefault();
 	}
 
 	public static boolean exclusiveLeftOrRight()
@@ -55,16 +85,21 @@ public class CustomInput
 
 	public static boolean up()
 	{
-		return Input.isKeyPressed(Input.Key.UP) || Input.isKeyPressed(Input.Key.W);
+		return CustomInput.upDefault();
+	}
+
+	public static boolean down()
+	{
+		return CustomInput.downDefault();
 	}
 
 	public static boolean enterRising()
 	{
-		return Input.isKeyJustPressed(Input.Key.ENTER) || Input.isKeyJustPressed(Input.Key.E);
+		return CustomInput.enterRisingDefault();
 	}
 
 	public static boolean escape()
 	{
-		return Input.isKeyPressed(Input.Key.ESCAPE);
+		return CustomInput.escapeDefault();
 	}
 }

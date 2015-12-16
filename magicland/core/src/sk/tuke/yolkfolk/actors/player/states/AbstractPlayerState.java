@@ -63,10 +63,9 @@ public abstract class AbstractPlayerState implements PlayerState
 	//Adds a new action to the "linked" list
 	public void addAction(AbstractAction action)
 	{
-		//Implicitly throws exception in case of wrong type
 		if(this.first == null)
 		{
-			//If no action was added yet,
+			//If no action was added yet, the action will be a first action
 			this.first = action;
 			this.last = action;
 		}
@@ -77,7 +76,7 @@ public abstract class AbstractPlayerState implements PlayerState
 		}
 	}
 
-	//Runs all actions on player
+	//Runs all linked actions on player
 	public void runActions()
 	{
 		if(this.first instanceof AbstractAction)
@@ -86,9 +85,7 @@ public abstract class AbstractPlayerState implements PlayerState
 		}
 	}
 
+	//Odvodeny stav ma povinnost implementovat act
 	@Override
-	public void act()
-	{
-
-	}
+	public abstract void act();
 }

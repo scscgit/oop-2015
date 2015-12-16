@@ -27,9 +27,6 @@
 
 package sk.tuke.yolkfolk.actors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Stairway to heaven, elevator to hell. (Pun intended, you will actually meet the devil above the elevator)
  * A.K.A VerticalMovingPlatform
