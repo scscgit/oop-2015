@@ -25,17 +25,33 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actors.characters;
 
-import sk.tuke.gamelib2.Actor;
+import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * TODO: implement some monkey game (will unlock secret part, e.g. in a well)
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 3.12.2015.
  */
-public interface Usable
+public class Monkey extends AbstractActor
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	//Constants
+	public static final String name = "Monkey";
+
+	public Monkey()
+	{
+		super(Monkey.name, "sprites/monkey.png", 48, 32);
+	}
+
+	@Override
+	public void act()
+	{
+	}
+
+	/*@Override
+	public void addedToWorld(World world)
+	{
+		super.addedToWorld(world);
+	}*/
 }

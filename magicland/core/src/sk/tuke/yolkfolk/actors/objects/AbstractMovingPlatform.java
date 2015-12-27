@@ -1,35 +1,38 @@
 /***********************************************************
  * Zadanie na predmet Objektove Programovanie
- *
+ * <p/>
  * Stefan Ciberaj, ZS 2015/2016
  * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
- *
+ * <p/>
  * Licencia: Volny softver, Open-Source GNU GPL v3+
  * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
  * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
  * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
  * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actors.objects;
 
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.NoGravity;
 import sk.tuke.gamelib2.PhysicsHelper;
+import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.yolkfolk.actors.Observer;
+import sk.tuke.yolkfolk.actors.Usable;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 import java.util.ArrayList;
@@ -37,31 +40,35 @@ import java.util.List;
 
 /**
  * Vseobecna abstraktna trieda reprezentujuca pohybujucu sa plosinu.
- *
+ * <p/>
  * Created by Steve on 15.12.2015.
  */
 public abstract class AbstractMovingPlatform extends AbstractActor implements Usable, NoGravity
 {
+	//Variables
 	private boolean state;
 	private float start;
 	private float end;
-	private boolean direction; //inicializovane funkciou initFinal(), urcuje aktualny smer, false = smer dole, true = smer hore
+	//premenna direction je inicializovana funkciou initFinal(), urcuje aktualny smer, implicitne false = smer dole, true = smer hore
+	private boolean direction;
 	private float speed;
 	private int paused;
 	private int pauseDuration;
 	private boolean initializedStart;
 	private boolean initializedEnd;
-	private boolean initialized;
+	private boolean initializedBoth;
+
+	//Objects
 	private List<Observer<Boolean>> observerList = null;
 
 	public AbstractMovingPlatform(String name)
 	{
-		super(name,"sprites/elevator.png",32,9);
-		this.state=false;
+		super(name, "sprites/elevator.png", 32, 9);
+		this.state = false;
 		this.paused = 0; //current remaining time of pauseDuration before continuing in opposite direction
-		this.initializedStart=false;
-		this.initializedEnd=false;
-		this.initialized=false;
+		this.initializedStart = false;
+		this.initializedEnd = false;
+		this.initializedBoth = false;
 
 		//Overridable variables that define a concrete elevator
 		setPauseDuration(50); //default pauseDuration time set by manufacturer
@@ -71,7 +78,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	//List of observers of a state change
 	private List<Observer<Boolean>> getObserverList()
 	{
-		if(this.observerList == null)
+		if (this.observerList == null)
 		{
 			this.observerList = new ArrayList<Observer<Boolean>>();
 		}
@@ -81,7 +88,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	//Registers a new observer
 	public final void register(Observer<Boolean> observer)
 	{
-		if(!getObserverList().contains(observer))
+		if (!getObserverList().contains(observer))
 		{
 			getObserverList().add(observer);
 		}
@@ -90,7 +97,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	//Metoda zabezpecujuca notifikaciu observerov o novej hodnote stavu
 	protected final void notifyObservers()
 	{
-		for(Observer<Boolean> observer: getObserverList())
+		for (Observer<Boolean> observer : getObserverList())
 		{
 			observer.notified(isOn());
 		}
@@ -105,10 +112,10 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	@Override
 	public void use(Actor actor)
 	{
-		if(actor instanceof Player)
+		if (actor instanceof Player)
 		{
 			this.state = !isOn();
-			pause(getPauseDuration()/2); //Delay before running is a half of the standard pauseDuration duration
+			pause(/*getPauseDuration() / 2*/); //Delay before running after switching the lever or using the elevator directly
 			notifyObservers();
 		}
 	}
@@ -120,7 +127,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 
 	public final boolean initialized()
 	{
-		return this.initialized;
+		return this.initializedBoth;
 	}
 
 	public final boolean getDirection()
@@ -131,14 +138,14 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	@Override
 	public void act()
 	{
-		if(isOn() && initialized() && this.paused<=0)
+		if (isOn() && initialized() && this.paused <= 0)
 		{
 			//Ked je vytah pripraveny, pohne sa pozadovanym smerom
-			if(this.direction && getY()>getEnd())
+			if (this.direction && getY() > getEnd())
 			{
 				reverse();
 			}
-			else if(!this.direction && getY()<getStart())
+			else if (!this.direction && getY() < getStart())
 			{
 				reverse();
 			}
@@ -147,7 +154,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		else
 		{
 			//Ked vytah nie je pripraveny, alebo je pozastaveny, bude cakat
-			if(this.paused>0)
+			if (this.paused > 0)
 			{
 				this.paused--;
 			}
@@ -160,7 +167,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	public void setPosition(float x, float y)
 	{
 		super.setPosition(x, y);
-		if(!this.initializedStart)
+		if (!this.initializedStart)
 		{
 			setStart(y);
 		}
@@ -169,7 +176,7 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	{
 		this.start = start;
 		this.initializedStart = true;
-		if(this.initializedEnd)
+		if (this.initializedEnd)
 		{
 			initFinal();
 		}
@@ -181,9 +188,9 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 
 	public void setEnd(float end)
 	{
-		this.end=end;
+		this.end = end;
 		this.initializedEnd = true;
-		if(this.initializedStart)
+		if (this.initializedStart)
 		{
 			initFinal();
 		}
@@ -199,28 +206,28 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		if (this.end < this.start)
 		{
 			this.direction = false;
-			this.initialized = true;
+			this.initializedBoth = true;
 		}
 		else if (this.end > this.start)
 		{
 			this.direction = true;
-			this.initialized = true;
+			this.initializedBoth = true;
 		}
 		else
 		{
-			this.initialized = false;
+			this.initializedBoth = false;
 		}
 	}
 
 	public void setSpeed(float speed)
 	{
-		if(speed>=0)
+		if (speed >= 0)
 		{
-			this.speed=speed;
+			this.speed = speed;
 		}
 		else
 		{
-			this.speed=0;
+			this.speed = 0;
 		}
 	}
 	protected float getSpeed()
@@ -228,12 +235,12 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		return this.speed;
 	}
 
-	//Nastavi casovy interval, ako dlho sa pozastavi vytah pred jeho otocenim smeru na opacny pocas jeho rutiny pohybu
+	//Nastavi parameter urcujuci casovy interval na ako dlho sa pozastavi vytah pred jeho otocenim smeru pohybu na opacny pocas jeho rutiny pohybu
 	public final void setPauseDuration(int pauseDuration)
 	{
-		if(pauseDuration >=0)
+		if (pauseDuration >= 0)
 		{
-			//If the pauseDuration is currently pending, it gets incremented by the delta pauseDuration
+			//If the pauseDuration is currently processed, it gets incremented by the delta pauseDuration
 			if (this.paused > 0 && pauseDuration > this.paused)
 			{
 				this.paused += (pauseDuration - this.paused);
@@ -250,18 +257,18 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		return this.pauseDuration;
 	}
 	//Pocka pozadovany pocet cyklov pred pokracovanim v pohybe
-	public final void pause(int duration)
+	public final void pause(/*int duration*/)
 	{
-		if(duration>0 && duration>this.paused)
+		if (this.pauseDuration > 0 && this.pauseDuration > this.paused)
 		{
-			this.paused = duration;
+			this.paused = this.pauseDuration;
 		}
 	}
 
 	//Obrati smer pohybu jazdy a podla potreby pozastavi vytah
 	public void reverse()
 	{
-		this.direction=!this.direction;
-		pause(getPauseDuration());
+		this.direction = !this.direction;
+		pause(/*getPauseDuration()*/);
 	}
 }

@@ -25,17 +25,20 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
-
-import sk.tuke.gamelib2.Actor;
+package sk.tuke.yolkfolk.actors.items;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * Neviditelna prekazka, ktora zastavi (a obrati) lietanie vtakov doprava.
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 27.12.2015.
  */
-public interface Usable
+public class BirdBorderRight extends InvisibleSpace
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	//Constants
+	public static final String name = "BirdBorderRight";
+
+	public BirdBorderRight()
+	{
+		super(BirdBorderRight.name);
+	}
 }

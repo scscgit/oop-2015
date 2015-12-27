@@ -1,97 +1,83 @@
 /***********************************************************
  * Zadanie na predmet Objektove Programovanie
- *
+ * <p/>
  * Stefan Ciberaj, ZS 2015/2016
  * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
- *
+ * <p/>
  * Licencia: Volny softver, Open-Source GNU GPL v3+
  * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
  * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
  * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
  * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.interpreter;
 
 import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
+import sk.tuke.gamelib2.World;
+import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
- * Paka, ktora sa pripoji na vytah a vyuziva obojsmernu komunikaciu na synchronizaciu stavu.
- * Je ale kompatibilna aj s inymi platformami.
- *
- * Created by Steve on 26.11.2015.
+ * Interprets stuff for Actors.
+ * <p/>
+ * Created by Steve on 23.12.2015.
  */
-public class Lever extends AbstractActor implements Item, Usable, Observer<Boolean>
+public class ActorInterpreter extends VM
 {
-	private boolean state;
-	private AbstractMovingPlatform elevator;
+	//Objects
+	//Current actor, that is the subject of commands
+	private Actor actor;
 
-	public Lever()
+	public ActorInterpreter(Actor actor)
 	{
-		super("Lever", "sprites/lever.png", 16, 16);
-
-		//Zastavena animacia, aktualna snimka reprezentuje binarne stav paky
-		getAnimation().stop();
-
-		setState(false);
-		this.elevator=null;
+		this.actor = actor;
 	}
 
-	public Lever(AbstractMovingPlatform elevator)
+	protected World getWorld()
 	{
-		this();
-		connectElevator(elevator);
+		return getActor().getWorld();
 	}
 
-	public void connectElevator(AbstractMovingPlatform elevator)
+	public Actor getActor()
 	{
-		if(elevator instanceof AbstractMovingPlatform)
-		{
-			this.elevator = elevator;
-			setState(this.elevator.isOn());
-			elevator.register(this);
-		}
+		return this.actor;
 	}
 
-	public boolean isOn()
+	protected final Actor getActorByName(String name)
 	{
-		return this.state;
-	}
-
-	private void setState(boolean state)
-	{
-		this.state = state;
-		getAnimation().setCurrentFrame(!this.state?0:1);
+		return AbstractActor.getActorByName(name, getWorld());
 	}
 
 	@Override
-	public void use(Actor actor)
+	protected void executePlayer() throws InterpreterException
 	{
-		if(actor instanceof Player && this.elevator instanceof AbstractMovingPlatform && this.elevator.isOn() == state)
-		{
-			this.elevator.use(actor);
-		}
-	}
+		assertNext();
+		String cmd = remove();
+		Player player = (Player) getActorByName(cmd);
 
-	@Override
-	public void notified(Boolean newState)
-	{
-		setState(newState);
+		if (player != null)
+		{
+			//Lets player execute his instructions
+			new PlayerInterpreter(player).execute();
+		}
+		else
+		{
+			throw new InterpreterInvalidInstructionsException("Player <" + cmd + "> could not be found.");
+		}
 	}
 }

@@ -1,62 +1,73 @@
 /***********************************************************
  * Zadanie na predmet Objektove Programovanie
- *
+ * <p/>
  * Stefan Ciberaj, ZS 2015/2016
  * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
- *
+ * <p/>
  * Licencia: Volny softver, Open-Source GNU GPL v3+
  * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
  * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
  * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
  * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actions.player;
 
-import sk.tuke.gamelib2.Item;
-import sk.tuke.gamelib2.Message;
+import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.PhysicsHelper;
+import sk.tuke.yolkfolk.actions.AbstractAction;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
- * A generic Greeter example. Can be possibly saved by our Hero.
- *
- * Created by Steve on 10.11.2015.
+ * Deprecated action for movement.
+ * <p/>
+ * Created by Steve on 23.11.2015.
  */
-public class Daisy extends AbstractActor implements Greeter, Item //TODO Daisy is not an item, but needs to intersect
+@Deprecated
+public class MoveLeft extends AbstractAction<Actor, Void>
 {
-	private boolean didIGreetPlayerYet;
-
-	public Daisy()
+	public MoveLeft()
 	{
-		super("Daisy","sprites/daisy.png",25,25);
-		this.didIGreetPlayerYet = false;
+		super();
 	}
 
-	public boolean greetPlayer(Player player)
+	@Override
+	public Void doAction(Actor actor)
 	{
-		if(!this.didIGreetPlayerYet)
+		if (actor instanceof Player)
 		{
-			new Message("Greetings", "Hi " + player.getName() + "!", this);
-			this.didIGreetPlayerYet = true;
-			return true;
+			Player player = (Player) actor;
+
+			if (playerInput(player).left())
+			{
+				//actor.setPosition(actor.getX()-((AbstractActor) actor).getStep(),actor.getY()); //without using Physix
+				PhysicsHelper.setLinearVelocity(actor, -player.getStep(), PhysicsHelper.getLinearVelocity(actor)[1]);
+				//PhysicsHelper.applyForce(actor, -player.getStep(), 0);
+				player.afterMovement();
+
+				player.runAnimationLeft();
+			}
+			else
+			{
+				player.stopAnimationLeft();
+			}
 		}
-		else
-		{
-			return false;
-		}
+
+		//Do implicit action
+		return super.doAction(actor);
 	}
 }

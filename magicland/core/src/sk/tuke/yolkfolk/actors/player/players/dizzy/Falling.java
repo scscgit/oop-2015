@@ -25,17 +25,20 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actors.player.players.dizzy;
 
-import sk.tuke.gamelib2.Actor;
+import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.actors.player.states.PlayerFalling;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * Dizzy Falling state.
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 17.12.2015.
  */
-public interface Usable
+public class Falling extends PlayerFalling implements DizzyState
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	public Falling(Player player)
+	{
+		super(player);
+	}
 }

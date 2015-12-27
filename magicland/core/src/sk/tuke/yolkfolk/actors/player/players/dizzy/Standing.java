@@ -25,17 +25,21 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actors.player.players.dizzy;
 
-import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.Animation;
+import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.actors.player.states.PlayerStanding;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * Dizzy Standing state.
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 15.12.2015.
  */
-public interface Usable
+public class Standing extends PlayerStanding implements DizzyState
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	public Standing(Player player)
+	{
+		super(player, new Animation("sprites/dozy.png", 22, 15));
+	}
 }

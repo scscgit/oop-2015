@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="36">
+ <tileset firstgid="1" name="magiclanddizzy_tiles" tilewidth="16" tileheight="16" spacing="2" tilecount="1056">
+  <image source="magiclanddizzy_tiles.gif" width="790" height="430"/>
+ </tileset>
+ <layer name="background" width="50" height="40" opacity="0.9">
+  <data encoding="base64" compression="zlib">
+   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
+  </data>
+ </layer>
+ <objectgroup name="obstacles">
+  <object id="3" x="320" y="624">
+   <polyline points="48,0 -176,0 -272,-48 -288,-48 -288,-320 -128,-320 -128,-336 -320,-336 -320,16 48,16 48,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="1" name="Dizzy" x="144" y="592" width="25" height="25"/>
+  <object id="4" name="Door" x="120" y="352" width="40" height="50"/>
+  <object id="5" name="Fire" x="376" y="248" width="16" height="16"/>
+  <object id="7" name="Fire" x="436" y="252" width="16" height="16"/>
+  <object id="8" name="Fire" x="112" y="80" width="16" height="16"/>
+  <object id="9" name="Fire" x="240" y="80" width="16" height="16"/>
+  <object id="10" name="Fire" x="124" y="416" width="16" height="16"/>
+  <object id="11" name="Fire" x="140" y="416" width="16" height="16"/>
+  <object id="12" name="Fire" x="576" y="276" width="16" height="16"/>
+  <object id="13" name="Fire" x="236" y="240" width="16" height="16"/>
+  <object id="14" name="Fire" x="220" y="240" width="16" height="16"/>
+  <object id="15" name="Fire" x="440" y="92" width="16" height="16"/>
+  <object id="16" name="Fire" x="376" y="88" width="16" height="16"/>
+  <object id="17" name="Fire" x="584" y="128" width="16" height="16"/>
+  <object id="18" name="Bird" x="96" y="528" width="16" height="16"/>
+  <object id="19" name="Elevator" x="48" y="564" width="32" height="9"/>
+  <object id="32" name="Door" x="224" y="176" width="40" height="50"/>
+  <object id="33" x="208" y="528"/>
+  <object id="34" name="BirdBorderRight" x="224" y="528" width="24" height="24"/>
+  <object id="35" name="BirdBorderLeft" x="48" y="528" width="24" height="24"/>
+ </objectgroup>
+</map>

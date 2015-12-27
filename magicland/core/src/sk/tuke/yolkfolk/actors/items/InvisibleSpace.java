@@ -25,50 +25,25 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.player.dizzy;
+package sk.tuke.yolkfolk.actors.items;
 
-import sk.tuke.yolkfolk.actors.player.Player;
-import sk.tuke.yolkfolk.actors.player.states.PlayerWalking;
+import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
- * Dizzy Walking state.
+ * Neviditelny abstraktny priestor na rozlicne ucely.
  *
- * Created by Steve on 15.12.2015.
+ * Created by Steve on 27.12.2015.
  */
-public class Walking extends PlayerWalking implements DizzyState
+public abstract class InvisibleSpace extends AbstractActor implements Item
 {
-	public Walking(Player player, Direction direction)
+	public InvisibleSpace(String name)
 	{
-		super(player, direction);
+		super(name, "sprites/invisible.png", 24, 24);
 	}
 
 	@Override
-	protected void setStateJumping(Direction direction)
+	public void act()
 	{
-		getPlayer().setState(new Jumping(getPlayer(),direction));
-	}
-
-	@Override
-	protected void setStateStanding()
-	{
-		getPlayer().setState(new Standing(getPlayer()));
-	}
-
-	@Override
-	protected void setStateWalking(Direction direction)
-	{
-		getPlayer().setState(new Walking(getPlayer(), direction));
-	}
-
-	@Override
-	protected void setStateDying()
-	{
-		getPlayer().setState(new Dying(getPlayer()));
-	}
-
-	@Override
-	protected void setStateFalling()
-	{
-		getPlayer().setState(new Falling(getPlayer()));
 	}
 }

@@ -25,33 +25,52 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actions;
+package sk.tuke.yolkfolk.actors.items;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.yolkfolk.input.CustomInput;
+import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
- * Akcia na utek do bezpecia operacneho systemu pre pripad, ze niekto nema okna a nedokaze stlacit tlacidlo X.
- *
- * Created by Steve on 2.12.2015.
+ * Po smrti Devila reprezentuje pekelne ohne.
+ * <p/>
+ * Created by Steve on 3.12.2015.
  */
-public class Exit extends AbstractAction
+public class Splash extends AbstractActor implements Item
 {
-	public Exit()
+	//Constants
+	public static final String name = "Splash";
+	public static final int ANIMATION_TIME = 60;
+
+	//Variables
+	private int deleteCounter;
+
 	{
-		super();
+		this.deleteCounter = ANIMATION_TIME;
 	}
 
-	@Override
-	public void doAction(Actor actor)
+	//Splash moze reprezentovat iny objekt jeho menom
+	public Splash(String name)
 	{
-		//On escape key press allow user to safely escape to the safe environment of Linux, or some other OS.
-		if (CustomInput.escape())
-		{
-			System.exit(0);
-		}
+		super(name, "sprites/splash.png", 32, 26);
+	}
 
-		//Do implicit action
-		super.doAction(actor);
+	//Implicitne sa Splash vytvara s vlastnym menom
+	public Splash()
+	{
+		this(Splash.name);
+	}
+
+	//Vykonaj animaciu o pozadovanej dlzke a odstran splash
+	public void act()
+	{
+		if (this.deleteCounter <= 0)
+		{
+			setPosition(-getWidth(), -getHeight()); //Teleport outside world so wrong collisions won't happen
+			getWorld().removeActor(this);
+		}
+		else
+		{
+			this.deleteCounter--;
+		}
 	}
 }
