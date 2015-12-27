@@ -25,17 +25,49 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actions.player;
 
 import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.PhysicsHelper;
+import sk.tuke.yolkfolk.actions.AbstractAction;
+import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * Deprecated action for movement.
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 23.11.2015.
  */
-public interface Usable
+@Deprecated
+public class MoveLeft extends AbstractAction<Actor, Void>
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	public MoveLeft()
+	{
+		super();
+	}
+
+	@Override
+	public Void doAction(Actor actor)
+	{
+		if (actor instanceof Player)
+		{
+			Player player = (Player) actor;
+
+			if (playerInput(player).left())
+			{
+				//actor.setPosition(actor.getX()-((AbstractActor) actor).getStep(),actor.getY()); //without using Physix
+				PhysicsHelper.setLinearVelocity(actor, -player.getStep(), PhysicsHelper.getLinearVelocity(actor)[1]);
+				//PhysicsHelper.applyForce(actor, -player.getStep(), 0);
+				player.afterMovement();
+
+				player.runAnimationLeft();
+			}
+			else
+			{
+				player.stopAnimationLeft();
+			}
+		}
+
+		//Do implicit action
+		return super.doAction(actor);
+	}
 }

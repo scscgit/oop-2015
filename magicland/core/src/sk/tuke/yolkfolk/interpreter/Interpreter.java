@@ -25,17 +25,20 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
-
-import sk.tuke.gamelib2.Actor;
+package sk.tuke.yolkfolk.interpreter;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * Custom interpreter language interpreter of any kind.
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 23.12.2015.
  */
-public interface Usable
+public interface Interpreter
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	//Constants
+	//Token used between each separate command in the list of commands
+	String TOKEN = " ";
+	//Limit of the queue size, not really needed based on Java implementation of the ArrayDeque
+	int MAX_QUEUE_SIZE = 128;
+
+	void interpret(String commands);
 }

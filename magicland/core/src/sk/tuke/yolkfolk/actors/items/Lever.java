@@ -25,32 +25,40 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actors.items;
 
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.yolkfolk.actors.Observer;
+import sk.tuke.yolkfolk.actors.Usable;
+import sk.tuke.yolkfolk.actors.objects.AbstractMovingPlatform;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
- * Paka, ktora sa pripoji na vytah a vyuziva obojsmernu komunikaciu na synchronizaciu stavu.
- * Je ale kompatibilna aj s inymi platformami.
- *
+ * Elektronicka paka, ktora sa pripoji na vytah a vyuziva obojsmernu TCP komunikaciu na synchronizaciu stavu.
+ * Je ale kompatibilna aj s inymi platformami. Napriek tomu sa odporuca pripojit naraz iba jednu platformu.
+ * <p/>
  * Created by Steve on 26.11.2015.
  */
 public class Lever extends AbstractActor implements Item, Usable, Observer<Boolean>
 {
+	//Constants
+	public static final String name = "Lever";
+
+	//Variables
 	private boolean state;
 	private AbstractMovingPlatform elevator;
 
 	public Lever()
 	{
-		super("Lever", "sprites/lever.png", 16, 16);
+		super(Lever.name, "sprites/lever.png", 16, 16);
 
 		//Zastavena animacia, aktualna snimka reprezentuje binarne stav paky
 		getAnimation().stop();
 
 		setState(false);
-		this.elevator=null;
+		this.elevator = null;
 	}
 
 	public Lever(AbstractMovingPlatform elevator)
@@ -61,7 +69,7 @@ public class Lever extends AbstractActor implements Item, Usable, Observer<Boole
 
 	public void connectElevator(AbstractMovingPlatform elevator)
 	{
-		if(elevator instanceof AbstractMovingPlatform)
+		if (elevator != null)
 		{
 			this.elevator = elevator;
 			setState(this.elevator.isOn());
@@ -77,14 +85,15 @@ public class Lever extends AbstractActor implements Item, Usable, Observer<Boole
 	private void setState(boolean state)
 	{
 		this.state = state;
-		getAnimation().setCurrentFrame(!this.state?0:1);
+		getAnimation().setCurrentFrame(!isOn() ? 0 : 1);
 	}
 
 	@Override
 	public void use(Actor actor)
 	{
-		if(actor instanceof Player && this.elevator instanceof AbstractMovingPlatform && this.elevator.isOn() == state)
+		if (actor instanceof Player && this.elevator != null && this.elevator.isOn() == state)
 		{
+			//Zmeni stav vytahu a bude ocakavat, ze nasledne pride notifikacia, ktora zmeni aj stav paky
 			this.elevator.use(actor);
 		}
 	}
@@ -93,5 +102,10 @@ public class Lever extends AbstractActor implements Item, Usable, Observer<Boole
 	public void notified(Boolean newState)
 	{
 		setState(newState);
+	}
+
+	@Override
+	public void act()
+	{
 	}
 }

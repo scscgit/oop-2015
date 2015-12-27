@@ -1,73 +1,57 @@
 /***********************************************************
  * Zadanie na predmet Objektove Programovanie
- *
+ * <p/>
  * scsc
  * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
- *
+ * <p/>
  * Licencia: Volny softver, Open-Source GNU GPL v3+
  * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
  * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
  * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
  * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actions;
-
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Input;
-import sk.tuke.gamelib2.PhysicsHelper;
-import sk.tuke.yolkfolk.actors.player.Player;
+package sk.tuke.yolkfolk.actors.objects;
 
 /**
- * Deprecated action for movement.
- *
- * Created by Steve on 23.11.2015.
+ * Stairway to heaven, elevator to hell. (Pun intended, you will actually meet the devil above the elevator)
+ * A.K.A VerticalMovingPlatform
+ * <p/>
+ * Created by Steve on 26.11.2015.
  */
-@Deprecated
-public class MoveLeft extends AbstractAction
+public class Elevator extends AbstractMovingPlatform
 {
-	public MoveLeft()
+	//Constants
+	public static final String name = "Elevator";
+
+	public Elevator()
 	{
-		super();
+		super(Elevator.name);
 	}
 
 	@Override
-	public void doAction(Actor actor)
+	protected float nextX()
 	{
-		if(actor instanceof Player)
-		{
-			Player player = (Player) actor;
+		return 0f;
+	}
 
-			if((Input.isKeyPressed(Input.Key.LEFT) || Input.isKeyPressed(Input.Key.A)))
-			{
-				//actor.setPosition(actor.getX()-((AbstractActor) actor).getStep(),actor.getY()); //without using Physix
-				PhysicsHelper.setLinearVelocity(actor, -player.getStep(), PhysicsHelper.getLinearVelocity(actor)[1]);
-				//PhysicsHelper.applyForce(actor, -player.getStep(), 0);
-				player.afterMovement();
-
-				player.runAnimationLeft();
-			}
-			else
-			{
-				player.stopAnimationLeft();
-			}
-		}
-
-		//Do implicit action
-		super.doAction(actor);
+	@Override
+	protected float nextY()
+	{
+		return getDirection() ? getSpeed() : -getSpeed();
 	}
 }

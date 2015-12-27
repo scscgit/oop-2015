@@ -1,26 +1,26 @@
 /***********************************************************
  * Zadanie na predmet Objektove Programovanie
- *
+ * <p/>
  * scsc
  * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
- *
+ * <p/>
  * Licencia: Volny softver, Open-Source GNU GPL v3+
  * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
  * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
  * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
  * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
@@ -40,17 +40,17 @@ import java.util.NoSuchElementException;
 
 /**
  * Intended usage:
- *
+ * <p/>
  * Do batohu sa itemy daju vkladat iba pomocou metody add().
  * Osetrenie vkadania do plneho batohu nastane automaticky notifikaciou pouzivatela a zrusenim operacie vkladania.
  * Z batohu sa itemy odstranuju iba pomocou interakcie pouzivatela v ramci metody show().
- *
+ * <p/>
  * Created by Steve on 28.11.2015.
  */
 public class BackpackImpl implements Backpack
 {
 	//Constants
-	private static final int MAX_BACKPACK_ITEMS = 3;
+	private static final int MAX_BP_ITEMS = 3;
 
 	//Objects
 	private Actor player;
@@ -61,10 +61,10 @@ public class BackpackImpl implements Backpack
 
 	public BackpackImpl(Actor actor)
 	{
-		this.player=actor;
+		this.player = actor;
 		listBackpackUI = new ArrayList<BackpackUI>();
 
-		this.items = new ArrayList<Actor>(MAX_BACKPACK_ITEMS);
+		this.items = new ArrayList<Actor>(MAX_BP_ITEMS);
 		//this.items.ensureCapacity(3);
 	}
 
@@ -72,9 +72,9 @@ public class BackpackImpl implements Backpack
 	@Override
 	public boolean add(Actor actor)
 	{
-		if(actor instanceof Collectable && !this.items.contains(actor))
+		if (actor instanceof Collectable && !this.items.contains(actor))
 		{
-			if(this.items.size()<MAX_BACKPACK_ITEMS)
+			if (this.items.size() < MAX_BP_ITEMS)
 			{
 				this.items.add(actor);
 				return true;
@@ -93,9 +93,9 @@ public class BackpackImpl implements Backpack
 	{
 		try
 		{
-			if (this.items.size() >= i + 1 && items.get(i) instanceof Actor)
+			if (this.items.size() >= i + 1 && items.get(i) != null)
 			{
-				this.items.get(i).setPosition(this.player.getX(),this.player.getY());
+				this.items.get(i).setPosition(this.player.getX(), this.player.getY());
 				this.player.getWorld().addActor(this.items.get(i));
 
 				this.items.remove(i);
@@ -105,9 +105,9 @@ public class BackpackImpl implements Backpack
 				throw new NoSuchElementException("You don't have any item there, cheater.");
 			}
 		}
-		catch(NoSuchElementException exception)
+		catch (NoSuchElementException exception)
 		{
-			if(this.player instanceof Actor)
+			if (this.player instanceof Actor)
 			{
 				new Message("Inventory problem", exception.getMessage(), this.player);
 			}
@@ -136,7 +136,8 @@ public class BackpackImpl implements Backpack
 				if (!first)
 				{
 					System.out.print(" / ");
-				} else
+				}
+				else
 				{
 					first = false;
 				}
@@ -152,14 +153,14 @@ public class BackpackImpl implements Backpack
 	public void hide()
 	{
 		//Closes and deletes all references to old instances of backpack
-		Iterator<BackpackUI> backpackUIIterator = listBackpackUI.iterator();
-		while(backpackUIIterator.hasNext())
+		Iterator<BackpackUI> bpUIiterator = listBackpackUI.iterator();
+		while (bpUIiterator.hasNext())
 		{
-			BackpackUI backpackUI = backpackUIIterator.next();
-			if (backpackUI instanceof BackpackUI)
+			BackpackUI backpackUI = bpUIiterator.next();
+			if (backpackUI != null)
 			{
 				backpackUI.close();
-				backpackUIIterator.remove();
+				bpUIiterator.remove();
 			}
 		}
 	}

@@ -1,26 +1,26 @@
 /***********************************************************
  * Zadanie na predmet Objektove Programovanie
- *
+ * <p/>
  * scsc
  * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
- *
+ * <p/>
  * Licencia: Volny softver, Open-Source GNU GPL v3+
  * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
  * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
  * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
  * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
@@ -28,29 +28,31 @@
 package sk.tuke.yolkfolk.actors.player.states;
 
 import sk.tuke.gamelib2.Animation;
-import sk.tuke.gamelib2.PhysicsHelper;
-import sk.tuke.yolkfolk.input.CustomInput;
-import sk.tuke.yolkfolk.actions.*;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
  * Player is not doing anything and being bored.
  * Basically a neutral state where player can do usual stuff.
- *
+ * <p/>
  * Created by Steve on 14.12.2015.
  */
-public class PlayerStanding extends AbstractPlayerState
+public class PlayerStanding extends AbstractGroundState
 {
+	//Constants
 	private static final int BOREDOM_TIMER = 450;
 
+	//Variables
 	private int standbyTime;
 	private Animation boredomAnimation;
 
 	public PlayerStanding(Player player, Animation boredomAnimation)
 	{
 		super(player);
-		resetBoredom();
 		this.boredomAnimation = boredomAnimation;
+		resetBoredom();
+
+		//Hrac dopadol na zem
+		getPlayer().fall(0f);
 
 		//Zastavi pohyb hraca
 		stopVelocity();
@@ -59,11 +61,11 @@ public class PlayerStanding extends AbstractPlayerState
 		updateAnimation();
 
 		//Pred vykonanim prveho cyklu vyskusa, ci sa stav nema zmenit na novy, kedze tento stav sa spusta vzdy po dokonceni ineho pohybu
-		move();
+		//move();
 	}
 
 	//V pripade, ze hrac stoji sa zastavia vsetky animacie reprezentujuce pohyb
-	protected void updateAnimation()
+	private void updateAnimation()
 	{
 		getPlayer().stopAnimationLeft();
 		getPlayer().stopAnimationRight();
@@ -73,65 +75,50 @@ public class PlayerStanding extends AbstractPlayerState
 	//Aktualizuje stav nudy hraca
 	protected void updateBoredom()
 	{
-		if(this.standbyTime<=0 && getPlayer() instanceof Player && this.boredomAnimation instanceof Animation)
+		if (this.standbyTime <= 0 && getPlayer() != null && this.boredomAnimation != null)
 		{
 			getPlayer().setAnimation(this.boredomAnimation);
 		}
-		else if(this.standbyTime>0)
+		else if (this.standbyTime > 0)
 		{
 			this.standbyTime--;
 		}
 	}
 
-	//Resets the timer before Dizzy gets bored
-	protected void resetBoredom()
+	//Resets the timer waiting for Player to get bored
+	protected final void resetBoredom()
 	{
-		this.standbyTime = BOREDOM_TIMER;
+		this.standbyTime = PlayerStanding.BOREDOM_TIMER;
 	}
 
-	//Zacne vykonavat pohyb na zaklade stlacenej klavesy
-	protected void move()
+	//Hrac zacne vykonavat pohyb na zaklade stlacenej klavesy
+	@Override
+	protected void keyboardActions()
 	{
-		if(CustomInput.up())
+		if (input().leftNotRight())
 		{
-			setStateJumping(PlayerWalking.Direction.UP);
+			//changeState().setStateWalking(PlayerWalking.Direction.LEFT);
+			interpret("set state walking left");
 		}
-
-		if(CustomInput.exclusiveLeftOrRight())
+		else if (input().rightNotLeft())
 		{
-			if(CustomInput.left())
-			{
-				setStateWalking(PlayerWalking.Direction.LEFT);
-			}
-			else if(CustomInput.right())
-			{
-				setStateWalking(PlayerWalking.Direction.RIGHT);
-			}
+			//changeState().setStateWalking(PlayerWalking.Direction.RIGHT);
+			interpret("set state walking right");
+		}
+		else if (input().upwardNotDownward())
+		{
+			//changeState().setStateJumping(PlayerWalking.Direction.UP);
+			interpret("set state jumping up");
 		}
 	}
 
 	@Override
 	public void act()
 	{
+		//Ak sa hrac nudi od nicnerobenia, tak sa nastavi prislusna animacia
 		updateBoredom();
 
-		//Hrac dopadol na zem
-		getPlayer().fall();
-
-		//Vykonanie akcii
-		resetActions();
-		addAction(new Use());
-		addAction(new Exit());
-		addAction(new Cheats());
-		runActions();
-
-		//Vyskusa, ci je potrebne zmenit stav
-		move();
-
-		//Ak hrac zomrel, tak nastavim prislusny stav
-		if(isPlayerDead())
-		{
-			setStateDying();
-		}
+		//Vykona operacie, ktore je potrebne vykonat na zemi
+		super.act();
 	}
 }

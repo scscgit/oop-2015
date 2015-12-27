@@ -25,17 +25,59 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.interpreter;
 
 import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.World;
+import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * Interprets stuff for Actors.
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 23.12.2015.
  */
-public interface Usable
+public class ActorInterpreter extends VM
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	//Objects
+	//Current actor, that is the subject of commands
+	private Actor actor;
+
+	public ActorInterpreter(Actor actor)
+	{
+		this.actor = actor;
+	}
+
+	protected World getWorld()
+	{
+		return getActor().getWorld();
+	}
+
+	public Actor getActor()
+	{
+		return this.actor;
+	}
+
+	protected final Actor getActorByName(String name)
+	{
+		return AbstractActor.getActorByName(name, getWorld());
+	}
+
+	@Override
+	protected void executePlayer() throws InterpreterException
+	{
+		assertNext();
+		String cmd = remove();
+		Player player = (Player) getActorByName(cmd);
+
+		if (player != null)
+		{
+			//Lets player execute his instructions
+			new PlayerInterpreter(player).execute();
+		}
+		else
+		{
+			throw new InterpreterInvalidInstructionsException("Player <" + cmd + "> could not be found.");
+		}
+	}
 }

@@ -25,40 +25,25 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.player.dizzy;
+package sk.tuke.yolkfolk.actors.items;
 
-import sk.tuke.gamelib2.Animation;
-import sk.tuke.yolkfolk.actors.player.Player;
-import sk.tuke.yolkfolk.actors.player.states.PlayerStanding;
-import sk.tuke.yolkfolk.actors.player.states.PlayerWalking;
+import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
- * Dizzy Standing state.
+ * Neviditelny abstraktny priestor na rozlicne ucely.
  *
- * Created by Steve on 15.12.2015.
+ * Created by Steve on 27.12.2015.
  */
-public class Standing extends PlayerStanding implements DizzyState
+public abstract class InvisibleSpace extends AbstractActor implements Item
 {
-	public Standing(Player player)
+	public InvisibleSpace(String name)
 	{
-		super(player, new Animation("sprites/dozy.png",22,15));
+		super(name, "sprites/invisible.png", 24, 24);
 	}
 
 	@Override
-	protected void setStateJumping(PlayerWalking.Direction direction)
+	public void act()
 	{
-		getPlayer().setState(new Jumping(getPlayer(),direction));
-	}
-
-	@Override
-	protected void setStateWalking(PlayerWalking.Direction direction)
-	{
-		getPlayer().setState(new Walking(getPlayer(),direction));
-	}
-
-	@Override
-	protected void setStateDying()
-	{
-		getPlayer().setState(new Dying(getPlayer()));
 	}
 }

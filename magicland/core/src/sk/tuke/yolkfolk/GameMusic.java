@@ -25,17 +25,47 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk;
 
-import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.Music;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * Jednotne miesto, kde sa nachadzaju vsetky hudby pouzivane v hre.
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 27.12.2015.
  */
-public interface Usable
+public class GameMusic
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	//Konstantne cesty ku jednotlivym hudbam
+	private static final String theme = "vault.mp3";
+	private static final String game_over = "game_over.mp3";
+	private static final String secret = "secret.mp3";
+	private static final String finish_him = "finish_him.mp3";
+
+	//Vyberie jednu z dostupnych songov pre background theme
+	public static String getThemePath()
+	{
+		return GameMusic.theme;
+	}
+
+	public static String getSecretPath()
+	{
+		return GameMusic.secret;
+	}
+
+	public static Music playGameOver()
+	{
+		Music music = new Music(GameMusic.game_over);
+		music.play();
+		music.setLooping(false);
+		return music;
+	}
+
+	public static Music playFinishHim()
+	{
+		Music music = new Music(GameMusic.finish_him);
+		music.play();
+		music.setLooping(false);
+		return music;
+	}
 }
