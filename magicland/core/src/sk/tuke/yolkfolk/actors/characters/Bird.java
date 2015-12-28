@@ -27,12 +27,15 @@
 
 package sk.tuke.yolkfolk.actors.characters;
 
-import sk.tuke.gamelib2.*;
-import sk.tuke.yolkfolk.actors.items.BirdBorderLeft;
-import sk.tuke.yolkfolk.actors.items.BirdBorderRight;
-import sk.tuke.yolkfolk.actors.items.Rubbish;
+import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.Animation;
+import sk.tuke.gamelib2.NoGravity;
+import sk.tuke.gamelib2.PhysicsHelper;
+import sk.tuke.yolkfolk.actors.objects.Rubbish;
 import sk.tuke.yolkfolk.actors.player.AbstractAnimatedActor;
 import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
+import sk.tuke.yolkfolk.spaces.BirdBorderLeft;
+import sk.tuke.yolkfolk.spaces.BirdBorderRight;
 
 /**
  * Animal, that is just flying around horizontally.
@@ -42,27 +45,34 @@ import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
 public class Bird extends AbstractAnimatedActor implements NoGravity
 {
 	//Constants
-	public static final String name = "Bird";
+	public static final String NAME = "Bird";
 
 	//Variables
 	//Smer, false=vlavo, true=vpravo
 	private boolean direction;
 	private boolean nextVelocity;
 
+	//Static animations
+	private static Animation animationLeft;
+
+	//Static initialization
+	static
+	{
+		Bird.animationLeft = new Animation("sprites/birdleft.png", 16, 16);
+	}
+
 	public Bird()
 	{
-		super(Bird.name, "sprites/birdright.png", 16, 16);
+		super(Bird.NAME, "sprites/birdright.png", 16, 16);
 		this.direction = true;
 		setStep(0.5f);
 
 		//Spustenie pohybu
 		setVelocity();
 
-		//Animacia na smer dolava
-		Animation animationLeft = new Animation("sprites/birdleft.png", 16, 16);
-		setAnimationLeft(animationLeft);
-		setAnimationJumpLeft(animationLeft);
-		runAnimationLeft();
+		//Ulozi sa animacia na smer dolava
+		setAnimationLeft(Bird.animationLeft);
+		setAnimationJumpLeft(Bird.animationLeft);
 	}
 
 	//Spusti sa pohyb v zadanom smere
@@ -77,11 +87,13 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 		this.direction = !this.direction;
 		if (this.direction)
 		{
+			stopAnimationLeft();
 			runAnimationRight();
 		}
 		else
 		{
 			runAnimationLeft();
+			stopAnimationRight();
 		}
 		setVelocity();
 	}
@@ -95,10 +107,39 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 	//Zabali vtaka do tasky s odpadkami
 	protected void putInRubbish()
 	{
-		Rubbish rubbish = new Rubbish(Bird.name);
+		Rubbish rubbish = new Rubbish(Bird.NAME);
 		rubbish.setPosition(getX(), getY());
 		getWorld().addActor(rubbish);
 		this.removeFromWorld();
+	}
+
+	//Vykonanie relevantnych operacii s ostatnymi actormi.
+	//Vrati true ak vykonal akciu, ktora zmeni stav actorov (z dovodu ConcurrentModification).
+	protected boolean actionWithActor(Actor actor)
+	{
+		//Ak ho Dizzy chytil, tak bude chyteny ako odpad
+		if (actor instanceof Dizzy && isNear(actor, getWidth(), getHeight()))
+		{
+			Dizzy dizzy = (Dizzy) actor;
+			dizzy.catchBird();
+			putInRubbish();
+			return true;
+		}
+
+		//Po narazeni na neviditelnu prekazku sa otoci
+		if
+			(
+			(
+				(!this.direction && actor instanceof BirdBorderLeft)
+				||
+				(this.direction && actor instanceof BirdBorderRight)
+			)
+			&& actor.intersects(this)
+			)
+		{
+			intersectsBorder();
+		}
+		return false;
 	}
 
 	@Override
@@ -114,26 +155,8 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 		//Vykonanie relevantnych intersect operacii s ostatnymi actormi
 		for (Actor actor : getWorld())
 		{
-			//Po narazeni na neviditelnu prekazku sa otoci
-			if
-				(
-				(
-					(!this.direction && actor instanceof BirdBorderLeft)
-					||
-					(this.direction && actor instanceof BirdBorderRight)
-				)
-				&& actor.intersects(this)
-				)
+			if (actionWithActor(actor))
 			{
-				intersectsBorder();
-			}
-
-			//Ak ho Dizzy chytil, tak bude chyteny ako odpad
-			if (actor instanceof Dizzy && isNear(actor, getWidth(), getHeight()))
-			{
-				Dizzy dizzy = (Dizzy) actor;
-				dizzy.catchBird();
-				putInRubbish();
 				break;
 			}
 		}

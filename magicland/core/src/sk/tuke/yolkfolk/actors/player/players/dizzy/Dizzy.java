@@ -29,34 +29,37 @@ package sk.tuke.yolkfolk.actors.player.players.dizzy;
 
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Animation;
+import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.GameMusic;
 import sk.tuke.yolkfolk.actors.Cursable;
 import sk.tuke.yolkfolk.actors.CurseEvent;
 import sk.tuke.yolkfolk.actors.Greeter;
-import sk.tuke.yolkfolk.actors.characters.Bird;
 import sk.tuke.yolkfolk.actors.player.AbstractPlayer;
 import sk.tuke.yolkfolk.actors.player.states.PlayerState;
 import sk.tuke.yolkfolk.actors.player.states.PlayerStates;
 
 /**
  * Dizzy, nas prvy hlavny hrdina.
- * A generic Player.
+ * <p/>
+ * A generic Player. Can play the Monkey game.
  * <p/>
  * Created by Steve on 9.11.2015.
  */
 public class Dizzy extends AbstractPlayer implements Cursable
 {
 	//Constants
-	public static final String name = "Dizzy";
+	public static final String NAME = "Dizzy";
 
 	//Variables
 	private boolean cursed;
 	private int birdsCaught;
+	private boolean monkeyFinished;
+	//private boolean initialized;
 
 	public Dizzy()
 	{
 		//Nastavenie animacii
-		super(Dizzy.name, "sprites/dizzy.png", 25, 25);
+		super(Dizzy.NAME, "sprites/dizzy.png", 25, 25);
 		setAnimationLeft(new Animation("sprites/dizzy_left.png", 25, 25));
 		setAnimationRight(new Animation("sprites/dizzy_right.png", 25, 25));
 		setAnimationJump(new Animation("sprites/dizzy_jump.png", 25, 25));
@@ -76,11 +79,18 @@ public class Dizzy extends AbstractPlayer implements Cursable
 		//Inicializacia vedlajsich premennych
 		this.cursed = false;
 		this.birdsCaught = 0;
+		this.monkeyFinished = false;
+		//this.initialized = false;
 	}
 
 	/*@Override
 	public void act()
 	{
+		if(!this.initialized)
+		{
+			this.initialized = true;
+		}
+
 		//Vykonaj act, ktory ma vykonat kazdy Player
 		super.act();
 	}*/
@@ -101,6 +111,10 @@ public class Dizzy extends AbstractPlayer implements Cursable
 	public void catchBird()
 	{
 		this.birdsCaught++;
+	}
+	public int getCaughtBirds()
+	{
+		return this.birdsCaught;
 	}
 
 	//Metoda na dobrovolne prijatie kliatby (napr. autosugesciou), pripadne od ineho actora
@@ -144,10 +158,27 @@ public class Dizzy extends AbstractPlayer implements Cursable
 		return new DizzyStates(this);
 	}
 
-	//Operations that happen when Dizzy dies
+	//Po dokonceni serie hier s opicou sa spusti nasledujuca metoda
+	public void setMonkeyGameDone()
+	{
+		this.monkeyFinished = true;
+	}
+	public boolean isMonkeyGameDone()
+	{
+		return this.monkeyFinished;
+	}
+
+	//Operations that happen after Dizzy dies
 	@Override
 	public void onDeath()
 	{
 		GameMusic.playGameOver();
+	}
+
+	//Last wish of Dizzy after he wins the game and Daisy
+	public void wonTheGame()
+	{
+		interpret("set state frozen");
+		new Message("Congratulations!","You've won this game, Dizzy!\nTogether with Daisy, will both live happily ever after.", this);
 	}
 }

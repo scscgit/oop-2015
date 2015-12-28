@@ -29,13 +29,8 @@ package sk.tuke.yolkfolk.actors;
 
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.ActorFactory;
-import sk.tuke.yolkfolk.actors.characters.*;
-import sk.tuke.yolkfolk.actors.items.*;
-import sk.tuke.yolkfolk.actors.objects.Elevator;
-import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
-import sk.tuke.yolkfolk.collectables.Apple;
-import sk.tuke.yolkfolk.collectables.Key;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +41,10 @@ import java.util.Map;
  */
 public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements ActorFactory
 {
+
+	//Static variables
+	private static String registerPath;
+
 	//Internal static Objects
 	private static Map<String, Class> hashmap;
 
@@ -54,32 +53,106 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 	{
 		//Initialization
 		ActorFactoryImpl.hashmap = null;
+		ActorFactoryImpl.registerPath = null;
 
 		//Actor characters
-		ActorFactoryImpl.register(Bird.name, Bird.class);
-		ActorFactoryImpl.register(Daisy.name, Daisy.class);
-		ActorFactoryImpl.register(Devil.name, Devil.class);
-		ActorFactoryImpl.register(Monkey.name, Monkey.class);
-		ActorFactoryImpl.register(Troll.name, Troll.class);
+		setRegisterPath("sk.tuke.yolkfolk.actors.characters");
+		register("Bird");
+		register("Daisy");
+		register("Devil");
+		register("Prince");
+		register("RobinHood");
+		register("Troll");
+
+		//Special actor character: The Monkey
+		setRegisterPath("sk.tuke.yolkfolk.actors.characters.monkey");
+		register("Monkey");
 
 		//Actor items
-		ActorFactoryImpl.register(BirdBorderLeft.name, BirdBorderLeft.class);
-		ActorFactoryImpl.register(BirdBorderRight.name, BirdBorderRight.class);
-		ActorFactoryImpl.register(Diamond.name, Diamond.class);
-		ActorFactoryImpl.register(Door.name, Door.class);
-		ActorFactoryImpl.register(Fire.name, Fire.class);
-		ActorFactoryImpl.register(Lever.name, Lever.class);
-		ActorFactoryImpl.register(Splash.name, Splash.class);
+		setRegisterPath("sk.tuke.yolkfolk.actors.items");
+		register("Diamond");
+		register("Fire");
+		register("Lever");
+		register("MagicDoor");
+		register("SimpleDoor");
+		register("Splash");
 
 		//Actor objects
-		ActorFactoryImpl.register(Elevator.name, Elevator.class);
+		setRegisterPath("sk.tuke.yolkfolk.actors.objects");
+		register("DaisyElevator");
+		register("Rubbish");
+		register("Well");
 
 		//Players
-		ActorFactoryImpl.register(Dizzy.name, Dizzy.class);
+		setRegisterPath("sk.tuke.yolkfolk.actors.player.players.dizzy");
+		register("Dizzy");
+
+		//Spaces
+		setRegisterPath("sk.tuke.yolkfolk.spaces");
+		register("BirdBorderLeft");
+		register("BirdBorderRight");
+		register("ExitZone");
+		register("FlyZone");
+		register("MonkeyStoneSpace");
+		register("NoFlyZone");
+		register("NoWaterZone");
+		register("NoSecretZone");
+		register("SecretZone");
+		register("WaterZone");
 
 		//Collectables
-		ActorFactoryImpl.register(Apple.name, Apple.class);
-		ActorFactoryImpl.register(Key.name, Key.class);
+		setRegisterPath("sk.tuke.yolkfolk.collectables");
+		register("Apple");
+		register("Key");
+		register("MagicKey");
+		register("Ring");
+		register("Stone");
+
+		/*
+		Stara verzia:
+		//Actor characters
+		ActorFactoryImpl.registerClass(Bird.NAME, Bird.class);
+		ActorFactoryImpl.registerClass(Daisy.NAME, Daisy.class);
+		ActorFactoryImpl.registerClass(Devil.NAME, Devil.class);
+		ActorFactoryImpl.registerClass(Monkey.NAME, Monkey.class);
+		ActorFactoryImpl.registerClass(Prince.NAME, Prince.class);
+		ActorFactoryImpl.registerClass(RobinHood.NAME, RobinHood.class);
+		ActorFactoryImpl.registerClass(Troll.NAME, Troll.class);
+
+		//Actor items
+		ActorFactoryImpl.registerClass(Diamond.NAME, Diamond.class);
+		ActorFactoryImpl.registerClass(Fire.NAME, Fire.class);
+		ActorFactoryImpl.registerClass(Lever.NAME, Lever.class);
+		ActorFactoryImpl.registerClass(MagicDoor.NAME, MagicDoor.class);
+		ActorFactoryImpl.registerClass(SimpleDoor.NAME, SimpleDoor.class);
+		ActorFactoryImpl.registerClass(Splash.NAME, Splash.class);
+
+		//Actor objects
+		ActorFactoryImpl.registerClass(DaisyElevator.NAME, DaisyElevator.class);
+		ActorFactoryImpl.registerClass(Rubbish.NAME, Rubbish.class);
+		ActorFactoryImpl.registerClass(Well.NAME, Well.class);
+
+		//Players
+		ActorFactoryImpl.registerClass(Dizzy.NAME, Dizzy.class);
+
+		//Spaces
+		ActorFactoryImpl.registerClass(BirdBorderLeft.NAME, BirdBorderLeft.class);
+		ActorFactoryImpl.registerClass(BirdBorderRight.NAME, BirdBorderRight.class);
+		ActorFactoryImpl.registerClass(ExitZone.NAME, ExitZone.class);
+		ActorFactoryImpl.registerClass(FlyZone.NAME, FlyZone.class);
+		ActorFactoryImpl.registerClass(MonkeyStoneSpace.NAME, MonkeyStoneSpace.class);
+		ActorFactoryImpl.registerClass(NoFlyZone.NAME, NoFlyZone.class);
+		ActorFactoryImpl.registerClass(NoWaterZone.NAME, NoWaterZone.class);
+		ActorFactoryImpl.registerClass(NoSecretZone.NAME, NoSecretZone.class);
+		ActorFactoryImpl.registerClass(SecretZone.NAME, SecretZone.class);
+		ActorFactoryImpl.registerClass(WaterZone.NAME, WaterZone.class);
+
+		//Collectables
+		ActorFactoryImpl.registerClass(Apple.NAME, Apple.class);
+		ActorFactoryImpl.registerClass(Key.NAME, Key.class);
+		ActorFactoryImpl.registerClass(MagicKey.NAME, MagicKey.class);
+		ActorFactoryImpl.registerClass(Stone.NAME, Stone.class);
+		*/
 	}
 
 	//Singleton implementacia hashovacej tabulky
@@ -123,8 +196,49 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		//resetActions().addAction(Diamond(s)).addAction(Fire(s)).runActions();
 	}
 
+	//Nastavi cestu balicka pre nasledujucu registraciu pomocou statickej metody register()
+	public static void setRegisterPath(String registerPath)
+	{
+		ActorFactoryImpl.registerPath = registerPath;
+	}
+	public static String getRegisterPath()
+	{
+		if (ActorFactoryImpl.registerPath != null)
+		{
+			return ActorFactoryImpl.registerPath + ".";
+		}
+		return "";
+	}
+
 	//Registers a new class, that can be created using a default parameterless constructor
-	public static void register(String actorName, Class actorClass)
+	public static void register(String className)
+	{
+		try
+		{
+			final Class actorClass = Class.forName(ActorFactoryImpl.getRegisterPath() + className);
+			final Field name = actorClass.getField("NAME");
+			if (name.getType().isAssignableFrom(String.class))
+			{
+				ActorFactoryImpl.getHashMap().put((String) name.get(null), actorClass);
+			}
+		}
+		catch (ClassNotFoundException exception)
+		{
+			System.out.println(exception.toString());
+		}
+		catch (NoSuchFieldException exception)
+		{
+			System.out.println(exception.toString());
+		}
+		catch (IllegalAccessException exception)
+		{
+			System.out.println(exception.toString());
+		}
+	}
+
+	//Stara verzia registracie tried, ktora sa nepacila PMD:
+	@Deprecated
+	public static void registerClass(String actorName, Class actorClass)
 	{
 		ActorFactoryImpl.getHashMap().put(actorName, actorClass);
 	}

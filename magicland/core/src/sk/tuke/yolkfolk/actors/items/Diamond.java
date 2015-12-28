@@ -42,7 +42,7 @@ import sk.tuke.yolkfolk.actors.player.Player;
 public class Diamond extends AbstractActor implements Item, Usable
 {
 	//Constants
-	public static final String name = "Diamond";
+	public static final String NAME = "Diamond";
 	public static final int HEALS_HP = 50;
 
 	//Variables
@@ -63,7 +63,7 @@ public class Diamond extends AbstractActor implements Item, Usable
 
 	public Diamond(String color, int value)
 	{
-		super(Diamond.name, constructorAnimation(color), 16, 16);
+		super(Diamond.NAME, constructorAnimation(color), 16, 16);
 		this.value = value;
 	}
 

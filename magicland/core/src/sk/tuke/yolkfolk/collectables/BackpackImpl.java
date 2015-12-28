@@ -55,6 +55,7 @@ public class BackpackImpl implements Backpack
 	//Objects
 	private Actor player;
 	private List<BackpackUI> listBackpackUI; //Reference to all (possibly) opened backpack instances on screen
+	private Message currentMessage;
 
 	//A collection of items carried inside the backpack
 	private List<Actor> items;
@@ -63,6 +64,7 @@ public class BackpackImpl implements Backpack
 	{
 		this.player = actor;
 		listBackpackUI = new ArrayList<BackpackUI>();
+		this.currentMessage = null;
 
 		this.items = new ArrayList<Actor>(MAX_BP_ITEMS);
 		//this.items.ensureCapacity(3);
@@ -109,7 +111,11 @@ public class BackpackImpl implements Backpack
 		{
 			if (this.player instanceof Actor)
 			{
-				new Message("Inventory problem", exception.getMessage(), this.player);
+				if (this.currentMessage != null)
+				{
+					this.currentMessage.remove();
+				}
+				this.currentMessage = new Message("Inventory problem", exception.getMessage(), this.player);
 			}
 		}
 	}

@@ -27,11 +27,14 @@
 
 package sk.tuke.yolkfolk.actors.characters;
 
+import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.Greeter;
+import sk.tuke.yolkfolk.actors.Usable;
 import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.collectables.Ring;
 
 /**
  * A generic Greeter example. Can be possibly saved by our Hero.
@@ -40,34 +43,43 @@ import sk.tuke.yolkfolk.actors.player.Player;
  * <p/>
  * Created by Steve on 10.11.2015.
  */
-public class Daisy extends AbstractActor implements Greeter, Item
+public class Daisy extends AbstractActor implements Greeter, Item, Usable
 {
 	//Constants
-	public static final String name = "Daisy";
+	public static final String NAME = "Daisy";
 	//Celkovy pocet pozdravov, ktore budu unikatne
-	public static final int numberOfGreetings = 3;
+	public static final int GREETINGS_NUMBER = 3;
 	//Vzdialenost v nasobkoch velkosti Greetera, na ktoru ked sa hrac vzdiali, dostane za odmenu dalsi pozdrav
-	public static final int RADIUS_OF_FORGETTING = 14;
+	public static final int FORGETTING_RADIUS = 14;
 
 	//Variables
 	//Informacia o tom, ci hrac dostal uz pozdrav, alebo ma dostat dalsi
 	private boolean greetingDone;
 	//Aktualny pozdrav
 	private int currentGreeting;
+	//Stav, ci ma na ruke prsten
+	private boolean hasRing;
 
 	//Objects
 	//Aktualna sprava zobrazena hracovi
 	private Message currentMessage;
 	//Instancia prveho hraca, ktory bol pozdraveny. Aby to nebolo trapne, tak sa inym zdravit nebude.
 	private Player firstPlayer;
+	//Daisy's ring
+	private Ring ring;
+	//Devil, that owns Daisy
+	private Devil devil;
 
 	public Daisy()
 	{
-		super(Daisy.name, "sprites/daisy.png", 25, 25);
+		super(Daisy.NAME, "sprites/daisy.png", 25, 25);
 		this.greetingDone = false;
 		this.currentGreeting = 0;
 		this.currentMessage = null;
 		this.firstPlayer = null;
+		this.hasRing = true;
+		this.ring = new Ring(this);
+		this.devil = null;
 	}
 
 	public boolean greetPlayer(Player player)
@@ -93,11 +105,11 @@ public class Daisy extends AbstractActor implements Greeter, Item
 
 	protected boolean haveMessage()
 	{
-		return this.currentGreeting < numberOfGreetings;
+		return this.currentGreeting < GREETINGS_NUMBER;
 	}
 
 	//Shows a new message and deletes a possible previous one
-	protected Message newMessage(String headline, String text)
+	protected Message newMessage(String headline, String text, Actor actor)
 	{
 		if (this.currentMessage != null)
 		{
@@ -107,6 +119,22 @@ public class Daisy extends AbstractActor implements Greeter, Item
 		return this.currentMessage;
 	}
 
+	//Shows a new message near Daisy and deletes a possible previous one
+	protected Message newMessage(String headline, String text)
+	{
+		return newMessage(headline, text, this);
+	}
+
+	//Devil si vie privlastnit Daisy
+	public void belongToDevil(Devil devil)
+	{
+		if (this.devil == null)
+		{
+			this.devil = devil;
+		}
+	}
+
+	//Hrac si implicitne vyziada pozdrav svojou pritomnostou
 	protected void nextGreeting(Player player)
 	{
 		if (haveMessage())
@@ -125,6 +153,8 @@ public class Daisy extends AbstractActor implements Greeter, Item
 					newMessage(player.getName() + "!",
 					           "Why are you back so soon?\nI still can't see myself being saved by you :(");
 					break;
+				default:
+					break;
 			}
 			this.currentGreeting++;
 		}
@@ -139,11 +169,35 @@ public class Daisy extends AbstractActor implements Greeter, Item
 	{
 		//If the player already received greeting, but has gone too far, he deserves another one
 		if (this.greetingDone && this.firstPlayer != null &&
-		    !isNear(this.firstPlayer, getWidth() * Daisy.RADIUS_OF_FORGETTING,
-		            getHeight() * Daisy.RADIUS_OF_FORGETTING))
+		    !isNear(this.firstPlayer, getWidth() * Daisy.FORGETTING_RADIUS,
+		            getHeight() * Daisy.FORGETTING_RADIUS))
 		{
 			this.greetingDone = false;
 			this.currentMessage.remove();
+		}
+	}
+
+	//Ked hrac pekne poprosi Daisy, dostane diamantovy prsten
+	@Override
+	public void use(Actor actor)
+	{
+		if (actor instanceof Player && this.hasRing)
+		{
+			Player player = (Player) actor;
+
+			//Prida instanciu prstena do sveta
+			this.ring.setPosition(getX() - getWidth(), getY());
+			getWorld().addActor(this.ring);
+
+			//Oznam hracovi nastanie danej skutocnosti
+			newMessage("Ouch, my finger!",
+			           player.getName()                             +
+			           ", why did you do this to me!\n"             +
+			           "This ancient ring is my family heritage.\n" +
+			           "Do you really need to take\n"               +
+			           "everything important away from me?",
+			           ring);
+			this.hasRing = false;
 		}
 	}
 }

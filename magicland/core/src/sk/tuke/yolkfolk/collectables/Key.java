@@ -37,11 +37,16 @@ import sk.tuke.yolkfolk.actors.AbstractActor;
 public class Key extends AbstractActor implements Collectable
 {
 	//Constants
-	public static final String name = "Key";
+	public static final String NAME = "Key";
+
+	public Key(String name)
+	{
+		super(name, "sprites/key.png", 16, 16);
+	}
 
 	public Key()
 	{
-		super(Key.name, "sprites/key.png", 16, 16);
+		this(Key.NAME);
 	}
 
 	@Override

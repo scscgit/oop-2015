@@ -27,7 +27,9 @@
 
 package sk.tuke.yolkfolk.actors.player.players.dizzy;
 
+import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Animation;
+import sk.tuke.yolkfolk.actors.objects.Well;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.actors.player.states.PlayerStanding;
 
@@ -41,5 +43,32 @@ public class Standing extends PlayerStanding implements DizzyState
 	public Standing(Player player)
 	{
 		super(player, new Animation("sprites/dozy.png", 22, 15));
+	}
+
+	//Dizzy ma custom akciu pohybu smerom dole
+	@Override
+	protected void keyboardActions()
+	{
+		//Ak Dizzy dohral hru s opicou a stlacil klavesu dodola
+		if (input().downwardNotUpward() && getPlayer() instanceof Dizzy && ((Dizzy) getPlayer()).isMonkeyGameDone())
+		{
+			//Ak najde studnu, na ktorej aktualny hrac stoji, tak tu studnu odstrani a bude sa do nej dat skocit
+			for (Actor actor : getPlayer().getWorld())
+			{
+				if (actor instanceof Well)
+				{
+					Well well = (Well) actor;
+					if (well.intersectsAbove(getPlayer(), getPlayer().getHeight() / 2))
+					{
+						getPlayer().getWorld().removeActor(well);
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			super.keyboardActions();
+		}
 	}
 }

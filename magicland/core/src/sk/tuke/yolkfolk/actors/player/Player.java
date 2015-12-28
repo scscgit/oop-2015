@@ -33,11 +33,11 @@ import sk.tuke.yolkfolk.actors.player.states.PlayerStates;
 import sk.tuke.yolkfolk.input.CustomInput;
 
 /**
- * Rozhranie definujuce zakladne predpoklady pre posobenie actora ako Hraca, ktoreho ovlada pouzivatel.
+ * Rozhranie definujuce zakladne predpoklady pre posobenie actora ako hraca, ktoreho ovlada pouzivatel.
  * <p/>
  * Created by Steve on 2.12.2015.
  */
-public interface Player extends Actor, AnimatedMovement
+public interface Player extends Actor, AnimatedMovement, AirborneSupport
 {
 	//Constants
 	//Maximum energy of a generic player
@@ -48,28 +48,20 @@ public interface Player extends Actor, AnimatedMovement
 	//If difference between old and new Y (resp. X) value is less than this value, it will be considered zero for our purposes
 	float DELTA_Y_IS_ZERO = 0.01f;
 	float DELTA_X_IS_ZERO = 0.01f;
-	//If velocity (in both directions) is less than this value, Player can be considered standing on ground
+	//If velocity Y (in both directions) is less than this value, Player can be considered standing on ground
 	//povodna hodnota 0.1f robila problemy pri schodoch a nerovnych povrchoch
-	float SPEED_Y_IS_ON_GND = 0.6f;
+	float SPEED_Y_IS_ON_GND = 0.9f; //nova verzia bola 0.6f a smykal sa
+	//Constant for function enoughTimeNoSolid()
+	int MAX_TIME_NO_SOLID = 15;
 
 	void setStep(float step);
 	float getStep();
 
-	void fall(float ySpeed);
-	void setFallLimit(float fallLimit);
-	void setFallDamageRatio(float fallDamageRatio);
-
-	void setJumpHeight(float jumpHeight);
-	float getJumpHeight();
-
-	boolean isFlyable();
-	void setFlyable(boolean flying);
-
-	int getNumberOfDiamonds();
 	void setDiamonds(int diamonds);
+	int getNumberOfDiamonds();
 
-	int getEnergy();
 	void setEnergy(int energy);
+	int getEnergy();
 	void decreaseEnergy(int energy);
 
 	boolean addToBackpack(Actor actor);
@@ -91,4 +83,5 @@ public interface Player extends Actor, AnimatedMovement
 	void setPlayerInput(CustomInput playerInput);
 
 	void onDeath();
+	void wonTheGame();
 }

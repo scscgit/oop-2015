@@ -25,20 +25,28 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.items;
+package sk.tuke.yolkfolk.actors.characters;
+
+import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
- * Neviditelna prekazka, ktora zastavi (a obrati) lietanie vtakov doprava.
+ * True, good prince. He enslaved Daisy, though.
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Created by Steve on 28.12.2015.
  */
-public class BirdBorderRight extends InvisibleSpace
+public class Prince extends AbstractActor implements Item
 {
 	//Constants
-	public static final String name = "BirdBorderRight";
+	public static final String NAME = "Prince";
 
-	public BirdBorderRight()
+	public Prince()
 	{
-		super(BirdBorderRight.name);
+		super(Prince.NAME, "sprites/prince.png", 50, 60);
+	}
+
+	@Override
+	public void act()
+	{
 	}
 }

@@ -31,7 +31,7 @@ import sk.tuke.gamelib2.Animation;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
- * Implementacia podpory roznorodych animacii pohybu, na ktore ma pravo kazdy hrac, pomocou verejnych metod.
+ * Implementacia podpory roznorodych animacii pohybu, na ktore ma pravo kazdy actor, pomocou verejnych metod.
  * <p/>
  * Created by Steve on 11.12.2015.
  */

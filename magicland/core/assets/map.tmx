@@ -1,21 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="36">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="111">
  <tileset firstgid="1" name="magiclanddizzy_tiles" tilewidth="16" tileheight="16" spacing="2" tilecount="1056">
   <image source="magiclanddizzy_tiles.gif" width="790" height="430"/>
  </tileset>
  <layer name="background" width="50" height="40" opacity="0.9">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup name="obstacles">
   <object id="3" x="320" y="624">
-   <polyline points="48,0 -176,0 -272,-48 -288,-48 -288,-320 -128,-320 -128,-336 -320,-336 -320,16 48,16 48,0"/>
+   <polyline points="48,2.66667 -168,3.33333 -266.667,-44.6667 -287.333,-44.6667 -287.333,-316 -128,-316.667 -128,-336 -320,-336 -320,16 48,16 48,8"/>
+  </object>
+  <object id="47" x="800" y="0">
+   <polyline points="0,0 0,320 -16,320 -20,304 -20,264 -32,256 -40,300 -44,320 -104,324 -112,336 -128,368 -128,400 -32,400 -26,455.333 -46,483.333 -45.8182,545.455 -79.5,588.5 -192.5,533.5 -196,504 -208,502.5 -209.5,333 -215.5,324.273 -235.545,321.682 -258.545,305.591 -275.636,302.182 -276,288 -280,288 -280,492 -268,500 -268,549 -248,574 -220,568 -196,588 -168,584 -152,604 -136,620 -140,632 -158,628.667 -176,632 -194,628 -208,636 -228,636 -236.667,627.333 -260,632 -271.333,628 -288,632 -292,616 -304,612 -308,600 -316,596 -328,585.333 -336,580 -340.667,573.333 -346.667,564.667 -356.667,558.667 -356,544 -352,536 -356,520 -352,512 -356,484 -336,472 -320,484 -312,472 -312,288 -316,288 -316,300 -319.25,310.5 -330,310.75 -346.5,321.75 -368,332 -384,332 -388,324 -404,324 -412,328 -424,320 -436,332 -448,340 -464,344 -476,352 -504,356 -512,364 -527,376 -539,386 -544,400 -512,400 -512,416 -432,416 -432,640 0,640 8,640 8,-20 0,-20 0,0"/>
+  </object>
+  <object id="49" x="320" y="636">
+   <polyline points="0,0 0,-140 -166,-140.667 -163.333,-153.333 -36,-153.333 -36,-220 -224,-220 -222.5,-233.53 -120.636,-233.53 -124,-248 -128,-232 -128,-272 -124,-272 -122.182,-281.273 11.2727,-281.455 20,0 0,0"/>
+  </object>
+  <object id="50" x="336" y="0">
+   <polyline points="0,0 0,32 -16,48 -16.5,311.5 -54,310.667 -54,240 -336,240 -332,192 -320,192 -320,48 -336,32 -336,4 -328,0 0,0 0,28 -52,48 -272,48 -272.773,227.136 -52,226.833 -52,48 0,28"/>
+  </object>
+  <object id="67" x="554.5" y="270.5">
+   <polyline points="9.81818,-2.18182 28.5455,-5.18182 41,-16 53,-13 71,-30 101,-30 101,-40 72,-37 53,-20 39,-20 23.0909,-7.27273 4.72727,-7.09091 5.81818,-2.54545 12.0909,-2"/>
+  </object>
+  <object id="68" x="383.5" y="200.5">
+   <polyline points="0,0 2,8 48,7 48,0 0,0"/>
+  </object>
+  <object id="69" x="590.5" y="206.5">
+   <polyline points="0,0 -42,1 -71,-17 -77,-15 -97,-30 -106,-31 -127,-46 -141,-49 -157,-60 -167,-64 -205,-64 -226,-79 -239,-80 -256,-95 -271,-96 -272,-104 -256,-102 -236,-86 -224,-85 -203,-68 -161,-69 -143,-55 -125,-52 -110,-39 -93,-34 -77,-19 -65,-19 -46,-6 -31,-3 -2,-3 1,1"/>
+  </object>
+  <object id="70" x="369.5" y="78.5">
+   <polyline points="17.2955,3.97727 16.1818,7.54545 110,8 109.273,3.45455 16.5682,3.86364"/>
+  </object>
+  <object id="78" x="95.75" y="497.5">
+   <polyline points="0,0 39,0 38,4 3,3.5 0,-0.5"/>
+  </object>
+  <object id="81" x="175.25" y="550.75">
+   <polyline points="0,0 0,-5 -22,-5 -28.5,-4 -45,4 -44.5,6 -28,6.5 -15,0 -0.5,-0.5"/>
+  </object>
+  <object id="95" x="-1.77636e-15" y="238.667" width="2.66667" height="50"/>
+  <object id="100" x="191.273" y="288.182">
+   <polyline points="0,0 8.72727,-0.727273"/>
   </object>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="1" name="Dizzy" x="144" y="592" width="25" height="25"/>
-  <object id="4" name="Door" x="120" y="352" width="40" height="50"/>
+  <object id="1" name="Dizzy" x="207" y="551.5" width="25" height="25"/>
+  <object id="4" name="MagicDoor" x="123.273" y="350" width="40" height="50"/>
   <object id="5" name="Fire" x="376" y="248" width="16" height="16"/>
   <object id="7" name="Fire" x="436" y="252" width="16" height="16"/>
   <object id="8" name="Fire" x="112" y="80" width="16" height="16"/>
@@ -28,11 +59,45 @@
   <object id="15" name="Fire" x="440" y="92" width="16" height="16"/>
   <object id="16" name="Fire" x="376" y="88" width="16" height="16"/>
   <object id="17" name="Fire" x="584" y="128" width="16" height="16"/>
-  <object id="18" name="Bird" x="96" y="528" width="16" height="16"/>
-  <object id="19" name="Elevator" x="48" y="564" width="32" height="9"/>
-  <object id="32" name="Door" x="224" y="176" width="40" height="50"/>
-  <object id="33" x="208" y="528"/>
-  <object id="34" name="BirdBorderRight" x="224" y="528" width="24" height="24"/>
-  <object id="35" name="BirdBorderLeft" x="48" y="528" width="24" height="24"/>
+  <object id="18" name="Bird" x="736" y="160" width="16" height="16"/>
+  <object id="19" name="DaisyElevator" x="43" y="565" width="32" height="9"/>
+  <object id="32" name="SimpleDoor" x="148.5" y="575.5" width="40" height="50"/>
+  <object id="33" name="Lever" x="156" y="527.333" width="16" height="16"/>
+  <object id="34" name="BirdBorderRight" x="800" y="144" width="48" height="48"/>
+  <object id="35" name="BirdBorderLeft" x="-48" y="144" width="48" height="48"/>
+  <object id="36" name="Stone" x="689" y="562.333" width="32" height="16"/>
+  <object id="38" name="Stone" x="388.5" y="65" width="32" height="16"/>
+  <object id="39" name="Stone" x="607" y="612.667" width="32" height="16"/>
+  <object id="40" name="Stone" x="165" y="465" width="32" height="16"/>
+  <object id="41" name="BirdBorderLeft" x="288" y="0" width="48" height="48"/>
+  <object id="42" name="BirdBorderRight" x="800" y="0" width="48" height="48"/>
+  <object id="43" name="BirdBorderRight" x="800" y="80" width="48" height="48"/>
+  <object id="44" name="BirdBorderLeft" x="-48" y="80" width="48" height="48"/>
+  <object id="45" name="Bird" x="32" y="96" width="16" height="16"/>
+  <object id="46" name="Bird" x="352" y="16" width="16" height="16"/>
+  <object id="60" name="Well" x="483.697" y="267.152" width="40" height="50"/>
+  <object id="61" name="Daisy" x="258.636" y="600.091" width="25" height="25"/>
+  <object id="62" name="Prince" x="82" y="163" width="50" height="60"/>
+  <object id="66" name="Monkey" x="480" y="252" width="48" height="32"/>
+  <object id="73" name="MonkeyStoneSpace" x="479" y="262" width="48" height="48"/>
+  <object id="74" name="MagicDoor" x="228" y="175" width="40" height="50"/>
+  <object id="75" name="SimpleDoor" x="78.1515" y="238.758" width="40" height="50"/>
+  <object id="76" name="Lever" x="96" y="384" width="16" height="16"/>
+  <object id="82" name="Devil" x="250.667" y="304.5" width="32" height="48"/>
+  <object id="83" name="RobinHood" x="442" y="33" width="32" height="48"/>
+  <object id="86" name="NoWaterZone" x="576.5" y="239" width="48" height="48"/>
+  <object id="87" name="NoWaterZone" x="533.485" y="260.818" width="48" height="48"/>
+  <object id="88" name="NoSecretZone" x="438.333" y="244" width="48" height="48"/>
+  <object id="89" name="WaterZone" x="585.333" y="364.333" width="48" height="48"/>
+  <object id="90" name="WaterZone" x="630" y="365" width="48" height="48"/>
+  <object id="91" name="SecretZone" x="478" y="435" width="48" height="48"/>
+  <object id="92" name="NoWaterZone" x="703.667" y="273.333" width="48" height="48"/>
+  <object id="93" name="Key" x="53" y="528.5" width="18" height="23"/>
+  <object id="103" name="NoSecretZone" x="521.5" y="244.5" width="48" height="48"/>
+  <object id="104" name="NoSecretZone" x="480" y="197.5" width="48" height="48"/>
+  <object id="105" name="NoWaterZone" x="623.833" y="232.833" width="48" height="48"/>
+  <object id="107" name="Troll" x="701.667" y="266.667" width="48" height="52"/>
+  <object id="109" name="ExitZone" x="-1" y="240.333" width="48" height="48"/>
+  <object id="110" name="NoWaterZone" x="669.333" y="243.333" width="48" height="48"/>
  </objectgroup>
 </map>

@@ -25,59 +25,15 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.items;
-
-import sk.tuke.yolkfolk.actors.AbstractActor;
+package sk.tuke.yolkfolk.actors;
 
 /**
- * A mysterious bag containing something unknown, usually a bird.
+ * Actors with custom behavior in water.
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Created by Steve on 28.12.2015.
  */
-public class Rubbish extends AbstractActor
+public interface Swimmable
 {
-	//Constants
-	public static final String name = "Rubbish";
-	public static final int DECAY_TIME = 150;
-
-	//Variables
-	private int decayCounter;
-
-	{
-		this.decayCounter = 0;
-	}
-
-	public Rubbish(String name)
-	{
-		super(name, "sprites/rubbish.png", 16, 16);
-	}
-
-	//Implicitne sa Rubbish vytvara so svojim menom
-	public Rubbish()
-	{
-		this(Rubbish.name);
-	}
-
-	//Zisti, ci bol objekt vytvoreny ako obycajny odpad a nie ako iny zabaleny objekt
-	public boolean isGenericRubbish()
-	{
-		return getName().equals(Rubbish.name);
-	}
-
-	@Override
-	public void act()
-	{
-		if(!isGenericRubbish())
-		{
-			//All random rubbish instances get deleted after some constant time passes
-			if(this.decayCounter<Rubbish.DECAY_TIME)
-			{
-				this.decayCounter++;
-			}
-			else
-			{
-				removeFromWorld();
-			}
-		}
-	}
+	void swim();
+	void noswim();
 }

@@ -41,6 +41,14 @@ import sk.tuke.yolkfolk.collectables.Collectable;
  */
 public class Use extends AbstractAction<Actor, Void>
 {
+	//Objects
+	private static Message lastError;
+
+	static
+	{
+		Use.lastError = null;
+	}
+
 	public Use()
 	{
 		super();
@@ -64,6 +72,15 @@ public class Use extends AbstractAction<Actor, Void>
 
 		//Do implicit action
 		return super.doAction(actor);
+	}
+
+	public static Message newMessage(String title, String message, Actor actor)
+	{
+		if(Use.lastError != null)
+		{
+			Use.lastError.remove();
+		}
+		return Use.lastError = new Message(title, message, actor);
 	}
 
 	//Operacie vykonane nad kazdym objektom v kolizii s Playerom
@@ -94,13 +111,13 @@ public class Use extends AbstractAction<Actor, Void>
 						else
 						{
 							//This message should not appear if exception catching works properly
-							new Message("Inventory problem", player.getName() + ", your backpack is full!", player);
+							newMessage("Inventory problem", player.getName() + ", your backpack is full!", player);
 						}
 					}
 					catch (ArrayIndexOutOfBoundsException exception)
 					{
 						collisionHappened = true;
-						new Message("Inventory problem", exception.getMessage(), player);
+						newMessage("Inventory problem", exception.getMessage(), player);
 						break;
 					}
 				}

@@ -31,6 +31,8 @@ import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Input;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actions.AbstractAction;
+import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.yolkfolk.actors.characters.monkey.Monkey;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
@@ -59,6 +61,7 @@ public class Cheats extends AbstractAction<Actor, Void>
 		Cheats.cheatFly(actor);
 		Cheats.cheatPos(actor);
 		Cheats.cheatKill(actor);
+		Cheats.cheatMon(actor);
 
 		//Do implicit action
 		return super.doAction(actor);
@@ -119,14 +122,16 @@ public class Cheats extends AbstractAction<Actor, Void>
 		{
 			Cheats.currentCheat = "";
 			Cheats.newMessage("Positional debugger",
-			                  player.toString()                                                              +                                                            "\nX=" + player.getX() + " Y=" +                           actor.getY() + "\nState " +
+			                  player.toString() + "\nX=" + player.getX() + " Y=" + actor.getY() + "\nState " +
 			                  player.getState().toString()                                                   +
-			                  "\nstandsOnSolid " + (player.standsOnSolid() ? "yes" : "no") + "\nisOnGround " +
+			                  "\nstandsOnSolid "                                                             +
+			                  (player.standsOnSolid() ? "yes" : "no")                                        +
+			                  "\nisOnGround "                                                                +
 			                  (player.isOnGround() ? "yes" : "no"), player);
 		}
 	}
 
-	//Makes current player output his positions for debugging or other purposes
+	//Makes current player commit seppuku
 	public static void cheatKill(final Actor actor)
 	{
 		if (Input.isKeyJustPressed(Input.Key.K))
@@ -151,6 +156,44 @@ public class Cheats extends AbstractAction<Actor, Void>
 			{
 				final Player player = (Player) actor;
 				player.decreaseEnergy(Player.MAX_HP);
+			}
+		}
+	}
+
+	//Finds a monkey in the world of an actor
+	private static Monkey getMonkey(Actor actorInWorld)
+	{
+		if (actorInWorld instanceof AbstractActor)
+		{
+			final Actor monkey = ((AbstractActor) actorInWorld).getActorByName(Monkey.NAME);
+			if (monkey instanceof Monkey)
+			{
+				return (Monkey) monkey;
+			}
+		}
+		return null;
+	}
+
+	//Cheats the monkey
+	private static void cheatMon(final Actor actor)
+	{
+		if (Input.isKeyJustPressed(Input.Key.M))
+		{
+			Cheats.currentCheat = "M";
+		}
+
+		if (Input.isKeyJustPressed(Input.Key.O) && Cheats.currentCheat.compareTo("M") == 0)
+		{
+			Cheats.currentCheat = "MO";
+		}
+
+		if (Input.isKeyJustPressed(Input.Key.N) && Cheats.currentCheat.compareTo("MO") == 0)
+		{
+			Cheats.currentCheat = "";
+			final Monkey monkey = getMonkey(actor);
+			if (monkey != null)
+			{
+				monkey.cheatMe();
 			}
 		}
 	}

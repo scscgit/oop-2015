@@ -80,7 +80,7 @@ public abstract class AbstractPlayerState extends ActionQueue<Actor, Void> imple
 			PhysicsHelper
 				.setLinearVelocity(getPlayer(), getPlayer().getStep(), PhysicsHelper.getLinearVelocity(getPlayer())[1]);
 		}
-		//Possibly can add option of direction UP later, but my design works in the opposite way
+		//Possibly could add option of direction UP later, but my design works in the opposite way
 	}
 
 	//Zastavi horizontalny pohyb, vyzadovane napriklad pred nastavenim posobenia sily

@@ -59,7 +59,21 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 	private boolean initializedBoth;
 
 	//Objects
-	private List<Observer<Boolean>> observerList = null;
+	private List<Observer<Boolean>> observerList;
+
+	//Static objects
+	private static AbstractMovingPlatform lastInstance;
+
+	static
+	{
+		AbstractMovingPlatform.lastInstance = null;
+	}
+
+	//Pocas inicializacie ulozi referenciu na poslednu vytvorenu platformu
+	{
+		this.observerList = null;
+		AbstractMovingPlatform.lastInstance = this;
+	}
 
 	public AbstractMovingPlatform(String name)
 	{
@@ -73,6 +87,12 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		//Overridable variables that define a concrete elevator
 		setPauseDuration(50); //default pauseDuration time set by manufacturer
 		setSpeed(0.5f); //default speed set by manufacturer
+	}
+
+	//Ziska referenciu na poslednu vytvorenu platformu, pouzitelnu pocas automagickeho pripajania paky
+	public static AbstractMovingPlatform getLastInstance()
+	{
+		return AbstractMovingPlatform.lastInstance;
 	}
 
 	//List of observers of a state change
@@ -135,21 +155,39 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		return this.direction;
 	}
 
+	//Skontroluje, ci niekto blokuje cestu a vykona prislusne opatrenia. Ak vrati true, pohyb nebude pokracovat.
+	protected boolean blockedPath()
+	{
+		return false;
+	}
+
+	//Rutina, ktoru bude platforma pravidelne vykonavat pocas svojho pohybu
+	protected void runningRoutine()
+	{
+		//Ked je vytah pripraveny, pohne sa pozadovanym smerom
+		if
+			(
+			(this.direction && getY() > getEnd())
+			||
+			(!this.direction && getY() < getStart())
+			)
+		{
+			reverse();
+		}
+
+		//Ak sa nikto pod platformou nezasekol, tak moze pokracovat, inak spravi pauzu
+		if (!blockedPath())
+		{
+			PhysicsHelper.setLinearVelocity(this, nextX(), nextY());
+		}
+	}
+
 	@Override
 	public void act()
 	{
 		if (isOn() && initialized() && this.paused <= 0)
 		{
-			//Ked je vytah pripraveny, pohne sa pozadovanym smerom
-			if (this.direction && getY() > getEnd())
-			{
-				reverse();
-			}
-			else if (!this.direction && getY() < getStart())
-			{
-				reverse();
-			}
-			PhysicsHelper.setLinearVelocity(this, nextX(), nextY());
+			runningRoutine();
 		}
 		else
 		{

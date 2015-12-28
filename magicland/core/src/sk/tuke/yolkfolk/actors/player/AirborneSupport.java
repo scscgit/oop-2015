@@ -25,20 +25,26 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.items;
+package sk.tuke.yolkfolk.actors.player;
 
 /**
- * Neviditelna prekazka, ktora zastavi (a obrati) lietanie vtakov dolava.
+ * Rozhranie actora pre zabezpecenie fyzickeho pohybovania sa vzduchom so vsetkymi nasledkami.
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Created by Steve on 28.12.2015.
  */
-public class BirdBorderLeft extends InvisibleSpace
+public interface AirborneSupport
 {
-	//Constants
-	public static final String name = "BirdBorderLeft";
+	void fall(float ySpeed);
+	void setFallLimit(float fallLimit);
+	void setFallDamageRatio(float fallDamageRatio);
+	float getFallLimit();
+	float getFallDamageRatio();
 
-	public BirdBorderLeft()
-	{
-		super(BirdBorderLeft.name);
-	}
+	void setJumpHeight(float jumpHeight);
+	float getJumpHeight();
+
+	void setFlyable(boolean flying);
+	boolean isFlyable();
+
+	boolean noVerticalChange();
 }
