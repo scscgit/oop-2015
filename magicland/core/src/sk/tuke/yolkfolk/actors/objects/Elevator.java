@@ -27,6 +27,10 @@
 
 package sk.tuke.yolkfolk.actors.objects;
 
+import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.AbstractActor;
+
 /**
  * Stairway to heaven, elevator to hell. (Pun intended, you will actually meet the devil above the elevator)
  * A.K.A VerticalMovingPlatform
@@ -36,11 +40,48 @@ package sk.tuke.yolkfolk.actors.objects;
 public class Elevator extends AbstractMovingPlatform
 {
 	//Constants
-	public static final String name = "Elevator";
+	public static final String NAME = "Elevator";
+
+	//Konstruktor pre ucely dedenia
+	public Elevator(String name)
+	{
+		super(name);
+	}
 
 	public Elevator()
 	{
-		super(Elevator.name);
+		super(Elevator.NAME);
+	}
+
+	@Override
+	protected boolean blockedPath()
+	{
+		//V pripade pohybu smerom hore neriesi blokovanie actorov
+		if (getDirection())
+		{
+			return false;
+		}
+
+		//V pripade pohybu smerom dole povoli pohyb iba ak sa pod vytahom nikto nenachadza
+		for (Actor actor : getWorld())
+		{
+			if
+				(
+				//Nezastavi pri kolizii s objektom typu Item
+				!(actor instanceof Item)
+				&&
+				//Kontrolu vykonava iba ak je actor odvodeny od abstraktneho actora a ma jeho metodu na zistenie kolizie
+				actor instanceof AbstractActor
+				&&
+				//Ak sa nad actorom nachadza vytah vo vzdialenosti vysky vytahu, tak sa obrati, aby sa actor nezasekol
+				((AbstractActor) actor).intersectsAbove(this, getHeight())
+				)
+			{
+				reverse();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

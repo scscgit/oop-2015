@@ -25,20 +25,25 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.items;
+package sk.tuke.yolkfolk.spaces;
 
 /**
  * Neviditelna prekazka, ktora zastavi (a obrati) lietanie vtakov doprava.
  * <p/>
  * Created by Steve on 27.12.2015.
  */
-public class BirdBorderRight extends InvisibleSpace
+public class BirdBorderRight extends AbstractSpace
 {
 	//Constants
-	public static final String name = "BirdBorderRight";
+	public static final String NAME = "BirdBorderRight";
 
 	public BirdBorderRight()
 	{
-		super(BirdBorderRight.name);
+		super(BirdBorderRight.NAME);
+	}
+
+	@Override
+	public void act()
+	{
 	}
 }

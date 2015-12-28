@@ -28,7 +28,6 @@
 package sk.tuke.yolkfolk.actors.player.states;
 
 import sk.tuke.gamelib2.Animation;
-import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.NewWorldOrder;
 import sk.tuke.yolkfolk.actors.player.Player;
 
@@ -37,15 +36,13 @@ import sk.tuke.yolkfolk.actors.player.Player;
  * <p/>
  * Created by Steve on 16.12.2015.
  */
-public class PlayerDying extends AbstractPlayerState
+public class PlayerDying extends PlayerFrozen
 {
-	private Message gameOverMessage;
 	private Animation dyingAnimation;
 
 	public PlayerDying(Player player, Animation dyingAnimation)
 	{
 		super(player);
-		this.gameOverMessage = null;
 		setDyingAnimation(dyingAnimation);
 		stopMusic();
 
@@ -97,12 +94,16 @@ public class PlayerDying extends AbstractPlayerState
 	@Override
 	public void act()
 	{
-		if (animationEnded() && this.gameOverMessage == null)
+		//Vykona akcie nadradenej triedy
+		super.act(); //todo make sure Frozen state does not do bad stuff
+
+		//Animacia sa bude stale hybat s hracom.
+		if (animationEnded() /*&& this.gameOverMessage == null*/)
 		{
-			this.gameOverMessage = new Message(getPlayer().getName() + " has died :(", "Game Over!", getPlayer());
+			newMessage(getPlayer().getName() + " has died :(", "Game Over!");
 		}
 
-		if (input().enterRising())
+		if (input().enterRising() || input().escape())
 		{
 			System.exit(0);
 		}

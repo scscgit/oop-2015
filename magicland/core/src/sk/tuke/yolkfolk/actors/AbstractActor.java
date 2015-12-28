@@ -284,11 +284,14 @@ public abstract class AbstractActor implements Actor
 
 	public Player getPlayer()
 	{
-		for (Actor actor : getWorld())
+		if (getWorld() != null)
 		{
-			if (actor instanceof Player)
+			for (Actor actor : getWorld())
 			{
-				return (Player) actor;
+				if (actor instanceof Player)
+				{
+					return (Player) actor;
+				}
 			}
 		}
 		return null;

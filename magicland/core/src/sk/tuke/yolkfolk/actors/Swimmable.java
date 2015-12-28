@@ -25,20 +25,15 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.items;
+package sk.tuke.yolkfolk.actors;
 
 /**
- * Neviditelna prekazka, ktora zastavi (a obrati) lietanie vtakov dolava.
+ * Actors with custom behavior in water.
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Created by Steve on 28.12.2015.
  */
-public class BirdBorderLeft extends InvisibleSpace
+public interface Swimmable
 {
-	//Constants
-	public static final String name = "BirdBorderLeft";
-
-	public BirdBorderLeft()
-	{
-		super(BirdBorderLeft.name);
-	}
+	void swim();
+	void noswim();
 }

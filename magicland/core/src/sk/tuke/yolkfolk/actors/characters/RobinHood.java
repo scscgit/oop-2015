@@ -25,59 +25,28 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.items;
+package sk.tuke.yolkfolk.actors.characters;
 
+import sk.tuke.gamelib2.Item;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
- * A mysterious bag containing something unknown, usually a bird.
+ * He robs in hood. This is bad neighborhood.
  * <p/>
  * Created by Steve on 27.12.2015.
  */
-public class Rubbish extends AbstractActor
+public class RobinHood extends AbstractActor implements Item
 {
 	//Constants
-	public static final String name = "Rubbish";
-	public static final int DECAY_TIME = 150;
+	public static final String NAME = "RobinHood";
 
-	//Variables
-	private int decayCounter;
-
+	public RobinHood()
 	{
-		this.decayCounter = 0;
-	}
-
-	public Rubbish(String name)
-	{
-		super(name, "sprites/rubbish.png", 16, 16);
-	}
-
-	//Implicitne sa Rubbish vytvara so svojim menom
-	public Rubbish()
-	{
-		this(Rubbish.name);
-	}
-
-	//Zisti, ci bol objekt vytvoreny ako obycajny odpad a nie ako iny zabaleny objekt
-	public boolean isGenericRubbish()
-	{
-		return getName().equals(Rubbish.name);
+		super(RobinHood.NAME, "sprites/robinhood.png", 32, 48);
 	}
 
 	@Override
 	public void act()
 	{
-		if(!isGenericRubbish())
-		{
-			//All random rubbish instances get deleted after some constant time passes
-			if(this.decayCounter<Rubbish.DECAY_TIME)
-			{
-				this.decayCounter++;
-			}
-			else
-			{
-				removeFromWorld();
-			}
-		}
 	}
 }

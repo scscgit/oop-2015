@@ -103,16 +103,19 @@ public abstract class AbstractAirborneState extends AbstractPlayerState
 		{
 			interpret("set state dying");
 		}
-		//Ak nedopadol na zem, overi sa pripad lietania
-		else if (getPlayer().isFlyable())
-		{
-			fly();
-		}
 		//Zvysne pripady, v ktorych sa hrac stale nachadza vo vzduchu
 		else
 		{
-			//Priebezne oznamuje hracovi, akou rychlostou pada pre vypocet sily dopadu
-			getPlayer().fall(PhysicsHelper.getLinearVelocity(getPlayer())[1]);
+			//Ak nedopadol na zem, overi sa pripad lietania
+			if (getPlayer().isFlyable())
+			{
+				fly();
+			}
+			else
+			{
+				//Priebezne oznamuje hracovi, akou rychlostou pada pre vypocet sily dopadu
+				getPlayer().fall(PhysicsHelper.getLinearVelocity(getPlayer())[1]);
+			}
 
 			//Pred dovolenim nastavenia stavu na Standing najprv musi napocitat pomocnu hodnotu, aby vzdy skocil aspon trochu
 			if (this.timeAfterJump < AbstractAirborneState.MIN_TIME_JMP)

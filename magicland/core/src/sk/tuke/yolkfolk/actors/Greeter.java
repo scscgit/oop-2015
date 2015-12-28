@@ -33,6 +33,9 @@ import sk.tuke.yolkfolk.actors.player.Player;
  * Greeter - v preklade, zdravic. Jeho ulohou je zdravit sa.
  * Obavam sa ale, ze dane slovo v anglickom/slovenskom slovniku neexistuje, takze som ho radsej dodefinoval.
  * <p/>
+ * Funkcionalita je nasledovna:
+ * Kazdy actor, ktory implementuje zdravica ma zarucene automaticke vykonanie metody greetPlayer() po dotyku s hracom.
+ * <p/>
  * Created by Steve on 2.12.2015.
  */
 public interface Greeter

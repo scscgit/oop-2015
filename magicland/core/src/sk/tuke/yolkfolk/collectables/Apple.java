@@ -41,12 +41,12 @@ import sk.tuke.yolkfolk.actors.player.Player;
 public class Apple extends AbstractActor implements Collectable, Usable
 {
 	//Constants
-	public static final String name = "Ringo";
+	public static final String NAME = "Ringo";
 	public static final int HEALS_HP = 50;
 
 	public Apple()
 	{
-		super(Apple.name, "sprites/poisonapple.png", 16, 16);
+		super(Apple.NAME, "sprites/poisonapple.png", 16, 16);
 	}
 
 	@Override

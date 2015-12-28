@@ -27,8 +27,6 @@
 
 package sk.tuke.yolkfolk.input;
 
-import sk.tuke.gamelib2.Input;
-
 /**
  * Extendable support of custom input override rules of keyboard and/or mouse events.
  * <p/>
@@ -36,37 +34,10 @@ import sk.tuke.gamelib2.Input;
  */
 public class CustomInput
 {
-	//Default keys
-	public static boolean leftDefault()
-	{
-		return Input.isKeyPressed(Input.Key.LEFT) || Input.isKeyPressed(Input.Key.A);
-	}
-	public static boolean rightDefault()
-	{
-		return Input.isKeyPressed(Input.Key.RIGHT) || Input.isKeyPressed(Input.Key.D);
-	}
-	public static boolean upwardDefault()
-	{
-		return Input.isKeyPressed(Input.Key.UP) || Input.isKeyPressed(Input.Key.W) ||
-		       Input.isKeyPressed(Input.Key.SPACE);
-	}
-	public static boolean downwardDefault()
-	{
-		return Input.isKeyPressed(Input.Key.DOWN) || Input.isKeyPressed(Input.Key.S);
-	}
-	public static boolean enterRisingDefault()
-	{
-		return Input.isKeyJustPressed(Input.Key.ENTER) || Input.isKeyJustPressed(Input.Key.E);
-	}
-	public static boolean escapeDefault()
-	{
-		return Input.isKeyPressed(Input.Key.ESCAPE);
-	}
-
 	//Movement keys
 	public boolean left()
 	{
-		return leftDefault();
+		return DefaultInput.leftDefault();
 	}
 
 	public boolean leftNotRight()
@@ -76,7 +47,7 @@ public class CustomInput
 
 	public boolean right()
 	{
-		return rightDefault();
+		return DefaultInput.rightDefault();
 	}
 
 	public boolean rightNotLeft()
@@ -94,7 +65,7 @@ public class CustomInput
 
 	public boolean upward()
 	{
-		return upwardDefault();
+		return DefaultInput.upwardDefault();
 	}
 
 	public boolean upwardNotDownward()
@@ -104,7 +75,7 @@ public class CustomInput
 
 	public boolean downward()
 	{
-		return downwardDefault();
+		return DefaultInput.downwardDefault();
 	}
 
 	public boolean downwardNotUpward()
@@ -115,11 +86,11 @@ public class CustomInput
 	//Utility keys
 	public boolean enterRising()
 	{
-		return enterRisingDefault();
+		return DefaultInput.enterRisingDefault();
 	}
 
 	public boolean escape()
 	{
-		return escapeDefault();
+		return DefaultInput.escapeDefault();
 	}
 }

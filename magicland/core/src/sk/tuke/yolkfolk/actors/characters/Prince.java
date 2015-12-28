@@ -27,31 +27,26 @@
 
 package sk.tuke.yolkfolk.actors.characters;
 
+import sk.tuke.gamelib2.Item;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
- * TODO: implement some monkey game (will unlock secret part, e.g. in a well)
+ * True, good prince. He enslaved Daisy, though.
  * <p/>
- * Created by Steve on 3.12.2015.
+ * Created by Steve on 28.12.2015.
  */
-public class Monkey extends AbstractActor
+public class Prince extends AbstractActor implements Item
 {
 	//Constants
-	public static final String name = "Monkey";
+	public static final String NAME = "Prince";
 
-	public Monkey()
+	public Prince()
 	{
-		super(Monkey.name, "sprites/monkey.png", 48, 32);
+		super(Prince.NAME, "sprites/prince.png", 50, 60);
 	}
 
 	@Override
 	public void act()
 	{
 	}
-
-	/*@Override
-	public void addedToWorld(World world)
-	{
-		super.addedToWorld(world);
-	}*/
 }

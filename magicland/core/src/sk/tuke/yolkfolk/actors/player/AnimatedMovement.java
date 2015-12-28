@@ -32,6 +32,7 @@ import sk.tuke.gamelib2.Animation;
 /**
  * Rozhranie definujuce prehladnu pracu s animaciami v suvislosti s pohybom hraca, pripadne ineho kompatibilneho
  * actora.
+ * <p/>
  * Kazdy prikaz je inkluzivny, takze napriklad na smer doprava je potrebne pouzit stop left, run right.
  * <p/>
  * Created by Steve on 2.12.2015.

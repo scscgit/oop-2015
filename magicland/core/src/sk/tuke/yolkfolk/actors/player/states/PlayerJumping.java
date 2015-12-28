@@ -92,7 +92,8 @@ public class PlayerJumping extends AbstractAirborneState
 	public void act()
 	{
 		//Na vrchu skoku sa pokusi pohnut v smere, v ktorom skace, aby sa nezasekol pri vysokej prekazke
-		if (!this.falling && PhysicsHelper.getLinearVelocity(getPlayer())[1] < 0)
+		//Note for self: zaseknutie sa v nekonecnom skoku som tu opravil pridanim OBOCH rovnosti: < na <=, > na >=
+		if (!this.falling && PhysicsHelper.getLinearVelocity(getPlayer())[1] <= 0)
 		{
 			setVelocity(this.direction);
 			this.falling = true;
@@ -102,7 +103,7 @@ public class PlayerJumping extends AbstractAirborneState
 		//Experimentalne skombinovanie dvoch podmienok, pricom prechod budem robit vzdy najprv na stav Falling:
 		//Ak zacal hrac spomalovat padanie, tak budem predpokladat, ze dopadol na zem
 		//Ak pada privelkou rychlostou, tak uz neskace dobrovolne
-		if ((this.falling && getLastSpeedY() > speedY() || isPlayerFalling()))
+		if ((this.falling && getLastSpeedY() >= speedY() || isPlayerFalling()))
 		{
 			interpret("set state falling");
 		}

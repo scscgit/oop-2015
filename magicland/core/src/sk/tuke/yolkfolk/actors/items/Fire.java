@@ -43,11 +43,11 @@ import sk.tuke.yolkfolk.actors.player.Player;
 public class Fire extends AbstractActor implements Item, Observer<Cursable>
 {
 	//Constants
-	public static final String name = "Fire";
+	public static final String NAME = "Fire";
 
 	public Fire()
 	{
-		super(Fire.name, "sprites/fire.png", 16, 16);
+		super(Fire.NAME, "sprites/fire.png", 16, 16);
 		CurseEvent.register(this);
 	}
 

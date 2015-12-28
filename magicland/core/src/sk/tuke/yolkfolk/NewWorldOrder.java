@@ -40,18 +40,24 @@ import sk.tuke.gamelib2.World;
 public class NewWorldOrder extends World
 {
 	private Music music;
+	private String musicPath;
 
 	{
 		this.music = null;
+		this.musicPath = "";
 	}
 
 	//Nacita hlavnu hudbu pre celu hru. Vzdy moze byt naraz spustena iba jedna.
-	void loadMusic(String path)
+	public void loadMusic(String path)
 	{
-		stopMusic();
-		this.music = new Music(path);
-		this.music.play();
-		this.music.setLooping(true);
+		if (!musicPath.equals(path))
+		{
+			stopMusic();
+			this.music = new Music(path);
+			this.musicPath = path;
+			this.music.play();
+			this.music.setLooping(true);
+		}
 	}
 
 	//Receive the current instance of illusion of choice of your own music

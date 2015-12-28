@@ -30,6 +30,8 @@ package sk.tuke.yolkfolk.actors.characters;
 import sk.tuke.gamelib2.Animation;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.gamelib2.PhysicsHelper;
+import sk.tuke.yolkfolk.GameMusic;
+import sk.tuke.yolkfolk.actors.Swimmable;
 import sk.tuke.yolkfolk.actors.player.AbstractAnimatedActor;
 import sk.tuke.yolkfolk.actors.player.Player;
 
@@ -39,16 +41,17 @@ import sk.tuke.yolkfolk.actors.player.Player;
  * <p/>
  * Created by Steve on 3.12.2015.
  */
-public class Troll extends AbstractAnimatedActor
+public class Troll extends AbstractAnimatedActor implements Swimmable
 {
 	//Constants
-	public static final String name = "Troll";
+	public static final String NAME = "Troll";
 	//Vzdialenost v nasobkoch rozmerov Trolla, na ktoru je schopny detegovat hraca
 	private static final float DETECTION_RADIUS = 2.0f;
 
-	//Premenne
+	//Variables
 	//Smer otocenia, false=vpravo, true=vlavo
 	private boolean direction;
+	private boolean swimming;
 
 	//Referencie na objekty
 	//Iba ak je sprava null (este neexistuje), tak ju raz Troll povie
@@ -58,10 +61,11 @@ public class Troll extends AbstractAnimatedActor
 
 	public Troll()
 	{
-		super(Troll.name, "sprites/troll.png", 48, 52);
+		super(Troll.NAME, "sprites/troll.png", 48, 52);
 		this.braveHeroNotice = null;
 		this.player = null;
 		this.direction = false;
+		this.swimming = false;
 
 		Animation animationLeft = new Animation("sprites/troll_left.png", 48, 52);
 		setAnimationLeft(animationLeft);
@@ -85,14 +89,22 @@ public class Troll extends AbstractAnimatedActor
 		}
 	}
 
-	@Override
-	public void act()
+	//Akcie, ktore nastanu po smrti Trolla
+	protected void onDeath()
 	{
-		//Referencia na prveho hraca, ktoreho si Troll vsimne, sa ulozi do sukromnej premennej player
+		GameMusic.playFinishHim();
+		if (this.braveHeroNotice != null)
+		{
+			this.braveHeroNotice.remove();
+		}
+	}
+
+	protected void noticeFirstPlayer()
+	{
 		if (this.braveHeroNotice == null)
 		{
 			this.player = getPlayer();
-			if (isNear(this.player, getWidth() * DETECTION_RADIUS, getHeight() * DETECTION_RADIUS))
+			if (this.player != null && isNear(this.player, getWidth() * DETECTION_RADIUS, getHeight() * DETECTION_RADIUS))
 			{
 				this.braveHeroNotice = new Message("A wild troll appeared",
 				                                   "*sniff* *sniff*,\nME SMELL A BRAVE HERO,\nme must defend this castle.",
@@ -101,17 +113,54 @@ public class Troll extends AbstractAnimatedActor
 				updateAnimation();
 			}
 		}
+	}
 
-		if (this.braveHeroNotice instanceof Message && this.player instanceof Player)
+	@Override
+	public void act()
+	{
+		//Referencia na prveho hraca, ktoreho si Troll vsimne, sa ulozi do sukromnej premennej player
+		noticeFirstPlayer();
+
+		//Ak si uz vsimol hraca, tak ho bude nahanat az do smrti
+		if (this.braveHeroNotice != null && this.player != null)
 		{
+			//Ak su na zemi, tak silnejsi Troll vyhra suboj a zrani svojho nepriatela
+			if (!this.swimming && isNear(this.player, this.player.getWidth() / 2, this.player.getHeight() / 2))
+			{
+				this.player.decreaseEnergy(1);
+			}
+			///Ak ho jeho uhlavny nepriatel najde vo vode, tak ho udusi (skocenim na hlavu) a teda zabije
+			else if (this.swimming && intersectsAbove(this.player, this.player.getHeight() / 2))
+			{
+				onDeath();
+				removeFromWorld();
+				return;
+			}
+
+			//Otoci sa smerom k hracovi
 			if (this.direction != this.player.getX() < getX())
 			{
 				this.direction = !this.direction;
 				updateAnimation();
 			}
 
+			//Kym zije, bude sa pohybovat smerom k hracovi
 			PhysicsHelper.setLinearVelocity(this, 0, 0);
 			PhysicsHelper.applyForce(this, direction ? -getStep() : getStep(), 0);
 		}
+	}
+
+	//Troll sa zacne topit
+	@Override
+	public void swim()
+	{
+		this.swimming = true;
+	}
+
+	//Troll sa prestane topit (teoreticky by nemalo nastat, zalezi na mape)
+	@Override
+	public void noswim()
+	{
+		this.swimming = false;
 	}
 }

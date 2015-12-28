@@ -36,26 +36,26 @@ import sk.tuke.gamelib2.Music;
  */
 public class GameMusic
 {
-	//Konstantne cesty ku jednotlivym hudbam
-	private static final String theme = "vault.mp3";
-	private static final String game_over = "game_over.mp3";
-	private static final String secret = "secret.mp3";
-	private static final String finish_him = "finish_him.mp3";
+	//Konstantne cesty ku jednotlivym hudbam a zvukovym efektom
+	private static final String PATH_THEME = "music/vault.mp3";
+	private static final String PATH_SECRET = "music/secret.mp3";
+	private static final String PATH_GAME_OVER = "music/game_over.mp3";
+	private static final String PATH_FINISH_HIM = "music/finish_him.mp3";
 
 	//Vyberie jednu z dostupnych songov pre background theme
 	public static String getThemePath()
 	{
-		return GameMusic.theme;
+		return GameMusic.PATH_THEME;
 	}
 
 	public static String getSecretPath()
 	{
-		return GameMusic.secret;
+		return GameMusic.PATH_SECRET;
 	}
 
 	public static Music playGameOver()
 	{
-		Music music = new Music(GameMusic.game_over);
+		Music music = new Music(GameMusic.PATH_GAME_OVER);
 		music.play();
 		music.setLooping(false);
 		return music;
@@ -63,7 +63,7 @@ public class GameMusic
 
 	public static Music playFinishHim()
 	{
-		Music music = new Music(GameMusic.finish_him);
+		Music music = new Music(GameMusic.PATH_FINISH_HIM);
 		music.play();
 		music.setLooping(false);
 		return music;

@@ -30,61 +30,38 @@ package sk.tuke.yolkfolk.actors.player;
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
 import sk.tuke.gamelib2.PhysicsHelper;
-import sk.tuke.gamelib2.World;
 import sk.tuke.yolkfolk.actors.AbstractActor;
-import sk.tuke.yolkfolk.actors.player.states.PlayerState;
-import sk.tuke.yolkfolk.actors.player.states.PlayerStates;
 import sk.tuke.yolkfolk.collectables.BackpackImpl;
 import sk.tuke.yolkfolk.input.CustomInput;
-import sk.tuke.yolkfolk.interpreter.PlayerInterpreter;
 
 /**
  * Abstraktna implementacia hraca.
  * <p/>
  * Created by Steve on 2.12.2015.
  */
-public abstract class AbstractPlayer extends AbstractAnimatedActor implements Player
+public abstract class AbstractPlayer extends AbstractStatefulPlayer
 {
 	//Variables
-	private boolean flyable;
-	private float jumpHeight;
 	private int diamonds;
 	private int energy;
-	private float lastY;
-	private boolean lastYequals;
 	private float lastX;
 	private boolean lastXequals;
 
-	//Variables for falling purposes
-	private float fallSpeed;
-	private float fallLimit;
-	private float fallDamageRatio;
-
 	//Objects
 	private BackpackImpl backpack;
-	private PlayerState currentState;
-	private CustomInput playerInput;
 
 	public AbstractPlayer(String name, String animationString, int animationX, int animationY)
 	{
 		//Player vyzaduje vytvorenie zakladnych parametrov
 		super(name, animationString, animationX, animationY);
 		setEnergy(MAX_HP);
-		setFlyable(false);
 
 		//Default parametre hraca
 		setDiamonds(0);
-		setStep(
-			0); //Inicializacia dlzky kroku pohybu hraca na hodnotu 0, kazdy hrac musi tuto hodnotu prepisat, ak sa chce pohybovat
-		setJumpHeight(0); //Inicializacia vysky skoku.
-		this.lastY = getY();
-		this.lastYequals = false;
+		//Inicializacia dlzky kroku pohybu hraca na hodnotu 0, kazdy hrac musi tuto hodnotu prepisat, ak sa chce pohybovat
+		setStep(0);
 		this.lastX = getX();
 		this.lastXequals = false;
-
-		//Default parametre tykajuce sa padania
-		setFallLimit(0);
-		setFallDamageRatio(20);
 
 		//Inicializacia objektov patriacich hracovi
 		this.backpack = new BackpackImpl(this);
@@ -94,117 +71,40 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 	@Override
 	public void act()
 	{
-		//Operacie s ostatnymi actormi vo svete
-		for (Actor actor : getWorld())
+		//Osetrenie chyby kniznice, prvy act sa nema vykonat
+		if (getX() != 0 && getY() != 0)
 		{
-			if (actor != null && actor.intersects(this))
+			//Operacie s ostatnymi actormi vo svete
+			for (Actor actor : getWorld())
 			{
-				actOnIntersect(actor);
+				if (actor != null && actor.intersects(this) && actor != this)
+				{
+					actOnIntersect(actor);
+				}
 			}
+
+			//Osetrovanie zistovania, ci sa hrac hybe horizontalne
+			this.lastXequals = Math.abs(this.lastX - getX()) < AbstractPlayer.DELTA_X_IS_ZERO;
+			this.lastX = getX();
+
+			//Vykonanie vsetkych standardnych operacii (ktore spusta pouzivatel z klavesnice) na zaklade aktualneho stavu
+			getState().act();
 		}
 
-		//Osetrenie zistovania, ci je hrac na zemi
-		this.lastYequals = Math.abs(this.lastY - getY()) < AbstractPlayer.DELTA_Y_IS_ZERO;
-		this.lastY = getY();
-		this.lastXequals = Math.abs(this.lastX - getX()) < AbstractPlayer.DELTA_X_IS_ZERO;
-		this.lastX = getX();
-
-		//Vykonanie vsetkych standardnych operacii (ktore spusta pouzivatel z klavesnice) na zaklade aktualneho stavu
-		getState().act();
+		//Pravidelne operacie nadradenej triedy sa vykonaju tiez
+		super.act();
 	}
 
-	//Operacie s ostatnymi actormi vo svete, ktorych sa Player dotyka. Ocakava sa implementacia funkcie.
-	protected abstract void actOnIntersect(Actor actor);
-
-	//Each actor must implement his default state
-	public abstract PlayerState defaultState();
+	//Hotfix for GameLib inability to distinguish between standing and falling
+	public final boolean noHorizontalChange()
+	{
+		return this.lastXequals;
+	}
 
 	@Override
 	public String toString()
 	{
 		return super.toString() + " " + getX() + " " + getY() + " " + getNumberOfDiamonds() + " " + getEnergy();
-	}
-
-	//Oznamuje hracovi rychlost padania a po dopade na zem urcitou rychlostou (linear velocity v smere y) udeli hracovi relevantne zranenie.
-	public final void fall(float ySpeed)
-	{
-		//Ak pada, tak sa najvacsia hodnota rychlosti zapamata. Ak prestal padat, povodna hodnota urcuje zranenie.
-		if (/*ySpeed < 0 &&*/ -this.fallSpeed > ySpeed)
-		{
-			this.fallSpeed = -ySpeed;
-		}
-		else
-		{
-			float speed = this.fallSpeed - getFallLimit();
-			this.fallSpeed = 0f;
-
-			//Zranenie dostane iba ak pretal padat a nelieta
-			if (speed > 0 && !isFlyable())
-			{
-				decreaseEnergy((int) (speed * getFallDamageRatio()));
-				System.out.println("Dizzy has " + getPlayer().getEnergy() + " HP");
-			}
-		}
-
-		/*
-		Stary kod: verzia ktora riesila rozdiel suradnic
-		Nastavi aktualnu poziciu suradnice Y hraca ako novu poziciu dopadu a v pripade velkeho rozdielu od minulej hodnoty udeli hracovi zranenie.
-		float y = getY();
-		float fallDistance = this.fallPosition - y;
-		if (getFallDamageRatio() > 0 && fallDistance > 0 && fallDistance > getFallLimit())
-		{
-			decreaseEnergy((int) ((fallDistance - getFallLimit()) * getFallDamageRatio()));
-		}
-		this.fallPosition = y;
-		*/
-	}
-	//Kriticka rychlost, akou musi hrac padat, aby mu bolo udelene poskodenie z padu.
-	public final void setFallLimit(float fallLimit)
-	{
-		this.fallLimit = fallLimit;
-	}
-	protected final float getFallLimit()
-	{
-		return fallLimit;
-	}
-	//Koeficient, ktorym sa vynasobi rozdiel rychlosti padania a kritickej rychlosti pred udelenim zranenia o rovnakej hodnote.
-	public final void setFallDamageRatio(float fallDamageRatio)
-	{
-		this.fallDamageRatio = fallDamageRatio;
-	}
-	protected final float getFallDamageRatio()
-	{
-		return fallDamageRatio;
-	}
-	//Vyska skoku
-	public void setJumpHeight(float jumpHeight)
-	{
-		this.jumpHeight = jumpHeight;
-	}
-	public float getJumpHeight()
-	{
-		//V pripade lietania je potrebne redukovat rychlost "skakania po vzduchu"
-		if (isFlyable())
-		{
-			return this.jumpHeight * 0.72f;
-		}
-		else
-		{
-			return this.jumpHeight;
-		}
-	}
-
-	//Nastavi schopnost hraca lietat namiesto skakania
-	public void setFlyable(boolean flying)
-	{
-		this.flyable = flying;
-
-		//Ak prave padal z velkej vysky, tak bude zachraneny a po dopade na zem nezomrie
-		fall(0f);
-	}
-	public boolean isFlyable()
-	{
-		return this.flyable;
 	}
 
 	//Nastavi pocet diamantov
@@ -232,6 +132,9 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 		{
 			this.energy = energy;
 		}
+
+		//Stav zivota hraca bude vypisovany cez konzolu
+		System.out.println(getName() + " has " + getEnergy() + " HP.");
 	}
 	public void decreaseEnergy(int energy)
 	{
@@ -277,37 +180,6 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 		*/
 	}
 
-	//Nastavovanie noveho stavu
-	public void setState(PlayerState state)
-	{
-		this.currentState = state;
-	}
-	public PlayerState getState()
-	{
-		if (this.currentState == null)
-		{
-			this.currentState = defaultState();
-		}
-		return this.currentState;
-	}
-	//Access to the list of all available states
-	public PlayerStates changeState()
-	{
-		return new PlayerStates(this);
-	}
-
-	//Hotfix for GameLib inability to distinguish between standing and falling
-	public final boolean noVerticalChange()
-	{
-		return this.lastYequals;
-	}
-
-	//Hotfix for GameLib inability to distinguish between standing and falling
-	public final boolean noHorizontalChange()
-	{
-		return this.lastXequals;
-	}
-
 	//Checks whether the actor stands on a solid object/ground
 	public final boolean standsOnSolid()
 	{
@@ -326,30 +198,11 @@ public abstract class AbstractPlayer extends AbstractAnimatedActor implements Pl
 		return false;
 	}
 
-	//Interprets command for this Player
-	@Override
-	public void interpret(String commands)
-	{
-		new PlayerInterpreter(this).interpret(commands);
-	}
-
-	//Each player is egocentric - he thinks the World, literally, revolves around him.
-	@Override
-	public void addedToWorld(World world)
-	{
-		super.addedToWorld(world);
-		world.centerOn(this);
-	}
-
-	//Keyboard input of the player
-	public CustomInput getPlayerInput()
-	{
-		return this.playerInput;
-	}
-	public void setPlayerInput(CustomInput playerInput)
-	{
-		this.playerInput = playerInput;
-	}
-
 	public abstract void onDeath();
+	public abstract void wonTheGame();
+
+	/*public final boolean enoughTimeNoSolid()
+	{
+		return this.timeNoSolid>=Player.MAX_TIME_NO_SOLID;
+	}*/
 }
