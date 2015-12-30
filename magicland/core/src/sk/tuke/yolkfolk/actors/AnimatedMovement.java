@@ -1,77 +1,59 @@
 /***********************************************************
  * Zadanie na predmet Objektove Programovanie
- * <p/>
+ *
  * scsc
  * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
- * <p/>
+ *
  * Licencia: Volny softver, Open-Source GNU GPL v3+
  * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
  * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
  * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
  * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
- * <p/>
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p/>
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p/>
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.collectables;
+package sk.tuke.yolkfolk.actors;
 
-import sk.tuke.yolkfolk.NewWorldOrder;
-import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.Animation;
 
 /**
- * Kluc ku viacerym tajomstvam, z ktorych implementujem iba niektore.
+ * Rozhranie definujuce prehladnu pracu s animaciami v suvislosti s pohybom hraca, pripadne ineho kompatibilneho
+ * actora.
  * <p/>
- * Created by Steve on 28.11.2015.
+ * Kazdy prikaz je inkluzivny, takze napriklad na smer doprava je potrebne pouzit stop left, run right.
+ * <p/>
+ * Created by Steve on 2.12.2015.
  */
-public class Key extends AbstractActor implements Collectable
+public interface AnimatedMovement extends Actor
 {
-	//Constants
-	public static final String NAME = "Key";
+	void setAnimationNormal(Animation aniNormal);
+	void setAnimation();
 
-	//Variables
-	private boolean moveOutInAct;
+	void setAnimationLeft(Animation aniLeft);
+	void setAnimationRight(Animation aniRight);
+	void setAnimationJump(Animation aniJump);
+	void setAnimationJumpLeft(Animation aniJumpLeft);
+	void setAnimationJumpRight(Animation aniJumpRight);
 
-	//Initialization
-	{
-		this.moveOutInAct = false;
-	}
+	void runAnimationLeft();
+	void runAnimationRight();
+	void runAnimationJump();
 
-	//Konstruktor na vytvorenie specialneho kluca
-	public Key(String name)
-	{
-		super(name, "sprites/key.png", 16, 16);
-	}
-
-	public Key()
-	{
-		this(Key.NAME);
-	}
-
-	//Hotfix proti potencialnemu podobnemu crashu, ktory nastava u triedy Devil, nahradzuje removeFromWorld()
-	public void teleportOut()
-	{
-		this.moveOutInAct = true;
-	}
-
-	@Override
-	public void act()
-	{
-		if(this.moveOutInAct)
-		{
-			NewWorldOrder.teleportOutside(this);
-			this.moveOutInAct = false;
-		}
-	}
+	void stopAnimationLeft();
+	void stopAnimationRight();
+	void stopAnimationJump();
 }

@@ -32,7 +32,7 @@ import sk.tuke.gamelib2.Message;
 import sk.tuke.gamelib2.PhysicsHelper;
 import sk.tuke.yolkfolk.GameMusic;
 import sk.tuke.yolkfolk.actors.Swimmable;
-import sk.tuke.yolkfolk.actors.player.AbstractAnimatedActor;
+import sk.tuke.yolkfolk.actors.AbstractAnimatedActor;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
@@ -46,7 +46,9 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 	//Constants
 	public static final String NAME = "Troll";
 	//Vzdialenost v nasobkoch rozmerov Trolla, na ktoru je schopny detegovat hraca
-	private static final float DETECTION_RADIUS = 2.0f;
+	private static final float DETECTION_RADIUS = 1.2f;
+	//Maximalna rychlost, ktorou moze Troll padat (vo vode)
+	private static final float MAX_FALL_VELOCITY = 0.8f;
 
 	//Variables
 	//Smer otocenia, false=vpravo, true=vlavo
@@ -145,7 +147,8 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 			}
 
 			//Kym zije, bude sa pohybovat smerom k hracovi
-			PhysicsHelper.setLinearVelocity(this, 0, 0);
+			float yVelocity = PhysicsHelper.getLinearVelocity(this)[1];
+			PhysicsHelper.setLinearVelocity(this, 0, (yVelocity<Troll.MAX_FALL_VELOCITY&&this.swimming)?-Troll.MAX_FALL_VELOCITY:yVelocity);
 			PhysicsHelper.applyForce(this, direction ? -getStep() : getStep(), 0);
 		}
 	}

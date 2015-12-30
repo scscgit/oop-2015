@@ -72,4 +72,10 @@ public class DizzyStates extends PlayerStates
 	{
 		getPlayer().setState(new Falling(getPlayer()));
 	}
+
+	@Override
+	public void setStateFrozen()
+	{
+		getPlayer().setState(new Frozen(getPlayer()));
+	}
 }

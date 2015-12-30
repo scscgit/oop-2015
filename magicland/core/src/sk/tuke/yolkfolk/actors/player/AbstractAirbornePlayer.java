@@ -27,6 +27,8 @@
 
 package sk.tuke.yolkfolk.actors.player;
 
+import sk.tuke.yolkfolk.actors.AbstractAnimatedActor;
+
 /**
  * Implementacia padania, parametrov skakania a stavu lietania v kombinacii s dedenim podpory animovaneho pohybu.
  * <p/>

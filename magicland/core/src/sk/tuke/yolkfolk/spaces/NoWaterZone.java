@@ -37,6 +37,7 @@ import sk.tuke.yolkfolk.actors.Swimmable;
  */
 public class NoWaterZone extends NoFlyZone
 {
+	//Constants
 	public static final String NAME = "NoWaterZone";
 
 	public NoWaterZone()

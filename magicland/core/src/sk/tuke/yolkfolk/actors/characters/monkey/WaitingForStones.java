@@ -71,6 +71,8 @@ public class WaitingForStones extends AbstractMonkeyState
 				if (actor instanceof Stone && actor.intersects(getMonkey().getStoneSpace()))
 				{
 					setStones(getStones() + 1);
+					//TeleportOutside hotfix nefunguje, tak budem dufat ze removeActor necrashne
+					//NewWorldOrder.teleportOutside(actor);
 					getMonkey().getWorld().removeActor(actor);
 					break;
 				}

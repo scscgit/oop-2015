@@ -30,7 +30,7 @@ package sk.tuke.yolkfolk.actors;
 import sk.tuke.gamelib2.Actor;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player
+ * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player.
  * <p/>
  * Created by Steve on 25.11.2015.
  */

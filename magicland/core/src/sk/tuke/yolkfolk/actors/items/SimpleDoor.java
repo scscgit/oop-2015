@@ -33,6 +33,7 @@ import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.collectables.Key;
+import sk.tuke.yolkfolk.collectables.SimpleKey;
 
 /**
  * A generic door, initially closed, unlike most real life doors.
@@ -77,29 +78,33 @@ public class SimpleDoor extends AbstractActor implements Door
 		this.destination = destination;
 	}
 
-	//Specific door without automagical pairing
-	public SimpleDoor(Door destination)
+	//Custom type of door with automagical pairing
+	public SimpleDoor(String name)
 	{
-		super(SimpleDoor.NAME, "sprites/doorlocked.png", 40, 50);
-
-		this.destination = destination;
-	}
-
-	//When this default constructor is used, automagical pairing of doors happens
-	public SimpleDoor()
-	{
-		super(SimpleDoor.NAME, "sprites/doorlocked.png", 40, 50);
+		super(name, "sprites/doorlocked.png", 40, 50);
 
 		//Automagically intertwines all pairs of doors
 		if (getPreviousDoor() != null)
 		{
-			intertwineWith(SimpleDoor.previousDoor);
+			intertwineWith(getPreviousDoor());
 			setPreviousDoor(null);
 		}
 		else
 		{
 			setPreviousDoor(this);
 		}
+	}
+
+	//Specific door without automagical pairing
+	public SimpleDoor(Door destination)
+	{
+		this(SimpleDoor.NAME, destination);
+	}
+
+	//When this default constructor is used, automagical pairing of doors happens
+	public SimpleDoor()
+	{
+		this(SimpleDoor.NAME);
 	}
 
 	//Method for automagical pairing of doors happens, no pairing happens when it returns null
@@ -132,7 +137,7 @@ public class SimpleDoor extends AbstractActor implements Door
 	//Pomocou kluca sa skusia otvorit dvere a metoda vrati hodnotu uspechu
 	public boolean unlock(Key key)
 	{
-		if (key != null)
+		if (key instanceof SimpleKey)
 		{
 			open();
 			return true;
@@ -159,7 +164,7 @@ public class SimpleDoor extends AbstractActor implements Door
 	//Odstranenie predchadzajucej spravy
 	protected void removeMessage()
 	{
-		if (this.closedWarning == null)
+		if (this.closedWarning != null)
 		{
 			this.closedWarning.remove();
 		}
@@ -241,6 +246,12 @@ public class SimpleDoor extends AbstractActor implements Door
 	@Override
 	public void act()
 	{
+		//Osetrenie chyby kniznice, prvy act sa nema vykonat
+		if (getX() == 0 && getY() == 0)
+		{
+			return;
+		}
+
 		//Ak vedla dveri hrac hodi kluc, a dvere boli zamknute, tak sa magicky otvoria (ak, samozrejme, zamok pasuje)
 		if (!isUnlocked())
 		{
@@ -248,7 +259,8 @@ public class SimpleDoor extends AbstractActor implements Door
 			{
 				if (actor instanceof Key && actor.intersects(this) && unlock((Key) actor))
 				{
-					((Key) actor).removeFromWorld();
+					((Key) actor).teleportOut();
+					//((Key) actor).removeFromWorld();
 					break;
 				}
 			}

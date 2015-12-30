@@ -93,9 +93,12 @@ public class WaitingForBirds extends AbstractMonkeyState
 		{
 			//Tentokrat si opica vypyta kamene
 			newMessage("Whoa!",
-			           "So many birds, I can feed my family now.\nI am sorry, but before I give you my precious key,\ncan you bring me " +
-			           Monkey.STONES_REQUIRED                                                                                            +
-			           " stones? 'tis the last thing, I promise.", getMonkey());
+			           "So many birds, I can feed my family now.\n"      +
+			           "I am sorry, but before I give you my precious\n" +
+			           "key, can you bring me "                          +
+			           Monkey.STONES_REQUIRED                            +
+			           " stones?\n"                                      +
+			           "'tis the last thing, I promise.", getMonkey());
 
 			//Inicializacia priestoru pre hadzanie kamenov a nastavenie dalsieho stavu
 			if (!findStoneSpace())

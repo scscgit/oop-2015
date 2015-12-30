@@ -87,12 +87,12 @@ public abstract class AbstractPlayer extends AbstractStatefulPlayer
 			this.lastXequals = Math.abs(this.lastX - getX()) < AbstractPlayer.DELTA_X_IS_ZERO;
 			this.lastX = getX();
 
+			//Pravidelne operacie nadradenej triedy sa vykonaju tiez
+			super.act();
+
 			//Vykonanie vsetkych standardnych operacii (ktore spusta pouzivatel z klavesnice) na zaklade aktualneho stavu
 			getState().act();
 		}
-
-		//Pravidelne operacie nadradenej triedy sa vykonaju tiez
-		super.act();
 	}
 
 	//Hotfix for GameLib inability to distinguish between standing and falling

@@ -28,7 +28,7 @@
 package sk.tuke.yolkfolk.actors.objects;
 
 /**
- * Instancia vytahu definovana jej konkretnymi parametrami zaciatku a konca
+ * Instancia vytahu definovana jej konkretnymi parametrami zaciatku a konca.
  * <p/>
  * Created by Steve on 27.12.2015.
  */

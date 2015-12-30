@@ -42,9 +42,13 @@ public class PlayerInterpreter extends ActorInterpreter
 		super(player);
 	}
 
-	public Player getPlayer()
+	public Player getPlayer() throws InterpreterException
 	{
-		return (Player) getActor();
+		if(getActor() instanceof Player)
+		{
+			return (Player) getActor();
+		}
+		throw new InterpreterInvalidInstructionsException("Actor "+getActor().getName()+" is not a Player.");
 	}
 
 	//Command for understanding the direction
@@ -96,6 +100,10 @@ public class PlayerInterpreter extends ActorInterpreter
 		else if (cmd.equals("walking"))
 		{
 			getPlayer().changeState().setStateWalking(executeDirection());
+		}
+		else if (cmd.equals("frozen"))
+		{
+			getPlayer().changeState().setStateFrozen();
 		}
 		else
 		{

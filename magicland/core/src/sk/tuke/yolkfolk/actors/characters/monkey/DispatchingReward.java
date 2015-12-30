@@ -52,14 +52,14 @@ public class DispatchingReward extends AbstractMonkeyState
 	@Override
 	public void act()
 	{
-		if(getDizzy() != null && isNear(getDizzy()))
+		newMessage("Monkey happy, very happy.",
+		           "I got everything! Now I can conquer the world!\n" + "Oh, the key, right. Here you go.",
+		           getMonkey());
+		getMonkey().dispatchKey();
+		if (getDizzy() != null && isNear(getDizzy()))
 		{
-			newMessage("Monkey happy, very happy.",
-			           "I got everything! Now I can conquer the world!\nOh, the key, right. Here you go.",
-			           getMonkey());
-			getMonkey().dispatchKey();
 			getDizzy().setMonkeyGameDone();
-			setNextState();
 		}
+		setNextState();
 	}
 }

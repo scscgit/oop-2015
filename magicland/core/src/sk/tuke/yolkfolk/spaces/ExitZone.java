@@ -80,7 +80,7 @@ public class ExitZone extends AbstractSpace
 
 			//Exit zona uz nie je potrebna
 			getWorld().removeActor(this);
-			return;
+			//return;
 		}
 		//Ked je hrac konci sam, tak je problem.
 		else

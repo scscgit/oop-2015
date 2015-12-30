@@ -83,6 +83,42 @@ public class Use extends AbstractAction<Actor, Void>
 		return Use.lastError = new Message(title, message, actor);
 	}
 
+	//Tries to collect an actor
+	protected boolean collect(Player player, Collectable collisionActor)
+	{
+		try
+		{
+			//Try to add actor into backpack, in case of success remove the actor from the world and go to next iteration
+			if (player.addToBackpack(collisionActor))
+			{
+				player.getWorld().removeActor(collisionActor);
+
+				//Only collect one item
+				return true;
+			}
+			else
+			{
+				//This message should not appear if exception catching works properly
+				newMessage("Inventory problem", player.getName() + ", your backpack is full!", player);
+			}
+		}
+		catch (ArrayIndexOutOfBoundsException exception)
+		{
+			newMessage("Inventory problem", exception.getMessage(), player);
+			//V pripade plneho inventara, resp. podobnej chyby vratim false a necham pouzit Usable actorov
+		}
+		return false;
+	}
+
+	//Tried to use an actor
+	protected boolean use(Player player, Usable usable)
+	{
+		usable.use(player);
+
+		//Assume success of usage (use returns void)
+		return true;
+	}
+
 	//Operacie vykonane nad kazdym objektom v kolizii s Playerom
 	//@return true if collision happened, in both successful action or error, e.g. picking up item to a full inventory
 	private boolean collisionActions(Player player)
@@ -90,48 +126,26 @@ public class Use extends AbstractAction<Actor, Void>
 		//Store information about happening of collision
 		boolean collisionHappened = false;
 
+		//First, try to collect any collectable items
 		for (Actor collisionActor : player.getWorld())
 		{
-			if (collisionActor != null && collisionActor.intersects(player))
+			//Collect collectable actor
+			if (collisionActor instanceof Collectable && collisionActor.intersects(player) && collect(player, ((Collectable)collisionActor)))
 			{
-				//Collect collectable actor
-				if (collisionActor instanceof Collectable)
-				{
-					try
-					{
-						//Try to add actor into backpack, in case of success remove the actor from the world and go to next iteration
-						if (player.addToBackpack(collisionActor))
-						{
-							player.getWorld().removeActor(collisionActor);
-							collisionHappened = true;
-
-							//Only collect one item
-							break;
-						}
-						else
-						{
-							//This message should not appear if exception catching works properly
-							newMessage("Inventory problem", player.getName() + ", your backpack is full!", player);
-						}
-					}
-					catch (ArrayIndexOutOfBoundsException exception)
-					{
-						collisionHappened = true;
-						newMessage("Inventory problem", exception.getMessage(), player);
-						break;
-					}
-				}
-
-				//Use usable actors
-				if (collisionActor instanceof Usable)
-				{
-					Usable usable = (Usable) collisionActor;
-					usable.use(player);
-
-					//Assume success of usage (use returns void)
 					collisionHappened = true;
+					break;
+			}
+		}
 
-					//Only use one item
+		//If no collectable items were found, try to find usable items in the vicinity of the Player
+		if(!collisionHappened)
+		{
+			for (Actor collisionActor : player.getWorld())
+			{
+				//Use usable actors
+				if (collisionActor instanceof Usable && collisionActor.intersects(player) && use(player, ((Usable)collisionActor)))
+				{
+					collisionHappened = true;
 					break;
 				}
 			}

@@ -63,6 +63,12 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		register("Prince");
 		register("RobinHood");
 		register("Troll");
+		register("Witch");
+		register("Witcher");
+
+		//Special actor character: A default Ghost
+		setRegisterPath("sk.tuke.yolkfolk.actors.characters.ghost");
+		register("GhostImpl");
 
 		//Special actor character: The Monkey
 		setRegisterPath("sk.tuke.yolkfolk.actors.characters.monkey");
@@ -91,12 +97,14 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		setRegisterPath("sk.tuke.yolkfolk.spaces");
 		register("BirdBorderLeft");
 		register("BirdBorderRight");
+		register("CinematicZone");
 		register("ExitZone");
 		register("FlyZone");
 		register("MonkeyStoneSpace");
 		register("NoFlyZone");
-		register("NoWaterZone");
 		register("NoSecretZone");
+		register("NoWaterZone");
+		register("PrinceSpace");
 		register("SecretZone");
 		register("WaterZone");
 
@@ -106,6 +114,7 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		register("Key");
 		register("MagicKey");
 		register("Ring");
+		register("SimpleKey");
 		register("Stone");
 
 		/*

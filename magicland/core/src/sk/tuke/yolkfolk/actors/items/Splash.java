@@ -28,6 +28,7 @@
 package sk.tuke.yolkfolk.actors.items;
 
 import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.NewWorldOrder;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
@@ -43,9 +44,12 @@ public class Splash extends AbstractActor implements Item
 
 	//Variables
 	private int deleteCounter;
+	private boolean deleted;
 
+	//Inicializacia
 	{
 		this.deleteCounter = ANIMATION_TIME;
+		this.deleted = false;
 	}
 
 	//Splash moze reprezentovat iny objekt jeho menom
@@ -60,13 +64,26 @@ public class Splash extends AbstractActor implements Item
 		this(Splash.NAME);
 	}
 
+	//Hotfix proti crashu - teleport outside world so wrong collisions won't happen
+	public final void safeDeleteStopAct()
+	{
+		this.deleted = true;
+		NewWorldOrder.teleportOutside(this);
+		//removeFromWorld();
+	}
+
 	//Vykonaj animaciu o pozadovanej dlzke a odstran splash
 	public void act()
 	{
+		if(this.deleted)
+		{
+			return;
+		}
+
 		if (this.deleteCounter <= 0)
 		{
-			setPosition(-getWidth(), -getHeight()); //Teleport outside world so wrong collisions won't happen
-			getWorld().removeActor(this);
+
+			safeDeleteStopAct();
 		}
 		else
 		{

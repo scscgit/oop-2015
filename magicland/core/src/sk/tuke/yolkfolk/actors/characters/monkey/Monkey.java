@@ -35,10 +35,13 @@ import sk.tuke.yolkfolk.actors.State;
 import sk.tuke.yolkfolk.actors.Stateful;
 import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
 import sk.tuke.yolkfolk.collectables.Key;
+import sk.tuke.yolkfolk.collectables.MagicKey;
 import sk.tuke.yolkfolk.spaces.MonkeyStoneSpace;
 
 /**
- * TODO: implement some monkey game (will unlock secret part, e.g. in a well)
+ * Monkey that implements some monkey games.
+ * <p/>
+ * Will unlock secret part, but player needs to know Mario "well" enough to find it!
  * <p/>
  * Created by Steve on 3.12.2015.
  */
@@ -46,14 +49,13 @@ public class Monkey extends AbstractActor implements Item, Stateful
 {
 	//Constants
 	public static final String NAME = "Monkey";
-	protected static final int NUMBER_OF_STATES = 4;
 	//Vzdialenost v nasobkoch svojich rozmerov, na ktoru je schopny detegovat hraca
 	protected static final float DETECTION_RADIUS = 2.0f;
 	//Pocitadlo cyklov, ktore musia prejst pred spustenim vyzvy pre stav 0
 	protected static final int STATE_0_COUNTER = 250;
-	//Pocet vtakov, ktore musi Dizzy najst
+	//Pocet vtakov, ktore musi Dizzy najst a chytit
 	protected static final int BIRDS_REQUIRED = 3;
-	//Pocet kamenov, ktore musi Dizzy najst
+	//Pocet kamenov, ktore musi Dizzy najst a doniest
 	protected static final int STONES_REQUIRED = 3;
 
 	//Variables
@@ -88,7 +90,7 @@ public class Monkey extends AbstractActor implements Item, Stateful
 	//Monkey gives player a key
 	public void dispatchKey()
 	{
-		Key key = new Key();
+		Key key = new MagicKey();
 		key.setPosition(getX() - key.getWidth(), getY() - key.getHeight());
 		getWorld().addActor(key);
 	}

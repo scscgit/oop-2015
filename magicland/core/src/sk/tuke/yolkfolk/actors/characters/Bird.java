@@ -32,7 +32,7 @@ import sk.tuke.gamelib2.Animation;
 import sk.tuke.gamelib2.NoGravity;
 import sk.tuke.gamelib2.PhysicsHelper;
 import sk.tuke.yolkfolk.actors.objects.Rubbish;
-import sk.tuke.yolkfolk.actors.player.AbstractAnimatedActor;
+import sk.tuke.yolkfolk.actors.AbstractAnimatedActor;
 import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
 import sk.tuke.yolkfolk.spaces.BirdBorderLeft;
 import sk.tuke.yolkfolk.spaces.BirdBorderRight;

@@ -25,58 +25,20 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.characters.monkey;
+package sk.tuke.yolkfolk.actors.player.players.dizzy;
 
-import sk.tuke.yolkfolk.actors.State;
+import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.actors.player.states.PlayerFrozen;
 
 /**
- * Stav, v ktorom bude hrac oboznameny s pravidlami a vtakmi.
+ * Dizzy Frozen state.
  * <p/>
  * Created by Steve on 28.12.2015.
  */
-public class BirdRequest extends AbstractMonkeyState
+public class Frozen extends PlayerFrozen implements DizzyState
 {
-	public BirdRequest(Monkey monkey)
+	public Frozen(Player player)
 	{
-		super(monkey);
-		setCounter(0);
-
-		//Prva sprava sa zobrazi pri hracovi
-		newMessage("Hello there, stranger!",
-		           "I can see on your face that you'd like\na shiny Magic Key that opens castle doors.",
-		           getDizzy());
-	}
-
-	public void setCounter(int counter)
-	{
-		getMonkey().setCounter(counter);
-	}
-	public int getCounter()
-	{
-		return getMonkey().getCounter();
-	}
-
-	@Override
-	public State setNextState()
-	{
-		State state = new WaitingForBirds(getMonkey());
-		getMonkey().setState(state);
-		return state;
-	}
-
-	@Override
-	public void act()
-	{
-		//Increase counter
-		setCounter(getCounter() + 1);
-
-		//After enough time passes, if Dizzy comes near (or still is), tells him to collect birds
-		if (getMonkey().getCounter() > Monkey.STATE_0_COUNTER && isNear(getDizzy()))
-		{
-			newMessage("You are lucky today!",
-			           "If you help me collect " + Monkey.BIRDS_REQUIRED +
-			           " birds,\nI can give you my key!", getMonkey());
-			setNextState();
-		}
+		super(player);
 	}
 }

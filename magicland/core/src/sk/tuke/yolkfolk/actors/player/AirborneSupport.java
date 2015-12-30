@@ -27,12 +27,14 @@
 
 package sk.tuke.yolkfolk.actors.player;
 
+import sk.tuke.gamelib2.Actor;
+
 /**
  * Rozhranie actora pre zabezpecenie fyzickeho pohybovania sa vzduchom so vsetkymi nasledkami.
  * <p/>
  * Created by Steve on 28.12.2015.
  */
-public interface AirborneSupport
+public interface AirborneSupport extends Actor
 {
 	void fall(float ySpeed);
 	void setFallLimit(float fallLimit);

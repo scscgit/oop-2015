@@ -25,58 +25,75 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.characters.monkey;
+package sk.tuke.yolkfolk.actors.characters.ghost;
 
-import sk.tuke.yolkfolk.actors.State;
+import sk.tuke.yolkfolk.actors.AbstractAnimatedDecorator;
 
 /**
- * Stav, v ktorom bude hrac oboznameny s pravidlami a vtakmi.
+ * Abstraktne ozdobovanie abstraktneho ducha.
  * <p/>
- * Created by Steve on 28.12.2015.
+ * Created by Steve on 30.12.2015.
  */
-public class BirdRequest extends AbstractMonkeyState
+public abstract class AbstractGhostDecorator extends AbstractAnimatedDecorator implements Ghost
 {
-	public BirdRequest(Monkey monkey)
-	{
-		super(monkey);
-		setCounter(0);
+	//Dekorovany duch
+	Ghost ghost;
 
-		//Prva sprava sa zobrazi pri hracovi
-		newMessage("Hello there, stranger!",
-		           "I can see on your face that you'd like\na shiny Magic Key that opens castle doors.",
-		           getDizzy());
-	}
-
-	public void setCounter(int counter)
+	public AbstractGhostDecorator(Ghost ghost)
 	{
-		getMonkey().setCounter(counter);
-	}
-	public int getCounter()
-	{
-		return getMonkey().getCounter();
+		//Inicializacia dekoratora
+		super(ghost);
+		this.ghost = ghost;
 	}
 
 	@Override
-	public State setNextState()
+	public void exchangeKills(Ghost ghost)
 	{
-		State state = new WaitingForBirds(getMonkey());
-		getMonkey().setState(state);
-		return state;
+		this.ghost.exchangeKills(ghost);
 	}
-
 	@Override
-	public void act()
+	public void setStep(float step)
 	{
-		//Increase counter
-		setCounter(getCounter() + 1);
-
-		//After enough time passes, if Dizzy comes near (or still is), tells him to collect birds
-		if (getMonkey().getCounter() > Monkey.STATE_0_COUNTER && isNear(getDizzy()))
-		{
-			newMessage("You are lucky today!",
-			           "If you help me collect " + Monkey.BIRDS_REQUIRED +
-			           " birds,\nI can give you my key!", getMonkey());
-			setNextState();
-		}
+		this.ghost.setStep(step);
+	}
+	@Override
+	public float getStep()
+	{
+		return this.ghost.getStep();
+	}
+	@Override
+	public void removeFromWorld()
+	{
+		this.ghost.removeFromWorld();
+	}
+	@Override
+	public boolean isLeft()
+	{
+		return this.ghost.isLeft();
+	}
+	@Override
+	public boolean isRight()
+	{
+		return this.ghost.isRight();
+	}
+	@Override
+	public boolean isStopped()
+	{
+		return this.ghost.isStopped();
+	}
+	@Override
+	public void runLeft()
+	{
+		this.ghost.runLeft();
+	}
+	@Override
+	public void runRight()
+	{
+		this.ghost.runRight();
+	}
+	@Override
+	public void stop()
+	{
+		this.ghost.stop();
 	}
 }
