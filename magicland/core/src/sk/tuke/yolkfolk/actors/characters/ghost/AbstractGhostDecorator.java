@@ -25,17 +25,75 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actors.characters.ghost;
 
-import sk.tuke.gamelib2.Actor;
+import sk.tuke.yolkfolk.actors.AbstractAnimatedDecorator;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player.
+ * Abstraktne ozdobovanie abstraktneho ducha.
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 30.12.2015.
  */
-public interface Usable
+public abstract class AbstractGhostDecorator extends AbstractAnimatedDecorator implements Ghost
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	//Dekorovany duch
+	Ghost ghost;
+
+	public AbstractGhostDecorator(Ghost ghost)
+	{
+		//Inicializacia dekoratora
+		super(ghost);
+		this.ghost = ghost;
+	}
+
+	@Override
+	public void exchangeKills(Ghost ghost)
+	{
+		this.ghost.exchangeKills(ghost);
+	}
+	@Override
+	public void setStep(float step)
+	{
+		this.ghost.setStep(step);
+	}
+	@Override
+	public float getStep()
+	{
+		return this.ghost.getStep();
+	}
+	@Override
+	public void removeFromWorld()
+	{
+		this.ghost.removeFromWorld();
+	}
+	@Override
+	public boolean isLeft()
+	{
+		return this.ghost.isLeft();
+	}
+	@Override
+	public boolean isRight()
+	{
+		return this.ghost.isRight();
+	}
+	@Override
+	public boolean isStopped()
+	{
+		return this.ghost.isStopped();
+	}
+	@Override
+	public void runLeft()
+	{
+		this.ghost.runLeft();
+	}
+	@Override
+	public void runRight()
+	{
+		this.ghost.runRight();
+	}
+	@Override
+	public void stop()
+	{
+		this.ghost.stop();
+	}
 }

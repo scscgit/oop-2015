@@ -27,6 +27,7 @@
 
 package sk.tuke.yolkfolk;
 
+import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Music;
 import sk.tuke.gamelib2.World;
 
@@ -39,6 +40,11 @@ import sk.tuke.gamelib2.World;
  */
 public class NewWorldOrder extends World
 {
+	//Constants
+	//Konstanta urcujuca, ako daleko sa predmet ma nachadzat, aby ho nebolo vidno
+	public static final int OUTSIDE_WORLD = 800;
+
+	//Variables
 	private Music music;
 	private String musicPath;
 
@@ -73,5 +79,11 @@ public class NewWorldOrder extends World
 		{
 			getMusic().stop();
 		}
+	}
+
+	//Teleports Actor outside the World so wrong collisions won't happen, used as a hotfix
+	public static void teleportOutside(Actor actor)
+	{
+		actor.setPosition(-NewWorldOrder.OUTSIDE_WORLD, -NewWorldOrder.OUTSIDE_WORLD);
 	}
 }

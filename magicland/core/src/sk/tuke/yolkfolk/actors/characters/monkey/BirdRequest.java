@@ -43,7 +43,7 @@ public class BirdRequest extends AbstractMonkeyState
 
 		//Prva sprava sa zobrazi pri hracovi
 		newMessage("Hello there, stranger!",
-		           "I can see on your face that you'd like\na shiny key that opens castle doors.",
+		           "I can see on your face that you'd like\na shiny Magic Key that opens castle doors.",
 		           getDizzy());
 	}
 

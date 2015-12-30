@@ -27,6 +27,7 @@
 
 package sk.tuke.yolkfolk.collectables;
 
+import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
 
 /**
@@ -34,6 +35,6 @@ import sk.tuke.gamelib2.Item;
  * <p/>
  * Created by Steve on 28.11.2015.
  */
-public interface Collectable extends Item
+public interface Collectable extends Actor, Item
 {
 }

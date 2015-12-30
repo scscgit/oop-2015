@@ -56,7 +56,7 @@ public class Dizzy extends AbstractPlayer implements Cursable
 	private boolean monkeyFinished;
 	//private boolean initialized;
 
-	public Dizzy()
+	public Dizzy() //TODO be last actor created on map
 	{
 		//Nastavenie animacii
 		super(Dizzy.NAME, "sprites/dizzy.png", 25, 25);
@@ -179,6 +179,8 @@ public class Dizzy extends AbstractPlayer implements Cursable
 	public void wonTheGame()
 	{
 		interpret("set state frozen");
-		new Message("Congratulations!","You've won this game, Dizzy!\nTogether with Daisy, will both live happily ever after.", this);
+		new Message("Congratulations, you've won this game!",
+		            "Together with Daisy, they'll\n" + "both live happily ever after.",
+		            this);
 	}
 }

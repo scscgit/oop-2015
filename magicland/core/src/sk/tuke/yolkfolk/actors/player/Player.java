@@ -28,6 +28,7 @@
 package sk.tuke.yolkfolk.actors.player;
 
 import sk.tuke.gamelib2.Actor;
+import sk.tuke.yolkfolk.actors.AnimatedMovement;
 import sk.tuke.yolkfolk.actors.player.states.PlayerState;
 import sk.tuke.yolkfolk.actors.player.states.PlayerStates;
 import sk.tuke.yolkfolk.input.CustomInput;
@@ -51,7 +52,7 @@ public interface Player extends Actor, AnimatedMovement, AirborneSupport
 	//If velocity Y (in both directions) is less than this value, Player can be considered standing on ground
 	//povodna hodnota 0.1f robila problemy pri schodoch a nerovnych povrchoch
 	float SPEED_Y_IS_ON_GND = 0.9f; //nova verzia bola 0.6f a smykal sa
-	//Constant for function enoughTimeNoSolid()
+	//Constant for method enoughTimeNoSolid()
 	int MAX_TIME_NO_SOLID = 15;
 
 	void setStep(float step);
@@ -70,6 +71,7 @@ public interface Player extends Actor, AnimatedMovement, AirborneSupport
 
 	void afterMovement();
 
+	PlayerState defaultState();
 	void setState(PlayerState state);
 	PlayerState getState();
 	PlayerStates changeState();

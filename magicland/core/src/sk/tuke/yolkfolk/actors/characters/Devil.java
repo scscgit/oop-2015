@@ -30,6 +30,7 @@ package sk.tuke.yolkfolk.actors.characters;
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.GameMusic;
+import sk.tuke.yolkfolk.NewWorldOrder;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.Cursable;
 import sk.tuke.yolkfolk.actors.items.Splash;
@@ -46,9 +47,16 @@ public class Devil extends AbstractActor
 {
 	//Constants
 	public static final String NAME = "Devil";
+	//Zranenie, ktore udeli hracovi po svojej smrti
 	public static final int DAMAGE_ON_DEATH = 20;
 	//Vzdialenost v nasobkoch rozmerov Devila, na ktoru si vsimne hraca a povie mu spravu
 	private static final float DETECTION_RADIUS = 2.0f;
+	//Doba, po ktoru musi stat hrac na jeho hlave aby zomrel
+	private static final int ON_HEAD_TIME = 15;
+
+	//Variables
+	private int onHeadCounter;
+	private boolean deleted;
 
 	//Objects
 	private Message message;
@@ -57,6 +65,8 @@ public class Devil extends AbstractActor
 	{
 		super(Devil.NAME, "sprites/devil.png", 32, 48);
 		this.message = null;
+		this.onHeadCounter = 0;
+		this.deleted = false;
 	}
 
 	//Puts an instance of Splash below the Devil
@@ -70,13 +80,15 @@ public class Devil extends AbstractActor
 	//Akcie vykonane v suvislosti s kazdym prstenom. Vracia true ak nastane zmena actora.
 	protected boolean actOnRing(Ring ring)
 	{
-		if(isNear(ring, getWidth(), getHeight()))
+		if (isNear(ring, getWidth(), getHeight()))
 		{
-			if(this.message!=null)
+			if (this.message != null)
 			{
 				this.message.remove();
 			}
-			this.message = new Message("Nice!","Now I own Daisy's soul, forever.\nIt's been a pleasure to trade with you!", this);
+			this.message = new Message("Nice!",
+			                           "Now I own Daisy's soul, forever.\nIt's been a pleasure to trade with you!",
+			                           this);
 			ring.stealByDevil(this);
 
 			//Devil goes away
@@ -91,19 +103,26 @@ public class Devil extends AbstractActor
 	protected boolean actOnPlayer(Player player)
 	{
 		//Ak na neho skoci hrac, tak ma za ulohu zomriet a pustit hraca dalej.
-		if(intersectsAbove(player, player.getHeight() / 2))
+		if (intersectsAbove(player, player.getHeight() / 2))
 		{
-			//Devil spravi posledne akcie a zomrie
-			killedByPlayer(player);
-			return true;
+			if (this.onHeadCounter >= Devil.ON_HEAD_TIME)
+			{
+				//Devil spravi posledne akcie a zomrie
+				killedByPlayer(player);
+				return true;
+			}
+			else
+			{
+				this.onHeadCounter++;
+			}
 		}
 		//Ak sa pri nom hrac nachadza prvy krat, tak mu povie svoju spravu
-		else if(isNear(player, getWidth()*Devil.DETECTION_RADIUS, getHeight()*Devil.DETECTION_RADIUS))
+		else if (this.message == null &&
+		         isNear(player, getWidth() * Devil.DETECTION_RADIUS, getHeight() * Devil.DETECTION_RADIUS))
 		{
-			if(this.message == null)
-			{
-				this.message = new Message(player.getName() + "!", "My job is to keep you in the castle.\nLet us make a deal. Bring me Daisy's ring.",this);
-			}
+			this.message = new Message(player.getName() + "!",
+			                           "My job is to keep you in the castle.\nLet us make a deal. Bring me Daisy's ring.",
+			                           this);
 		}
 		return false;
 	}
@@ -122,16 +141,15 @@ public class Devil extends AbstractActor
 
 		//Dizzy sa popalil
 		player.decreaseEnergy(DAMAGE_ON_DEATH);
-		if(this.message!=null)
+		if (this.message != null)
 		{
 			this.message.remove();
 		}
 		this.message = new Message("Dizzy got burnt.", "Burn in flames, cursed " + player.getName() + "!", this);
 
 		//Odstranit actora po jeho nahradeni plamenom
-		setPosition(-getWidth(), -getHeight()); //Teleport outside world so wrong collisions won't happen
 		onDeath();
-		removeFromWorld();
+		safeDeleteStopAct();
 	}
 
 	//Akcie, ktore nastanu po smrti Devila
@@ -140,25 +158,33 @@ public class Devil extends AbstractActor
 		GameMusic.playFinishHim();
 	}
 
+	//Hotfix proti crashu - teleport outside world so wrong collisions won't happen
+	public final void safeDeleteStopAct()
+	{
+		this.deleted = true;
+		NewWorldOrder.teleportOutside(this);
+		//removeFromWorld();
+	}
+
 	@Override
 	public void act()
 	{
+		if (this.deleted)
+		{
+			return;
+		}
+
 		for (Actor actor : getWorld())
 		{
-			if (actor instanceof Player)
+			//Vykona pozadovanu akciu nad hracom alebo prstenom
+			if
+				(
+				(actor instanceof Player && actOnPlayer((Player) actor))
+				||
+				(actor instanceof Ring && actOnRing((Ring) actor))
+				)
 			{
-				if(actOnPlayer((Player) actor))
-				{
-					break;
-				}
-			}
-
-			if(actor instanceof Ring)
-			{
-				if(actOnRing((Ring)actor))
-				{
-					break;
-				}
+				break;
 			}
 		}
 	}

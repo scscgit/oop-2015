@@ -50,7 +50,7 @@ public abstract class AbstractActor implements Actor
 
 	//Zakladna animacia actora a svet, v ktorom sa dany actor nachadza
 	private Animation currentAnimation;
-	private final Animation defaultAnimation;
+	private Animation defaultAnimation;
 	private World world;
 
 	public AbstractActor(String name, String animationString, int animationX, int animationY)
@@ -136,6 +136,12 @@ public abstract class AbstractActor implements Actor
 	public void setAnimation(Animation animation)
 	{
 		this.currentAnimation = animation;
+	}
+
+	//Nastavenie predvolenej animacie
+	public void setAnimationNormal(Animation aniNormal)
+	{
+		this.defaultAnimation = aniNormal;
 	}
 
 	//Nastavenie defaultnej animacie ako novej aktualnej animacie actora

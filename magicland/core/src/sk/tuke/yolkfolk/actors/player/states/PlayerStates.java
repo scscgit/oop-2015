@@ -74,4 +74,9 @@ public class PlayerStates
 	{
 		getPlayer().setState(new PlayerFalling(getPlayer()));
 	}
+
+	public void setStateFrozen()
+	{
+		getPlayer().setState(new PlayerFrozen(getPlayer()));
+	}
 }

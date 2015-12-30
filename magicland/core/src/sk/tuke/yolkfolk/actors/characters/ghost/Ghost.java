@@ -25,17 +25,35 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors;
+package sk.tuke.yolkfolk.actors.characters.ghost;
 
 import sk.tuke.gamelib2.Actor;
+import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.AnimatedMovement;
 
 /**
- * Rozhranie pre pouzitelne predmety, ktore dokaze pouzit kazdy Player.
+ * What does the ghost say?
  * <p/>
- * Created by Steve on 25.11.2015.
+ * Created by Steve on 30.12.2015.
  */
-public interface Usable
+public interface Ghost extends Actor, AnimatedMovement, Item
 {
-	//@param actor je referencia na objekt typu Actor, ktory tuto metodu volal.
-	void use(Actor actor);
+	enum Direction
+	{
+		STOPPED, LEFT, RIGHT
+	}
+
+	void exchangeKills(Ghost ghost);
+
+	void setStep(float step);
+	float getStep();
+	void removeFromWorld();
+
+	boolean isLeft();
+	boolean isRight();
+	boolean isStopped();
+
+	void runLeft();
+	void runRight();
+	void stop();
 }

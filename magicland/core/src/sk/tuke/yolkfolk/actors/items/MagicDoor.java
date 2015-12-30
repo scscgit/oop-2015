@@ -44,6 +44,12 @@ public class MagicDoor extends SimpleDoor
 	//Static link to previous door that was created before this, used for automagical intertwining of doors at creation
 	private static Door previousDoor;
 
+	//Staticka inicializacia
+	static
+	{
+		MagicDoor.previousDoor = null;
+	}
+
 	//Specific magic door without automagical pairing
 	public MagicDoor(Door destination)
 	{
@@ -53,7 +59,7 @@ public class MagicDoor extends SimpleDoor
 	//When this default constructor is used, automagical pairing of doors happens
 	public MagicDoor()
 	{
-		super();
+		super(MagicDoor.NAME);
 	}
 
 	//Method for automagical pairing of doors happens, no pairing happens when it returns null
@@ -62,7 +68,7 @@ public class MagicDoor extends SimpleDoor
 	{
 		return MagicDoor.previousDoor;
 	}
-	//Sets a door as the previous door, thhat will get automagicaly paired with the next door
+	//Sets a door as the previous door, that will get automagicaly paired with the next door
 	@Override
 	protected void setPreviousDoor(Door door)
 	{

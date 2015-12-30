@@ -27,6 +27,7 @@
 
 package sk.tuke.yolkfolk.collectables;
 
+import sk.tuke.yolkfolk.NewWorldOrder;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 
 /**
@@ -39,6 +40,15 @@ public class Key extends AbstractActor implements Collectable
 	//Constants
 	public static final String NAME = "Key";
 
+	//Variables
+	private boolean moveOutInAct;
+
+	//Initialization
+	{
+		this.moveOutInAct = false;
+	}
+
+	//Konstruktor na vytvorenie specialneho kluca
 	public Key(String name)
 	{
 		super(name, "sprites/key.png", 16, 16);
@@ -49,8 +59,19 @@ public class Key extends AbstractActor implements Collectable
 		this(Key.NAME);
 	}
 
+	//Hotfix proti potencialnemu podobnemu crashu, ktory nastava u triedy Devil, nahradzuje removeFromWorld()
+	public void teleportOut()
+	{
+		this.moveOutInAct = true;
+	}
+
 	@Override
 	public void act()
 	{
+		if(this.moveOutInAct)
+		{
+			NewWorldOrder.teleportOutside(this);
+			this.moveOutInAct = false;
+		}
 	}
 }

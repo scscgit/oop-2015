@@ -35,6 +35,7 @@ import sk.tuke.yolkfolk.actors.Greeter;
 import sk.tuke.yolkfolk.actors.Usable;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.collectables.Ring;
+import sk.tuke.yolkfolk.spaces.ExitZone;
 
 /**
  * A generic Greeter example. Can be possibly saved by our Hero.
@@ -59,6 +60,8 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 	private int currentGreeting;
 	//Stav, ci ma na ruke prsten
 	private boolean hasRing;
+	//Je na konci hry
+	private boolean atExit;
 
 	//Objects
 	//Aktualna sprava zobrazena hracovi
@@ -80,6 +83,21 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 		this.hasRing = true;
 		this.ring = new Ring(this);
 		this.devil = null;
+		this.atExit = false;
+	}
+
+	//Immediately goes to the exit. It is advised not to let Player see her being teleported, that ruins experience.
+	public void goToExit()
+	{
+		for(Actor actor: getWorld())
+		{
+			if(actor instanceof ExitZone)
+			{
+				setPosition(actor.getX(), actor.getY());
+				break;
+			}
+		}
+		this.atExit = true;
 	}
 
 	public boolean greetPlayer(Player player)
@@ -105,7 +123,7 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 
 	protected boolean haveMessage()
 	{
-		return this.currentGreeting < GREETINGS_NUMBER;
+		return !this.atExit && this.currentGreeting < GREETINGS_NUMBER;
 	}
 
 	//Shows a new message and deletes a possible previous one
