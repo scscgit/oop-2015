@@ -86,8 +86,8 @@ public class ExitZone extends AbstractSpace
 		else
 		{
 			newMessage("Time to go home?",
-			                           getPlayer().getName() + " feels alone.\nHe should not run away like this.",
-			                           player);
+			           getPlayer().getName() + " feels alone.\nHe should not run away like this.",
+			           player);
 		}
 	}
 

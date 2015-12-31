@@ -25,25 +25,19 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.spaces;
+package sk.tuke.yolkfolk.actors.characters.ghost;
 
 /**
- * Helps to show a black screen suitable for text outside the map.
+ * Ghost can and WILL become your enemy.
  * <p/>
- * Created by Steve on 29.12.2015.
+ * Created by Steve on 30.12.2015.
  */
-public class CinematicZone extends AbstractSpace
+public class EnemyGhostDecorator extends AbstractGhostDecorator
 {
-	//Constants
-	public static final String NAME = "CinematicZone";
-
-	public CinematicZone()
+	public EnemyGhostDecorator(Ghost ghost)
 	{
-		super(CinematicZone.NAME);
-	}
+		super(ghost);
 
-	@Override
-	public void act()
-	{
+		ghost.becomeEnemy();
 	}
 }

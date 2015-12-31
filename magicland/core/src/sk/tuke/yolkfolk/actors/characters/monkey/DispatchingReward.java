@@ -56,7 +56,7 @@ public class DispatchingReward extends AbstractMonkeyState
 		           "I got everything! Now I can conquer the world!\n" + "Oh, the key, right. Here you go.",
 		           getMonkey());
 		getMonkey().dispatchKey();
-		if (getDizzy() != null && isNear(getDizzy()))
+		if (getDizzy() != null /*&& isNear(getDizzy())*/)
 		{
 			getDizzy().setMonkeyGameDone();
 		}

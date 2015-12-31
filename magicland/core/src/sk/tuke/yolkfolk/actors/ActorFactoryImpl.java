@@ -78,14 +78,17 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		setRegisterPath("sk.tuke.yolkfolk.actors.items");
 		register("Diamond");
 		register("Fire");
+		register("GreenDiamond");
 		register("Lever");
 		register("MagicDoor");
+		register("SilverDiamond");
 		register("SimpleDoor");
 		register("Splash");
 
 		//Actor objects
 		setRegisterPath("sk.tuke.yolkfolk.actors.objects");
 		register("DaisyElevator");
+		register("RobinHoodPlatform");
 		register("Rubbish");
 		register("Well");
 
@@ -100,10 +103,12 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		register("CinematicZone");
 		register("ExitZone");
 		register("FlyZone");
+		register("InsideZone");
 		register("MonkeyStoneSpace");
 		register("NoFlyZone");
 		register("NoSecretZone");
 		register("NoWaterZone");
+		register("OutsideZone");
 		register("PrinceSpace");
 		register("SecretZone");
 		register("WaterZone");
@@ -113,6 +118,7 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		register("Apple");
 		register("Key");
 		register("MagicKey");
+		register("Potion");
 		register("Ring");
 		register("SimpleKey");
 		register("Stone");

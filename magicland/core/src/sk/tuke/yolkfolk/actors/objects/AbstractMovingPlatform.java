@@ -167,9 +167,9 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		//Ked je vytah pripraveny, pohne sa pozadovanym smerom
 		if
 			(
-			(this.direction && getY() > getEnd())
+			(this.direction && currentPosition() > getEnd())
 			||
-			(!this.direction && getY() < getStart())
+			(!this.direction && currentPosition() < getStart())
 			)
 		{
 			reverse();
@@ -180,6 +180,12 @@ public abstract class AbstractMovingPlatform extends AbstractActor implements Us
 		{
 			PhysicsHelper.setLinearVelocity(this, nextX(), nextY());
 		}
+	}
+
+	//Aktualny stav premennej, ktora sa sleduje pomocou getStart a getEnd metod. Ako default reprezentuje Y os.
+	protected float currentPosition()
+	{
+		return getY();
 	}
 
 	@Override

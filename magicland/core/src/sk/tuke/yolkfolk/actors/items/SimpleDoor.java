@@ -243,6 +243,20 @@ public class SimpleDoor extends AbstractActor implements Door
 		}
 	}
 
+	//Pokusi sa najst kluc v blizkosti dveri a otvorit ich
+	private void tryToUnlock()
+	{
+		for (Actor actor : getWorld())
+		{
+			if (actor instanceof Key && actor.intersects(this) && unlock((Key) actor))
+			{
+				((Key) actor).teleportOut();
+				//((Key) actor).removeFromWorld();
+				break;
+			}
+		}
+	}
+
 	@Override
 	public void act()
 	{
@@ -255,15 +269,7 @@ public class SimpleDoor extends AbstractActor implements Door
 		//Ak vedla dveri hrac hodi kluc, a dvere boli zamknute, tak sa magicky otvoria (ak, samozrejme, zamok pasuje)
 		if (!isUnlocked())
 		{
-			for (Actor actor : getWorld())
-			{
-				if (actor instanceof Key && actor.intersects(this) && unlock((Key) actor))
-				{
-					((Key) actor).teleportOut();
-					//((Key) actor).removeFromWorld();
-					break;
-				}
-			}
+			tryToUnlock();
 		}
 		//Ak su dvere odomknute, tak sa odomkne aj druha strana dveri (aj ked sa navzajom previazu neskor)
 		else if (this.destination != null && !this.destination.isUnlocked())

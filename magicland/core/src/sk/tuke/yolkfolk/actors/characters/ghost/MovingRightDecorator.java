@@ -25,25 +25,23 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.spaces;
+package sk.tuke.yolkfolk.actors.characters.ghost;
 
 /**
- * Helps to show a black screen suitable for text outside the map.
+ * Posle ducha hybat sa donekonecna v zapornom smere osi X.
  * <p/>
- * Created by Steve on 29.12.2015.
+ * Created by Steve on 30.12.2015.
  */
-public class CinematicZone extends AbstractSpace
+public class MovingRightDecorator extends AbstractGhostDecorator
 {
 	//Constants
-	public static final String NAME = "CinematicZone";
+	public static final float SPEED = 0.07f;
 
-	public CinematicZone()
+	public MovingRightDecorator(Ghost ghost)
 	{
-		super(CinematicZone.NAME);
-	}
+		super(ghost);
 
-	@Override
-	public void act()
-	{
+		ghost.setStep(MovingRightDecorator.SPEED);
+		ghost.runRight();
 	}
 }

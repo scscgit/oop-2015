@@ -58,8 +58,8 @@ public abstract class AbstractActor implements Actor
 		//Povinne meno noveho actora
 		setName(name);
 
-		setOnGround(
-			false); //Tato hodnota je ale automaticky prepisovana kniznicami.
+		//Tato hodnota je ale automaticky prepisovana kniznicami.
+		setOnGround(false);
 
 		//Defaultna animacia sa ulozi na neskorsie potreby reinicializacie
 		this.defaultAnimation = new Animation(animationString, animationX, animationY);
@@ -73,13 +73,11 @@ public abstract class AbstractActor implements Actor
 	{
 		return this.x;
 	}
-
 	@Override
 	public final float getY()
 	{
 		return this.y;
 	}
-
 	@Override
 	public final float getWidth()
 	{
@@ -92,7 +90,6 @@ public abstract class AbstractActor implements Actor
 			return 0;
 		}
 	}
-
 	@Override
 	public final float getHeight()
 	{
@@ -158,6 +155,12 @@ public abstract class AbstractActor implements Actor
 
 	private boolean intersectsX(Actor actor)
 	{
+		//GameLib Hotfix
+		if(getX() == 0 && getY() == 0)
+		{
+			return false;
+		}
+
 		return
 			Math.abs
 				(
@@ -166,9 +169,14 @@ public abstract class AbstractActor implements Actor
 			<=
 			(actor.getWidth() / 2) + (this.getWidth() / 2);
 	}
-
 	private boolean intersectsY(Actor actor)
 	{
+		//GameLib Hotfix
+		if(getX() == 0 && getY() == 0)
+		{
+			return false;
+		}
+
 		return
 			Math.abs
 				(
@@ -182,6 +190,12 @@ public abstract class AbstractActor implements Actor
 	@Override
 	public boolean intersects(Actor actor)
 	{
+		//GameLib Hotfix
+		if(getX() == 0 && getY() == 0)
+		{
+			return false;
+		}
+
 		return
 			//Exists
 			actor != null
@@ -196,6 +210,12 @@ public abstract class AbstractActor implements Actor
 	//Zistenie pravdivosti dotyku s inym actorom vo vyske yAbove nad actorom
 	public boolean intersectsAbove(Actor actor, float yAbove)
 	{
+		//GameLib Hotfix
+		if(getX() == 0 && getY() == 0)
+		{
+			return false;
+		}
+
 		if (actor != null)
 		{
 			float yDelta = actor.getY() - this.getY() - this.getHeight();
@@ -214,6 +234,12 @@ public abstract class AbstractActor implements Actor
 	//Zistenie, ci sa actori nachadzaju v urcitej blizkosti
 	public boolean isNear(Actor actor, float xNear, float yNear)
 	{
+		//GameLib Hotfix
+		if(getX() == 0 && getY() == 0)
+		{
+			return false;
+		}
+
 		if (actor != null)
 		{
 			Rectangle2D rectangle = new Rectangle2D.Double(getX() - xNear / 2, getY() - yNear / 2, getWidth() + xNear,
@@ -227,6 +253,12 @@ public abstract class AbstractActor implements Actor
 	//Defined by lower half of the body standing on the actor
 	public boolean standsOn(Actor actor)
 	{
+		//GameLib Hotfix
+		if(getX() == 0 && getY() == 0)
+		{
+			return false;
+		}
+
 		final int distance = 1; //getHeight()/2
 		//Defined by lower half of the body standing on the actor within the specified distance
 		if (actor != null)
@@ -246,28 +278,32 @@ public abstract class AbstractActor implements Actor
 	{
 		this.world = world;
 	}
-
 	@Override
 	public World getWorld()
 	{
 		return this.world;
 	}
-
+	//Prida herca do sveta.
+	//Odporuca sa pouzivat hlavne v kombinacii s Dekoratorom namiesto world.addActor().
+	public void addToWorld(World world)
+	{
+		world.addActor(this);
+	}
 	//Removes this actor from the current world
-	public final void removeFromWorld()
+	public  void removeFromWorld()
 	{
 		getWorld().removeActor(this);
 	}
 
+	//Prestavi predvolene meno Actora na nove meno
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 	@Override
 	public String getName()
 	{
 		return this.name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 
 	@Override
@@ -281,7 +317,6 @@ public abstract class AbstractActor implements Actor
 	{
 		return this.onGround;
 	}
-
 	@Override
 	public final void setOnGround(boolean onGround)
 	{

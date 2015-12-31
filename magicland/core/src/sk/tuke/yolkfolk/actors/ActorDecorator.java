@@ -25,25 +25,21 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.spaces;
+package sk.tuke.yolkfolk.actors;
+
+import sk.tuke.gamelib2.World;
 
 /**
- * Helps to show a black screen suitable for text outside the map.
+ * Kazdy dekorator nad actorom ma svoje metody, cez ktore sa musi k jeho actorovi pristupovat.
+ * V pripade pridania dekoratora do sveta sa totiz jeho Actor neprida automaticky a teda to nie je PhysicalActor.
  * <p/>
- * Created by Steve on 29.12.2015.
+ * Najefektivnejsi sposob vyzeralo byt spravenie spolocneho rozhrania, ktore bude implementovat kazdy Dekorator.
+ * Toto rozhranie ale musi implementovat aj dekorovany Actor, inak nema zarucene jeho prehladne pridavanie do sveta.
+ * <p/>
+ * Created by Steve on 30.12.2015.
  */
-public class CinematicZone extends AbstractSpace
+public interface ActorDecorator
 {
-	//Constants
-	public static final String NAME = "CinematicZone";
-
-	public CinematicZone()
-	{
-		super(CinematicZone.NAME);
-	}
-
-	@Override
-	public void act()
-	{
-	}
+	void addToWorld(World world);
+	void removeFromWorld();
 }

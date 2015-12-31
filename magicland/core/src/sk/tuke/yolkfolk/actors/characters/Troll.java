@@ -31,8 +31,8 @@ import sk.tuke.gamelib2.Animation;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.gamelib2.PhysicsHelper;
 import sk.tuke.yolkfolk.GameMusic;
-import sk.tuke.yolkfolk.actors.Swimmable;
 import sk.tuke.yolkfolk.actors.AbstractAnimatedActor;
+import sk.tuke.yolkfolk.actors.Swimmable;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
@@ -49,11 +49,14 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 	private static final float DETECTION_RADIUS = 1.2f;
 	//Maximalna rychlost, ktorou moze Troll padat (vo vode)
 	private static final float MAX_FALL_VELOCITY = 0.8f;
+	//Doba, po ktorej sa Troll utopi aj keby ho nezabil hrac
+	private static final int DROWN_TIME = 250;
 
 	//Variables
 	//Smer otocenia, false=vpravo, true=vlavo
 	private boolean direction;
 	private boolean swimming;
+	private int drownCounter;
 
 	//Referencie na objekty
 	//Iba ak je sprava null (este neexistuje), tak ju raz Troll povie
@@ -68,13 +71,14 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 		this.player = null;
 		this.direction = false;
 		this.swimming = false;
+		this.drownCounter = 0;
 
 		Animation animationLeft = new Animation("sprites/troll_left.png", 48, 52);
 		setAnimationLeft(animationLeft);
 		setAnimationJumpLeft(animationLeft);
 
 		//Rychlost, ktorou bude nahanat prveho playera, ktoreho uvidi
-		setStep(4);
+		setStep(6);
 	}
 
 	protected void updateAnimation()
@@ -91,10 +95,13 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 		}
 	}
 
-	//Akcie, ktore nastanu po smrti Trolla
-	protected void onDeath()
+	//Akcie, ktore nastanu po smrti Trolla po zabiti hracom
+	protected void onDeath(boolean makeSound)
 	{
-		GameMusic.playFinishHim();
+		if(makeSound)
+		{
+			GameMusic.playFinishHim();
+		}
 		if (this.braveHeroNotice != null)
 		{
 			this.braveHeroNotice.remove();
@@ -106,7 +113,8 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 		if (this.braveHeroNotice == null)
 		{
 			this.player = getPlayer();
-			if (this.player != null && isNear(this.player, getWidth() * DETECTION_RADIUS, getHeight() * DETECTION_RADIUS))
+			if (this.player != null &&
+			    isNear(this.player, getWidth() * DETECTION_RADIUS, getHeight() * DETECTION_RADIUS))
 			{
 				this.braveHeroNotice = new Message("A wild troll appeared",
 				                                   "*sniff* *sniff*,\nME SMELL A BRAVE HERO,\nme must defend this castle.",
@@ -115,6 +123,58 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 				updateAnimation();
 			}
 		}
+	}
+
+	//Ak sa utopi, tak zomrie
+	private boolean dieIfDrown()
+	{
+		if (intersectsAbove(this.player, this.player.getHeight() / 2))
+		{
+			onDeath(true);
+			removeFromWorld();
+			return true;
+		}
+		else if(this.drownCounter>Troll.DROWN_TIME)
+		{
+			//Silently dies
+			onDeath(false);
+			removeFromWorld();
+			return true;
+		}
+		else
+		{
+			this.drownCounter++;
+		}
+		return false;
+	}
+
+	//Akcie vykonavane pravidelne kym ma nahanat hraca. Vracia true ak nastala zmena vo svete
+	private boolean followingPlayer()
+	{
+		//Ak su na zemi, tak Troll je silnejsi a vyhra suboj, teda zrani svojho nepriatela
+		if (!this.swimming && isNear(this.player, this.player.getWidth() / 2, this.player.getHeight() / 2))
+		{
+			this.player.decreaseEnergy(1);
+		}
+		//Ak ho jeho uhlavny nepriatel najde vo vode, tak ho udusi (skocenim na hlavu), a teda zabije
+		else if (this.swimming && dieIfDrown())
+		{
+			return true;
+		}
+
+		//Otoci sa smerom k hracovi
+		if (this.direction != this.player.getX() < getX())
+		{
+			this.direction = !this.direction;
+			updateAnimation();
+		}
+
+		//Kym zije, bude sa pohybovat smerom k hracovi
+		float yVelocity = PhysicsHelper.getLinearVelocity(this)[1];
+		PhysicsHelper.setLinearVelocity(this, 0, (yVelocity < Troll.MAX_FALL_VELOCITY && this.swimming)
+			? -Troll.MAX_FALL_VELOCITY : yVelocity);
+		PhysicsHelper.applyForce(this, direction ? -getStep() : getStep(), 0);
+		return false;
 	}
 
 	@Override
@@ -126,30 +186,7 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 		//Ak si uz vsimol hraca, tak ho bude nahanat az do smrti
 		if (this.braveHeroNotice != null && this.player != null)
 		{
-			//Ak su na zemi, tak silnejsi Troll vyhra suboj a zrani svojho nepriatela
-			if (!this.swimming && isNear(this.player, this.player.getWidth() / 2, this.player.getHeight() / 2))
-			{
-				this.player.decreaseEnergy(1);
-			}
-			///Ak ho jeho uhlavny nepriatel najde vo vode, tak ho udusi (skocenim na hlavu) a teda zabije
-			else if (this.swimming && intersectsAbove(this.player, this.player.getHeight() / 2))
-			{
-				onDeath();
-				removeFromWorld();
-				return;
-			}
-
-			//Otoci sa smerom k hracovi
-			if (this.direction != this.player.getX() < getX())
-			{
-				this.direction = !this.direction;
-				updateAnimation();
-			}
-
-			//Kym zije, bude sa pohybovat smerom k hracovi
-			float yVelocity = PhysicsHelper.getLinearVelocity(this)[1];
-			PhysicsHelper.setLinearVelocity(this, 0, (yVelocity<Troll.MAX_FALL_VELOCITY&&this.swimming)?-Troll.MAX_FALL_VELOCITY:yVelocity);
-			PhysicsHelper.applyForce(this, direction ? -getStep() : getStep(), 0);
+			followingPlayer();
 		}
 	}
 

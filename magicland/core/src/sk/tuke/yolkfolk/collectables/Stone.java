@@ -47,6 +47,5 @@ public class Stone extends AbstractActor implements Collectable
 	@Override
 	public void act()
 	{
-
 	}
 }

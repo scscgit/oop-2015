@@ -25,25 +25,22 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.spaces;
+package sk.tuke.yolkfolk.actors.items;
 
 /**
- * Helps to show a black screen suitable for text outside the map.
+ * Diamond + green = GreenDiamond.
  * <p/>
- * Created by Steve on 29.12.2015.
+ * Created by Steve on 30.12.2015.
  */
-public class CinematicZone extends AbstractSpace
+public class GreenDiamond extends Diamond
 {
 	//Constants
-	public static final String NAME = "CinematicZone";
+	public static final String NAME = "GreenDiamond";
+	public static final int VALUE = 3;
 
-	public CinematicZone()
+	public GreenDiamond()
 	{
-		super(CinematicZone.NAME);
-	}
-
-	@Override
-	public void act()
-	{
+		super("green", GreenDiamond.VALUE);
+		setName(GreenDiamond.NAME);
 	}
 }

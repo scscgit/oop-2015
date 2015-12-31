@@ -54,8 +54,9 @@ public class NoSecretZone extends NoFlyZone
 		if (player.getWorld() instanceof NewWorldOrder)
 		{
 			final NewWorldOrder world = (NewWorldOrder) player.getWorld();
-			//Nastavi originalnu hudbu
-			world.loadMusic(GameMusic.getThemePath());
+
+			//Nastavi originalnu hudbu vonkajsieho prostredia
+			world.loadMusic(GameMusic.getThemeOutPath());
 		}
 	}
 }

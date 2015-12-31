@@ -27,8 +27,10 @@
 
 package sk.tuke.yolkfolk.spaces;
 
+import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
 import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
  * Neviditelny abstraktny priestor na rozlicne ucely.
@@ -40,5 +42,31 @@ public abstract class AbstractSpace extends AbstractActor implements Item
 	public AbstractSpace(String name)
 	{
 		super(name, "sprites/invisible.png", 48, 48);
+	}
+
+	//Akcie vykonane po dotyku s actorom
+	protected void actorIntersects(Actor actor)
+	{
+		if (actor instanceof Player)
+		{
+			playerIntersects((Player) actor);
+		}
+	}
+
+	//Akcie vykonane po dotyku s hracom
+	protected void playerIntersects(Player player)
+	{
+	}
+
+	@Override
+	public void act()
+	{
+		for (Actor actor : getWorld())
+		{
+			if (actor.intersects(this))
+			{
+				actorIntersects(actor);
+			}
+		}
 	}
 }

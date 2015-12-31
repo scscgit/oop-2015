@@ -42,7 +42,7 @@ public class NoWaterZone extends NoFlyZone
 
 	public NoWaterZone()
 	{
-		super(WaterZone.NAME);
+		super(NoWaterZone.NAME);
 	}
 
 	protected void intersectsSwimmable(Swimmable swimmable)

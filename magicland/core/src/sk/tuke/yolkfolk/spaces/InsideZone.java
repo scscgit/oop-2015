@@ -27,23 +27,37 @@
 
 package sk.tuke.yolkfolk.spaces;
 
+import sk.tuke.yolkfolk.GameMusic;
+import sk.tuke.yolkfolk.NewWorldOrder;
+import sk.tuke.yolkfolk.actors.player.Player;
+
 /**
- * Helps to show a black screen suitable for text outside the map.
+ * Dotyk hraca s touto zonou reprezentuje jeho vstup do miestnosti.
  * <p/>
- * Created by Steve on 29.12.2015.
+ * Created by Steve on 30.12.2015.
  */
-public class CinematicZone extends AbstractSpace
+public class InsideZone extends AbstractSpace
 {
 	//Constants
-	public static final String NAME = "CinematicZone";
+	public static final String NAME = "InsideZone";
 
-	public CinematicZone()
+	public InsideZone(String name)
 	{
-		super(CinematicZone.NAME);
+		super(name);
 	}
 
-	@Override
-	public void act()
+	public InsideZone()
 	{
+		super(InsideZone.NAME);
+	}
+
+	//Akcie vykonane po dotyku s hracom
+	@Override
+	protected void playerIntersects(Player player)
+	{
+		if (player.getWorld() instanceof NewWorldOrder)
+		{
+			((NewWorldOrder) getWorld()).loadMusic(GameMusic.getThemeInPath());
+		}
 	}
 }

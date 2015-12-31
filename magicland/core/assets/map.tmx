@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="123">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="150">
  <tileset firstgid="1" name="magiclanddizzy_tiles" tilewidth="16" tileheight="16" spacing="2" tilecount="1056">
   <image source="magiclanddizzy_tiles.gif" width="790" height="430"/>
  </tileset>
  <layer name="background" width="50" height="40" opacity="0.9">
   <data encoding="base64" compression="zlib">
-   eJy9mGlsVUUUx++8qxQoFlBQ0QiV4AfBhZigghgQxIiJEY0YMbIIgkHKogajAoKJYZWoKIKA2lSN7EvZaR8tlNWqIFASQYxL1CgqIqiJFPB/MufkTufN3HfbAh9+d+bNnXfn/O9ZZt5LhUEQgovAxaAByAENQSPQGOQafbule03AJSAPNAUqqElfXB4BecbYADAQDDLGGoJGQeb3Xdjfb4t1l6XOHQMS6BgJRoHRYAzZTvdAU9BMZddgf5/GmmPdS8FloB/sOAqO1JJSkAYt8IyWlo5VoBisBmvAWoddV+FyTaDJT6DDh/hkOEjVgZ5gGGjn8MU6sB5sABvBJsf67XHpAIaAjvXQ8TjryGG7HgB9QL7V9zGbdbhiqhqcBmfA2UAP+uwo4NjLyZIXE8EkR36RjhJDRy5owjaa/SQ6frbWHYrLcKaX0p+HWlooP3LBqSA+RyQvXgdvWPkhOioNHZeDK8BSFfVd9tN9W8e/eN5PQaSnj4ryfKDHvla4tGYd9ckRO67i3n2SuPonqKnnLQz2B6Nj7GvPOm525IirRl8IHYLoaYEPLcGOIDPuzLi62+EzV429EDpc7+1aXNqCg0Fm3ElcUb16MovPksRVyTnS4Xpvkh8SL3bcmfPy6qjBlefnKq6I7438sG105dE2j412jlC89Tfuz8L636V0XD11HnScMPIjz2OTmUf7HRqS5EgR1j9+HnVQDvcAPZXeF3w2yTxz7/glcNcFYRwYDyaAv7B2G5Bfx/YEczJ066Acfkhl3xeo7sq5hOz/FRxnf7rmTwczwGtgJrg1TMYoymEwBnxI9Q0s53tXg4dZhx23xGCVeXZaDv+tACtTUR69qiL7/4vxw7tgHpgPFoD3wPVhcopYA/XTYDP3Oxg67DVpP5e6a+4Nm2F/GShP6d8d9N7fVtp+17sgGgTR2WsxWAKWgmVgMtaeEma2rn6RR1+cDlpb6i7tDTk89gXs3wP2pnT+E6eCqC/2ym+rBo57JaAUpANdc4+HOk+2MFtBBdgGthtjtdUha5u/o4RvYP8x8C0Yi3svKK3jWFhzng/SUgk+C6K940bQGlSBL8E+sB8csMaKPTqeAIPBkDBTA3EbBm4HncF0ijGM/cE6/gRTMDYVTFDZ7e9NNjOHwdfgCOt4kHWYtk3n9kfHmM0z4FnwHGiMZ+YG2t4rA23zTPTvBb3BbK5dZ2D/WRCE+vNcpeeNQL+ZhwLwAWjHHAW/gd8Nf6wE94ChYBiYAcaBicyEhDpa45nNwU1B9FvVZB75hnKBdVSDrvjcDXQP9L18BytB50DPvZPn0ecuPCb+eAU8CsaC58F88D5YAPqBQtbxEfgYzLKgd3VLEL1vn/1zlMbUIWOCS0c5uD8GMz/suCId80BXh441xtyCBO/fttXU8bnSbAFph45qjJ0GB0AVOGj196nIH3NDXVul1k5lHdN4rJDHJlsUsK3d2Nd2jJi27wDbuTV1rFaaVaDc448hmLeJba5i9jG4VWj6Yw54h9uk5xLpx/l8DdZaC9YZramjQml8/vBxhvWkAn+96hTqM4ecP1aENc8mrQzkXNIND+yeitqtbN82ww8uHUn84aKan1uh/PkhyPmjDLzMtWsSWA2WgKWh3gdvcOggu/ez/dJ3xVVd/SHxtkv5/eHjB8596ncEfcJoP0+iQ2x25Xlt/UG1eDfmN01l90ecju5gUIw/ylUmX4FD/N5JR1pFcVVbf5SpKHaT+OPvhDlP7cnQ74+9KvOccciKK9JzKoEWyg2Kp0oVxZXLH2+Gen+TfaIT53kBGAlGOPpjrPiydWxw6CD2GHFFOjYn0EG1qpg1SFwlzQ/K8/GhPqOMc/QnWTrsmHL5Q3RIXFFbldAnkuNx/ojLD8nvXmA4eBrcx3nj88fGLP6Q+lzM3xGf+PRIjtN82Qfj/CHnkM4OHX3Bi+Al8FgCHT5/7FSZe42cO3x6JMeLua2PP0hHCShNoEPyozRGi9QyU5NLj53jlUa9WggWgcUO2++CTdeh7ZHK1LEbfOrR4aq7dEZa4tHi0rTd4Z8yI8eltf2xyaGnC+u4g3UcDvW+kU2Hax+Us1Y2Lb6YEz1VKjobFKvM8678r7AD7AS7WMdE1kFn3mk8x9YxLYE/0nXUYvtHNEi7PqUxz671adsYOtLsgyqjFR2iZTFYxC3lzidgoTFmt6KhguuU8D+Qb7qI
+   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
   </data>
  </layer>
  <objectgroup name="obstacles">
   <object id="3" x="320" y="624">
-   <polyline points="48,2.66667 -168,3.33333 -266.667,-44.6667 -287.333,-44.6667 -287.333,-316 -128,-316.667 -128,-336 -320,-336 -320,16 48,16 48,8"/>
+   <polyline points="48,2.66667 -168,3.33333 -266.667,-44.6667 -287.333,-44.6667 -287.333,-316 -133,-316.167 -132,-334 -323,-333.5 -320,16 48,16 48,8"/>
   </object>
   <object id="47" x="800" y="0">
    <polyline points="0,0 0,320 -16,320 -20,304 -20,264 -32,256 -40,300 -44,320 -104,324 -112,336 -128,368 -128,400 -32,400 -26,455.333 -46,483.333 -45.8182,545.455 -79.5,588.5 -192.5,533.5 -196,504 -208,502.5 -209.5,333 -215.5,324.273 -235.545,321.682 -258.545,307.773 -275.636,305.455 -276,288 -280,288 -280,492 -268,500 -268,549 -248,574 -220,568 -196,588 -168,584 -152,604 -136,620 -140,632 -158,628.667 -176,632 -194,628 -208,636 -228,636 -236.667,627.333 -260,632 -271.333,628 -288,632 -292,616 -304,612 -308,600 -316,596 -328,585.333 -336,580 -340.667,573.333 -346.667,564.667 -356.667,558.667 -356,544 -352,536 -356,520 -352,512 -356,484 -336,472 -320,484 -312,472 -312,288 -316,288 -316,300 -319.25,310.5 -330,310.75 -346.5,321.75 -368,332 -384,332 -388,324 -404,324 -412,328 -424,320 -436,332 -448,340 -464,344 -476,352 -504,356 -512,364 -527,376 -539,386 -544,400 -512,400 -512,416 -432,416 -432,640 0,640 8,640 8,-20 0,-20 0,0"/>
@@ -25,16 +25,16 @@
    <polyline points="9.81818,-2.18182 28.5455,-5.18182 41,-16 53,-13 71,-30 101,-30 101,-40 72,-37 53,-20 39,-20 23.0909,-7.27273 4.72727,-7.09091 5.81818,-2.54545 12.0909,-2"/>
   </object>
   <object id="68" x="383.5" y="200.5">
-   <polyline points="0,0 2,8 48,7 48,0 0,0"/>
+   <polyline points="14,8.5 45.5,8.5 48,2.5 2.5,3 13.5,8"/>
   </object>
   <object id="69" x="590.5" y="206.5">
-   <polyline points="0,0 -42,1 -71,-17 -77,-15 -97,-30 -106,-31 -127,-46 -141,-49 -157,-60 -167,-64 -205,-64 -226,-79 -239,-80 -256,-95 -271,-96 -272,-104 -256,-102 -236,-86 -224,-85 -203,-68 -161,-69 -143,-55 -125,-52 -110,-39 -93,-34 -77,-19 -65,-19 -46,-6 -31,-3 -2,-3 1,1"/>
+   <polyline points="0,0 -42,1 -71,-17 -77,-15 -97,-30 -106,-31 -127,-46 -141,-49 -157,-60 -167,-64 -205,-64 -226,-79 -239,-80 -254.5,-94.5 -271,-96 -272,-104 -256,-102 -236,-86 -224,-85 -203,-68 -161,-69 -143,-55 -125,-52 -110,-39 -93,-34 -77,-19 -65,-19 -46,-6 -31,-3 -2,-3 1,1"/>
   </object>
   <object id="70" x="369.5" y="78.5">
    <polyline points="17.2955,3.97727 16.1818,7.54545 110,8 109.273,3.45455 16.5682,3.86364"/>
   </object>
   <object id="78" x="95.75" y="497.5">
-   <polyline points="0,0 39,0 38,4 3,3.5 0,-0.5"/>
+   <polyline points="16.8409,0.0113636 39,0 38,4 18.4205,3.875 17.1023,0.306818"/>
   </object>
   <object id="81" x="175.25" y="550.75">
    <polyline points="0,0 0,-5 -22,-5 -28.5,-4 -45,4 -44.5,6 -28,6.5 -15,0 -0.5,-0.5"/>
@@ -46,9 +46,17 @@
   <object id="122" x="176" y="288">
    <polyline points="0,0 0,-32 -16,-48 32,-48 16,-32 16,16 0,16 0,0"/>
   </object>
+  <object id="126" x="588" y="32">
+   <polyline points="24,0 -24,-20 -256,-152 -168,-152 64,-32 220,-32 220,-152 -264,-152 -264,-24 -252,-24 -252,-32 -88,-32 -56,-24 -36,-12 24,0"/>
+  </object>
+  <object id="143" x="808" y="88">
+   <polyline points="0,0 -24,0 -24,-5.33333 0,-8 0,0"/>
+  </object>
+  <object id="146" x="302.5" y="281.5">
+   <polyline points="0,0 33.5,-21.5 1.5,-21.5 1.5,-1.5"/>
+  </object>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="1" name="Dizzy" x="258.333" y="566.833" width="25" height="25"/>
   <object id="4" name="MagicDoor" x="123.273" y="350" width="40" height="50"/>
   <object id="5" name="Fire" x="376" y="248" width="16" height="16"/>
   <object id="7" name="Fire" x="436" y="252" width="16" height="16"/>
@@ -82,9 +90,9 @@
   <object id="61" name="Daisy" x="243.636" y="456.091" width="25" height="25"/>
   <object id="62" name="Prince" x="68" y="164" width="50" height="60"/>
   <object id="66" name="Monkey" x="480" y="252" width="48" height="32"/>
-  <object id="73" name="MonkeyStoneSpace" x="479" y="262" width="48" height="48"/>
+  <object id="73" name="MonkeyStoneSpace" x="479.727" y="262" width="48" height="48"/>
   <object id="74" name="MagicDoor" x="242.667" y="175" width="40" height="50"/>
-  <object id="75" name="SimpleDoor" x="78.1515" y="238.758" width="40" height="50"/>
+  <object id="75" name="SimpleDoor" x="102.152" y="238.758" width="40" height="50"/>
   <object id="76" name="Lever" x="97.125" y="384.875" width="16" height="16"/>
   <object id="82" name="Devil" x="250.667" y="304.5" width="32" height="48"/>
   <object id="83" name="RobinHood" x="442" y="33" width="32" height="48"/>
@@ -95,15 +103,35 @@
   <object id="90" name="WaterZone" x="630" y="365" width="48" height="48"/>
   <object id="91" name="SecretZone" x="478" y="435" width="48" height="48"/>
   <object id="92" name="NoWaterZone" x="703.667" y="273.333" width="48" height="48"/>
-  <object id="93" name="SimpleKey" x="53" y="528.5" width="18" height="23"/>
   <object id="103" name="NoSecretZone" x="521.5" y="244.5" width="48" height="48"/>
   <object id="104" name="NoSecretZone" x="480" y="197.5" width="48" height="48"/>
   <object id="105" name="NoWaterZone" x="623.833" y="232.833" width="48" height="48"/>
   <object id="107" name="Troll" x="701.667" y="266.667" width="48" height="52"/>
-  <object id="109" name="ExitZone" x="-1" y="240.333" width="48" height="48"/>
+  <object id="109" name="ExitZone" x="15.5" y="240.333" width="48" height="48"/>
   <object id="110" name="NoWaterZone" x="669.333" y="243.333" width="48" height="48"/>
   <object id="113" name="Witcher" x="192" y="175.667" width="48" height="48"/>
   <object id="115" name="CinematicZone" x="3.27273" y="-320.97" width="48" height="48"/>
   <object id="116" name="PrinceSpace" x="231.333" y="173.667" width="48" height="48"/>
+  <object id="123" name="InsideZone" x="240" y="304" width="48" height="48"/>
+  <object id="124" name="OutsideZone" x="304" y="304" width="48" height="48"/>
+  <object id="128" name="Diamond" x="136" y="208" width="16" height="16"/>
+  <object id="129" name="Diamond" x="146.5" y="272" width="16" height="16"/>
+  <object id="130" name="Diamond" x="592" y="484" width="16" height="16"/>
+  <object id="131" name="Diamond" x="568" y="184" width="16" height="16"/>
+  <object id="132" name="GreenDiamond" x="380" y="308" width="16" height="16"/>
+  <object id="133" name="GreenDiamond" x="320" y="244" width="16" height="16"/>
+  <object id="134" name="GreenDiamond" x="772" y="244" width="16" height="16"/>
+  <object id="135" name="GreenDiamond" x="388" y="-108" width="16" height="16"/>
+  <object id="136" name="SilverDiamond" x="324" y="88" width="16" height="16"/>
+  <object id="137" name="SilverDiamond" x="460" y="560" width="16" height="16"/>
+  <object id="138" name="SilverDiamond" x="200" y="464" width="16" height="16"/>
+  <object id="139" name="SilverDiamond" x="36" y="336" width="16" height="16"/>
+  <object id="140" name="Potion" x="784" y="64" width="16" height="16"/>
+  <object id="141" name="RobinHoodPlatform" x="576" y="84" width="32" height="9"/>
+  <object id="142" name="Lever" x="176" y="208" width="16" height="16"/>
+  <object id="144" name="Witch" x="526" y="572" width="64" height="64"/>
+  <object id="145" name="SimpleKey" x="71.3333" y="207.333" width="16" height="16"/>
+  <object id="148" name="SimpleKey" x="215.333" y="605.5" width="16" height="16"/>
+  <object id="149" name="Dizzy" x="258.833" y="558.167" width="25" height="25"/>
  </objectgroup>
 </map>

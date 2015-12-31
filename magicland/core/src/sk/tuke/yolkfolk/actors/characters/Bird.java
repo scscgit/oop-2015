@@ -31,8 +31,8 @@ import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Animation;
 import sk.tuke.gamelib2.NoGravity;
 import sk.tuke.gamelib2.PhysicsHelper;
-import sk.tuke.yolkfolk.actors.objects.Rubbish;
 import sk.tuke.yolkfolk.actors.AbstractAnimatedActor;
+import sk.tuke.yolkfolk.actors.objects.Rubbish;
 import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
 import sk.tuke.yolkfolk.spaces.BirdBorderLeft;
 import sk.tuke.yolkfolk.spaces.BirdBorderRight;
@@ -134,7 +134,8 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 				||
 				(this.direction && actor instanceof BirdBorderRight)
 			)
-			&& actor.intersects(this)
+			&&
+			actor.intersects(this)
 			)
 		{
 			intersectsBorder();

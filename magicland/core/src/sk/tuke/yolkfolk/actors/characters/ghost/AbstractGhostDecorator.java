@@ -47,9 +47,29 @@ public abstract class AbstractGhostDecorator extends AbstractAnimatedDecorator i
 	}
 
 	@Override
-	public void exchangeKills(Ghost ghost)
+	public void becomeEnemy()
 	{
-		this.ghost.exchangeKills(ghost);
+		this.ghost.becomeEnemy();
+	}
+	@Override
+	public boolean isEnemy()
+	{
+		return this.ghost.isEnemy();
+	}
+	@Override
+	public void becomeAlly()
+	{
+		this.ghost.becomeAlly();
+	}
+	@Override
+	public boolean isAlly()
+	{
+		return this.ghost.isAlly();
+	}
+	@Override
+	public boolean exchangeKills(Ghost ghost)
+	{
+		return this.ghost.exchangeKills(ghost);
 	}
 	@Override
 	public void setStep(float step)
@@ -60,11 +80,6 @@ public abstract class AbstractGhostDecorator extends AbstractAnimatedDecorator i
 	public float getStep()
 	{
 		return this.ghost.getStep();
-	}
-	@Override
-	public void removeFromWorld()
-	{
-		this.ghost.removeFromWorld();
 	}
 	@Override
 	public boolean isLeft()
@@ -95,5 +110,10 @@ public abstract class AbstractGhostDecorator extends AbstractAnimatedDecorator i
 	public void stop()
 	{
 		this.ghost.stop();
+	}
+	@Override
+	public void setName(String name)
+	{
+		this.ghost.setName(name);
 	}
 }

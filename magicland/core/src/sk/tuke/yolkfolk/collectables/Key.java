@@ -68,7 +68,7 @@ public class Key extends AbstractActor implements Collectable
 	@Override
 	public void act()
 	{
-		if(this.moveOutInAct)
+		if (this.moveOutInAct)
 		{
 			NewWorldOrder.teleportOutside(this);
 			this.moveOutInAct = false;

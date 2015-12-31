@@ -37,7 +37,7 @@ public class DaisyElevator extends Elevator
 	//Constants
 	public static final String NAME = "DaisyElevator";
 
-	//Konstruktor pre ucely dedenia
+	//Konstruktor konkretnej platformy s konkretnymi suradnicami a parametrami
 	public DaisyElevator()
 	{
 		super(DaisyElevator.NAME);

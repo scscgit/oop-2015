@@ -31,9 +31,7 @@ import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
-import sk.tuke.yolkfolk.actors.characters.ghost.Ghost;
-import sk.tuke.yolkfolk.actors.characters.ghost.GhostImpl;
-import sk.tuke.yolkfolk.actors.characters.ghost.WhiteGhostDecorator;
+import sk.tuke.yolkfolk.actors.characters.ghost.*;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.spaces.CinematicZone;
 import sk.tuke.yolkfolk.spaces.PrinceSpace;
@@ -91,24 +89,39 @@ public class Prince extends AbstractActor implements Item
 	protected void runCinematic()
 	{
 		CinematicZone cinematic = null;
+		removeMessage();
+
 		for (Actor actor : getWorld())
 		{
 			if (actor instanceof CinematicZone)
 			{
-				cinematic = (CinematicZone) actor;
+				//Zoberie ovladanie hracovi a presunie kameru na cinematic oblast
+				interruptPlayer(actor);
+
+				if (this.player != null)
+				{
+					removeMessage();
+					this.message = new Message("And so, Prince has lost.",
+					                           "You've beat me, mighty " +
+					                           this.player.getName() + "!\n" +
+					                           "You would be lost without the Witcher though.\n" +
+					                           "\n" +
+					                           "Here, take this key and never return.",
+					                           actor);
+				}
 				break;
 			}
 		}
-
-		//Zoberie ovladanie hracovi a presunie kameru na cinematic oblast
-		interruptPlayer(cinematic);
 	}
 
 	//This method gets called when the enemy Ghost kills the Prince
 	public void defeat()
 	{
-		this.defeated = true;
-		runCinematic();
+		if (!isDefeated())
+		{
+			this.defeated = true;
+			runCinematic();
+		}
 	}
 
 	//Returns true when he is defeated
@@ -117,7 +130,8 @@ public class Prince extends AbstractActor implements Item
 		return this.defeated;
 	}
 
-	//Frees Daisy, making her run to the Exit //todo put it somewhere else storywise
+	/*
+	//Frees Daisy, making her run to the Exit
 	public void setDaisyFree()
 	{
 		if (this.daisy != null)
@@ -125,13 +139,14 @@ public class Prince extends AbstractActor implements Item
 			this.daisy.goToExit();
 		}
 	}
+	*/
 
 	//Vytvorenie noveho ducha
 	private void makeGhost()
 	{
-		Ghost ghost = new WhiteGhostDecorator(new GhostImpl());
-		ghost.setPosition(getX(), getY()+ghost.getHeight()/2);
-		getWorld().addActor(ghost);
+		Ghost ghost = new WhiteGhostDecorator(new MovingRightDecorator(new EnemyGhostDecorator(new GhostImpl())));
+		ghost.setPosition(getX() + ghost.getWidth() / 3, getY() + ghost.getHeight() / 3);
+		ghost.addToWorld(getWorld());
 	}
 
 	//Rutina vytvarania novych duchov
@@ -243,6 +258,14 @@ public class Prince extends AbstractActor implements Item
 		}
 	}
 
+	private void removeMessage()
+	{
+		if (this.message != null)
+		{
+			this.message.remove();
+		}
+	}
+
 	@Override
 	public void act()
 	{
@@ -260,7 +283,11 @@ public class Prince extends AbstractActor implements Item
 			{
 				//Vrati ovladanie hracovi
 				unfreezePlayer();
+
+				//Zakonci fungovanie Princa
+				removeMessage();
 				this.endOfLife = true;
+				//return;
 			}
 			else
 			{

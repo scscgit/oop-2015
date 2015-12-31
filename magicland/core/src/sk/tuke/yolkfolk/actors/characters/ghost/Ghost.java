@@ -29,6 +29,7 @@ package sk.tuke.yolkfolk.actors.characters.ghost;
 
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
+import sk.tuke.yolkfolk.actors.ActorDecorator;
 import sk.tuke.yolkfolk.actors.AnimatedMovement;
 
 /**
@@ -36,18 +37,22 @@ import sk.tuke.yolkfolk.actors.AnimatedMovement;
  * <p/>
  * Created by Steve on 30.12.2015.
  */
-public interface Ghost extends Actor, AnimatedMovement, Item
+public interface Ghost extends Actor, AnimatedMovement, Item, ActorDecorator
 {
 	enum Direction
 	{
 		STOPPED, LEFT, RIGHT
 	}
 
-	void exchangeKills(Ghost ghost);
+	void becomeEnemy();
+	boolean isEnemy();
+	void becomeAlly();
+	boolean isAlly();
+
+	boolean exchangeKills(Ghost ghost);
 
 	void setStep(float step);
 	float getStep();
-	void removeFromWorld();
 
 	boolean isLeft();
 	boolean isRight();
@@ -56,4 +61,6 @@ public interface Ghost extends Actor, AnimatedMovement, Item
 	void runLeft();
 	void runRight();
 	void stop();
+
+	void setName(String name);
 }

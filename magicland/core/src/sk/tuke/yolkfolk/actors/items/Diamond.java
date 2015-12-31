@@ -49,6 +49,15 @@ public class Diamond extends AbstractActor implements Item, Usable
 	//Hodnota diamantu, o kolko sa pocet diamantov zvacsi po jeho zodvihnuti
 	private int value;
 
+	//Static references
+	private static Message message;
+
+	//Static initialization
+	static
+	{
+		Diamond.message = null;
+	}
+
 	private static String constructorAnimation(String color)
 	{
 		if (color.equals("silver") || color.equals("green"))
@@ -97,7 +106,13 @@ public class Diamond extends AbstractActor implements Item, Usable
 			System.out.println("Dizzy haz " + player.getNumberOfDiamonds() + " diamond" +
 			                   (player.getNumberOfDiamonds() > 1 ? "s" : "") +
 			                   ((player.getNumberOfDiamonds() > 9) ? " and his bag is getting heavy." : "."));
-			new Message("Dizzy got a new treasure!", "Well, you find a diamond!", this);
+
+			//I only want one message at the time, there is too much clutter
+			if(Diamond.message!=null)
+			{
+				Diamond.message.remove();
+			}
+			Diamond.message = new Message("Dizzy got a new treasure!", "Well, you find a diamond!", this);
 
 			//Heal our Hero
 			if (player.getEnergy() < Player.MAX_HP)

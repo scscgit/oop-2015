@@ -89,7 +89,6 @@ public class Elevator extends AbstractMovingPlatform
 	{
 		return 0f;
 	}
-
 	@Override
 	protected float nextY()
 	{

@@ -36,7 +36,7 @@ import sk.tuke.gamelib2.World;
  * <p/>
  * Created by Steve on 30.12.2015.
  */
-public abstract class AbstractActorDecorator implements Actor
+public abstract class AbstractActorDecorator implements Actor, ActorDecorator
 {
 	//Dekorovany herec
 	private Actor actor;
@@ -44,6 +44,31 @@ public abstract class AbstractActorDecorator implements Actor
 	public AbstractActorDecorator(Actor actor)
 	{
 		this.actor = actor;
+	}
+
+	//Praca so svetom priamo nad Actorom a nie nad dekoratorom
+	//Je potrebne pouzivat tento sposob pristupu, inak nastava crash z dovodu, ze Actor nie je vo svete
+	public void addToWorld(World world)
+	{
+		if (this.actor instanceof ActorDecorator)
+		{
+			((ActorDecorator) this.actor).addToWorld(world);
+		}
+		else
+		{
+			world.addActor(this.actor);
+		}
+	}
+	public void removeFromWorld()
+	{
+		if (this.actor instanceof ActorDecorator)
+		{
+			((ActorDecorator) this.actor).removeFromWorld();
+		}
+		else
+		{
+			getWorld().removeActor(this.actor);
+		}
 	}
 
 	@Override
@@ -94,6 +119,7 @@ public abstract class AbstractActorDecorator implements Actor
 	@Override
 	public void addedToWorld(World world)
 	{
+		//world.addActor(this.actor);
 		this.actor.addedToWorld(world);
 	}
 	@Override
