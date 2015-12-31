@@ -70,7 +70,7 @@ public class MagicLand extends WorldScreen
 		this.world.setMap("map.tmx");
 
 		//Music theme gets loaded.
-		this.world.loadMusic(GameMusic.getThemePath());
+		this.world.loadMusic(GameMusic.getThemeInPath());
 	}
 
 	@Deprecated

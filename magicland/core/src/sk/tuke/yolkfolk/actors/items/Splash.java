@@ -75,7 +75,7 @@ public class Splash extends AbstractActor implements Item
 	//Vykonaj animaciu o pozadovanej dlzke a odstran splash
 	public void act()
 	{
-		if(this.deleted)
+		if (this.deleted)
 		{
 			return;
 		}

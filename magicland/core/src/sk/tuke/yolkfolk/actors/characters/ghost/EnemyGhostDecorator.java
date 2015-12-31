@@ -25,48 +25,19 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.spaces;
-
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
-import sk.tuke.yolkfolk.actors.AbstractActor;
-import sk.tuke.yolkfolk.actors.player.Player;
+package sk.tuke.yolkfolk.actors.characters.ghost;
 
 /**
- * Neviditelny abstraktny priestor na rozlicne ucely.
+ * Ghost can and WILL become your enemy.
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Created by Steve on 30.12.2015.
  */
-public abstract class AbstractSpace extends AbstractActor implements Item
+public class EnemyGhostDecorator extends AbstractGhostDecorator
 {
-	public AbstractSpace(String name)
+	public EnemyGhostDecorator(Ghost ghost)
 	{
-		super(name, "sprites/invisible.png", 48, 48);
-	}
+		super(ghost);
 
-	//Akcie vykonane po dotyku s actorom
-	protected void actorIntersects(Actor actor)
-	{
-		if (actor instanceof Player)
-		{
-			playerIntersects((Player) actor);
-		}
-	}
-
-	//Akcie vykonane po dotyku s hracom
-	protected void playerIntersects(Player player)
-	{
-	}
-
-	@Override
-	public void act()
-	{
-		for (Actor actor : getWorld())
-		{
-			if (actor.intersects(this))
-			{
-				actorIntersects(actor);
-			}
-		}
+		ghost.becomeEnemy();
 	}
 }

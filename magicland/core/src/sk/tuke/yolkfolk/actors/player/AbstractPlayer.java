@@ -77,9 +77,9 @@ public abstract class AbstractPlayer extends AbstractStatefulPlayer
 			//Operacie s ostatnymi actormi vo svete
 			for (Actor actor : getWorld())
 			{
-				if (actor != null && actor.intersects(this) && actor != this)
+				if (actor != null && actor.intersects(this) && actor != this && actOnIntersect(actor))
 				{
-					actOnIntersect(actor);
+					break;
 				}
 			}
 

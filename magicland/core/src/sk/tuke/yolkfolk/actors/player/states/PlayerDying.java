@@ -95,17 +95,18 @@ public class PlayerDying extends PlayerFrozen
 	public void act()
 	{
 		//Vykona akcie nadradenej triedy
-		super.act(); //todo make sure Frozen state does not do bad stuff
+		super.act();
 
 		//Animacia sa bude stale hybat s hracom.
 		if (animationEnded() /*&& this.gameOverMessage == null*/)
 		{
 			newMessage(getPlayer().getName() + " has died :(", "Game Over!");
-		}
 
-		if (input().enterRising() || input().escape())
-		{
-			System.exit(0);
+			//Kym neskonci animacia, tak neumoznim pouzivatelovi skoncit hru.
+			if (input().enterRising() || input().escape())
+			{
+				System.exit(0);
+			}
 		}
 	}
 }

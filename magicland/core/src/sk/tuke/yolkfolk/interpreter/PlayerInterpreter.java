@@ -44,11 +44,11 @@ public class PlayerInterpreter extends ActorInterpreter
 
 	public Player getPlayer() throws InterpreterException
 	{
-		if(getActor() instanceof Player)
+		if (getActor() instanceof Player)
 		{
 			return (Player) getActor();
 		}
-		throw new InterpreterInvalidInstructionsException("Actor "+getActor().getName()+" is not a Player.");
+		throw new InterpreterInvalidInstructionsException("Actor " + getActor().getName() + " is not a Player.");
 	}
 
 	//Command for understanding the direction

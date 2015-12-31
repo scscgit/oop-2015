@@ -31,9 +31,13 @@ import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.yolkfolk.actors.ActorFactoryImpl;
 import sk.tuke.yolkfolk.actors.Greeter;
 import sk.tuke.yolkfolk.actors.Usable;
+import sk.tuke.yolkfolk.actors.items.SimpleDoor;
 import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.cinematic.CinematicEffect;
+import sk.tuke.yolkfolk.cinematic.DaisyIsFree;
 import sk.tuke.yolkfolk.collectables.Ring;
 import sk.tuke.yolkfolk.spaces.ExitZone;
 
@@ -62,6 +66,8 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 	private boolean hasRing;
 	//Je na konci hry
 	private boolean atExit;
+	//Hotfix kniznice GameLib, setPosition funguje iba pocas metody act(), premenna pre hackPosition(int, int)
+	private float scheduledPosition[];
 
 	//Objects
 	//Aktualna sprava zobrazena hracovi
@@ -72,32 +78,81 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 	private Ring ring;
 	//Devil, that owns Daisy
 	private Devil devil;
+	//Cinematic experience
+	private CinematicEffect cinematic;
 
 	public Daisy()
 	{
 		super(Daisy.NAME, "sprites/daisy.png", 25, 25);
 		this.greetingDone = false;
 		this.currentGreeting = 0;
+		this.hasRing = true;
+		this.atExit = false;
+		this.scheduledPosition = new float[3];
+
 		this.currentMessage = null;
 		this.firstPlayer = null;
-		this.hasRing = true;
 		this.ring = new Ring(this);
 		this.devil = null;
-		this.atExit = false;
+		this.cinematic = null;
 	}
 
-	//Immediately goes to the exit. It is advised not to let Player see her being teleported, that ruins experience.
-	public void goToExit()
+	//Hotfix kniznice GameLib, setPosition funguje iba pocas metody act(), preto je toto oneskoreny setPosition
+	protected final void hackPosition(float x, float y)
 	{
-		for(Actor actor: getWorld())
+		//Pozicia 0 reprezentuje predikat
+		this.scheduledPosition[0] = 1;
+		this.scheduledPosition[1] = x;
+		this.scheduledPosition[2] = y;
+	}
+
+	protected void prepareCinematic()
+	{
+		if(this.firstPlayer != null)
 		{
-			if(actor instanceof ExitZone)
+			this.cinematic = new CinematicEffect(new DaisyIsFree(), this.firstPlayer);
+		}
+	}
+
+	//Immediately goes to the exit. Also initializes the cinematic experience.
+	private void goToExit()
+	{
+		for (Actor actor : getWorld())
+		{
+			if (actor instanceof ExitZone)
 			{
-				setPosition(actor.getX(), actor.getY());
+				hackPosition(actor.getX() + getWidth(), actor.getY());
+
+				//The devil also visits her
+				if(this.devil != null)
+				{
+					this.devil.setPosition(actor.getX(), actor.getY());
+					getWorld().addActor(this.devil);
+					this.devil.daisyEnd();
+				}
 				break;
 			}
 		}
+
+		//Prepares the cinematic to be run
+		prepareCinematic();
 		this.atExit = true;
+	}
+
+	//Checks if the door is open and if it is, runs there before Player does. Only returns true before first cinematic.
+	private boolean readyToLeave()
+	{
+		if(!this.atExit)
+		{
+			for (Actor actor: getWorld())
+			{
+				if(actor instanceof SimpleDoor && ((SimpleDoor)actor).isUnlocked())
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public boolean greetPlayer(Player player)
@@ -108,22 +163,25 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 			this.firstPlayer = player;
 		}
 
+		//If the exit door is open, Daisy stops greeting Player and instead starts cinematic and runs to the exit
+		if(readyToLeave())
+		{
+			goToExit();
+			return true; //todo check if needed return but doesnt matter i guess
+		}
 		//If the player requires greeting, he shall receive one
-		if (this.firstPlayer == player && !this.greetingDone)
+		else if (!this.atExit && this.firstPlayer == player && !this.greetingDone)
 		{
 			nextGreeting(player);
 			this.greetingDone = true;
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	protected boolean haveMessage()
 	{
-		return !this.atExit && this.currentGreeting < GREETINGS_NUMBER;
+		return /*!this.atExit &&*/ this.currentGreeting < GREETINGS_NUMBER;
 	}
 
 	//Shows a new message and deletes a possible previous one
@@ -185,17 +243,37 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 	@Override
 	public void act()
 	{
+		if(this.scheduledPosition[0] == 1)
+		{
+			setPosition(this.scheduledPosition[1], this.scheduledPosition[2]);
+			this.scheduledPosition[0]=0;
+		}
+
+		//If Daisy gets to the exit, the cinematic gets run
+		if(this.atExit && this.cinematic != null)
+		{
+			this.cinematic.act();
+		}
+
 		//If the player already received greeting, but has gone too far, he deserves another one
-		if (this.greetingDone && this.firstPlayer != null &&
-		    !isNear(this.firstPlayer, getWidth() * Daisy.FORGETTING_RADIUS,
-		            getHeight() * Daisy.FORGETTING_RADIUS))
+		if
+			(
+			/*!this.atExit
+			&&*/
+			this.greetingDone
+			&&
+			this.firstPlayer != null
+			&&
+			!isNear(this.firstPlayer, getWidth() * Daisy.FORGETTING_RADIUS,
+			        getHeight() * Daisy.FORGETTING_RADIUS)
+			)
 		{
 			this.greetingDone = false;
 			this.currentMessage.remove();
 		}
 	}
 
-	//Ked hrac pekne poprosi Daisy, dostane diamantovy prsten
+	//Ked hrac pekne poprosi Daisy, dostane diamantovy prsten (mozno to ale nie je pravy diamant)
 	@Override
 	public void use(Actor actor)
 	{

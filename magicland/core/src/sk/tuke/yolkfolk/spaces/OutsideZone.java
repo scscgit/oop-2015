@@ -27,46 +27,37 @@
 
 package sk.tuke.yolkfolk.spaces;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
-import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.yolkfolk.GameMusic;
+import sk.tuke.yolkfolk.NewWorldOrder;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
- * Neviditelny abstraktny priestor na rozlicne ucely.
+ * Dotyk hraca s touto zonou reprezentuje jeho vychod z miestnosti.
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Created by Steve on 30.12.2015.
  */
-public abstract class AbstractSpace extends AbstractActor implements Item
+public class OutsideZone extends AbstractSpace
 {
-	public AbstractSpace(String name)
+	//Constants
+	public static final String NAME = "OutsideZone";
+
+	public OutsideZone(String name)
 	{
-		super(name, "sprites/invisible.png", 48, 48);
+		super(name);
 	}
 
-	//Akcie vykonane po dotyku s actorom
-	protected void actorIntersects(Actor actor)
+	public OutsideZone()
 	{
-		if (actor instanceof Player)
-		{
-			playerIntersects((Player) actor);
-		}
+		super(OutsideZone.NAME);
 	}
 
 	//Akcie vykonane po dotyku s hracom
+	@Override
 	protected void playerIntersects(Player player)
 	{
-	}
-
-	@Override
-	public void act()
-	{
-		for (Actor actor : getWorld())
+		if (player.getWorld() instanceof NewWorldOrder)
 		{
-			if (actor.intersects(this))
-			{
-				actorIntersects(actor);
-			}
+			((NewWorldOrder) getWorld()).loadMusic(GameMusic.getThemeOutPath());
 		}
 	}
 }

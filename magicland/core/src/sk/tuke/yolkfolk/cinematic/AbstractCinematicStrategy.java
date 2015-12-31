@@ -1,72 +1,99 @@
 /***********************************************************
  * Zadanie na predmet Objektove Programovanie
- * <p/>
+ *
  * scsc
  * Technicka univerzita v Kosiciach, Fakulta elektrotechniky a informatiky
- * <p/>
+ *
  * Licencia: Volny softver, Open-Source GNU GPL v3+
  * Vseobecna verejna licencia. Program je dovolene volne sirit a upravovat.
  * Upraveny program / cast programu moze ktokolvek vyuzit ako na osobne,
  * tak aj komercne ucely, ale nemoze ho vydat s vlastnym copyrightom,
  * ktory nie je kompatibilny s GNU GPL v3+.
  * gnu.org/licenses/gpl-faq.html
- * <p/>
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p/>
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p/>
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.spaces;
+package sk.tuke.yolkfolk.cinematic;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
-import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.spaces.AbstractSpace;
+import sk.tuke.yolkfolk.spaces.CinematicZone;
 
 /**
- * Neviditelny abstraktny priestor na rozlicne ucely.
- * <p/>
- * Created by Steve on 27.12.2015.
+ * Cinematicky zazitok v abstraktnej forme.
+ *
+ * Created by Steve on 31.12.2015.
  */
-public abstract class AbstractSpace extends AbstractActor implements Item
+public abstract class AbstractCinematicStrategy implements CinematicStrategy
 {
-	public AbstractSpace(String name)
-	{
-		super(name, "sprites/invisible.png", 48, 48);
-	}
+	//Variables
+	private int duration;
+	private int counter;
 
-	//Akcie vykonane po dotyku s actorom
-	protected void actorIntersects(Actor actor)
-	{
-		if (actor instanceof Player)
-		{
-			playerIntersects((Player) actor);
-		}
-	}
+	//Objects
+	private Player player;
+	private CinematicZone zone;
 
-	//Akcie vykonane po dotyku s hracom
-	protected void playerIntersects(Player player)
+	public AbstractCinematicStrategy()
 	{
+		this.duration = 0;
+		this.counter = 0;
+		this.player = null;
+		this.zone = null;
 	}
 
 	@Override
-	public void act()
+	public void setPlayer(Player player)
 	{
-		for (Actor actor : getWorld())
-		{
-			if (actor.intersects(this))
-			{
-				actorIntersects(actor);
-			}
-		}
+		this.player = player;
+	}
+	public Player getPlayer()
+	{
+		return this.player;
+	}
+
+	@Override
+	public void setZone(CinematicZone zone)
+	{
+		this.zone = zone;
+	}
+	@Override
+	public CinematicZone getZone()
+	{
+		return this.zone;
+	}
+
+	@Override
+	public void setDuration(int duration)
+	{
+		this.duration = duration;
+	}
+	@Override
+	public int getDuration()
+	{
+		return this.duration;
+	}
+
+	@Override
+	public void setCounter(int counter)
+	{
+		this.counter = counter;
+	}
+	@Override
+	public int getCounter()
+	{
+		return this.counter;
 	}
 }

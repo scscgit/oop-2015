@@ -97,14 +97,18 @@ public class Dizzy extends AbstractPlayer implements Cursable
 
 	//Operacie s ostatnymi actormi vo svete, ktorych sa Player dotyka.
 	@Override
-	protected void actOnIntersect(Actor actor)
+	protected boolean actOnIntersect(Actor actor)
 	{
 		//Pozdrav Daisy alebo ineho zdravica
 		if (actor instanceof Greeter)
 		{
 			Greeter greeter = (Greeter) actor;
-			greeter.greetPlayer(this);
+			if (greeter.greetPlayer(this))
+			{
+				return true;
+			}
 		}
+		return false;
 	}
 
 	//Ked Dizzy chyti vtaka, tak si ho pripocita
@@ -180,7 +184,9 @@ public class Dizzy extends AbstractPlayer implements Cursable
 	{
 		interpret("set state frozen");
 		new Message("Congratulations, you've won this game!",
-		            "Together with Daisy, they'll\n" + "both live happily ever after.",
+		            "Together with Daisy, they'll\n"
+		            + "both live happily ever after.\n" +
+		            "You found " + getNumberOfDiamonds() + " diamond" + (getNumberOfDiamonds()>1?"s.":"."),
 		            this);
 	}
 }

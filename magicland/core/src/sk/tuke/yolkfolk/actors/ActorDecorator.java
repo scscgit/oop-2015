@@ -25,48 +25,21 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.spaces;
+package sk.tuke.yolkfolk.actors;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
-import sk.tuke.yolkfolk.actors.AbstractActor;
-import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.gamelib2.World;
 
 /**
- * Neviditelny abstraktny priestor na rozlicne ucely.
+ * Kazdy dekorator nad actorom ma svoje metody, cez ktore sa musi k jeho actorovi pristupovat.
+ * V pripade pridania dekoratora do sveta sa totiz jeho Actor neprida automaticky a teda to nie je PhysicalActor.
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Najefektivnejsi sposob vyzeralo byt spravenie spolocneho rozhrania, ktore bude implementovat kazdy Dekorator.
+ * Toto rozhranie ale musi implementovat aj dekorovany Actor, inak nema zarucene jeho prehladne pridavanie do sveta.
+ * <p/>
+ * Created by Steve on 30.12.2015.
  */
-public abstract class AbstractSpace extends AbstractActor implements Item
+public interface ActorDecorator
 {
-	public AbstractSpace(String name)
-	{
-		super(name, "sprites/invisible.png", 48, 48);
-	}
-
-	//Akcie vykonane po dotyku s actorom
-	protected void actorIntersects(Actor actor)
-	{
-		if (actor instanceof Player)
-		{
-			playerIntersects((Player) actor);
-		}
-	}
-
-	//Akcie vykonane po dotyku s hracom
-	protected void playerIntersects(Player player)
-	{
-	}
-
-	@Override
-	public void act()
-	{
-		for (Actor actor : getWorld())
-		{
-			if (actor.intersects(this))
-			{
-				actorIntersects(actor);
-			}
-		}
-	}
+	void addToWorld(World world);
+	void removeFromWorld();
 }

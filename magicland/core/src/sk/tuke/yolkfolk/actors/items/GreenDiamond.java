@@ -25,48 +25,22 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.spaces;
-
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Item;
-import sk.tuke.yolkfolk.actors.AbstractActor;
-import sk.tuke.yolkfolk.actors.player.Player;
+package sk.tuke.yolkfolk.actors.items;
 
 /**
- * Neviditelny abstraktny priestor na rozlicne ucely.
+ * Diamond + green = GreenDiamond.
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Created by Steve on 30.12.2015.
  */
-public abstract class AbstractSpace extends AbstractActor implements Item
+public class GreenDiamond extends Diamond
 {
-	public AbstractSpace(String name)
-	{
-		super(name, "sprites/invisible.png", 48, 48);
-	}
+	//Constants
+	public static final String NAME = "GreenDiamond";
+	public static final int VALUE = 3;
 
-	//Akcie vykonane po dotyku s actorom
-	protected void actorIntersects(Actor actor)
+	public GreenDiamond()
 	{
-		if (actor instanceof Player)
-		{
-			playerIntersects((Player) actor);
-		}
-	}
-
-	//Akcie vykonane po dotyku s hracom
-	protected void playerIntersects(Player player)
-	{
-	}
-
-	@Override
-	public void act()
-	{
-		for (Actor actor : getWorld())
-		{
-			if (actor.intersects(this))
-			{
-				actorIntersects(actor);
-			}
-		}
+		super("green", GreenDiamond.VALUE);
+		setName(GreenDiamond.NAME);
 	}
 }

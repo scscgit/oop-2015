@@ -31,9 +31,7 @@ import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
-import sk.tuke.yolkfolk.actors.characters.ghost.Ghost;
-import sk.tuke.yolkfolk.actors.characters.ghost.GhostImpl;
-import sk.tuke.yolkfolk.actors.characters.ghost.GreenGhostDecorator;
+import sk.tuke.yolkfolk.actors.characters.ghost.*;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 import java.util.Random;
@@ -43,7 +41,7 @@ import java.util.Random;
  * <p/>
  * Created by Steve on 28.12.2015.
  */
-public class Witcher extends AbstractActor implements Item
+public class Witcher extends AbstractActor implements Item, SpellCaster
 {
 	//Constants
 	public static final String NAME = "Witcher";
@@ -56,6 +54,7 @@ public class Witcher extends AbstractActor implements Item
 	private Message message;
 	//private boolean initialization;
 	private int messageCounter;
+	private boolean boostedMana;
 
 	//Objects
 	//private PrinceSpace princeSpace;
@@ -74,9 +73,9 @@ public class Witcher extends AbstractActor implements Item
 
 	private void makeGhost()
 	{
-		Ghost ghost = new GreenGhostDecorator(new GhostImpl());
-		ghost.setPosition(getX(), getY() + ghost.getHeight() / 2);
-		getWorld().addActor(ghost);
+		Ghost ghost = new MovingLeftDecorator(new FriendGhostDecorator(new GreenGhostDecorator(new GhostImpl())));
+		ghost.setPosition(getX() + ghost.getWidth() / 3, getY() + ghost.getHeight() / 3);
+		ghost.addToWorld(getWorld());
 	}
 
 	/*
@@ -99,10 +98,10 @@ public class Witcher extends AbstractActor implements Item
 	}
 	*/
 
-	//Po pozdraveni hraca zacne pisat nahodne spravy
+	//Po pozdraveni hraca zacne pisat nahodne motivacne spravy, kym nie je boostnuty, potom bude aj tak OP
 	protected void randomMessage()
 	{
-		if (this.messageCounter > Witcher.MESSAGE_INTERVAL)
+		if (!this.boostedMana && this.messageCounter > Witcher.MESSAGE_INTERVAL)
 		{
 			this.messageCounter = 0;
 			this.message.remove();
@@ -128,17 +127,16 @@ public class Witcher extends AbstractActor implements Item
 					                           "We don't have much time.\n" +
 					                           "I don't wanna get defeated here.", this);
 					break;
+
+				default:
+					break;
 			}
 		}
 	}
 
-	@Override
-	public void act()
+	//Pozdrav pre prveho hraca, ktoreho Witcher stretne
+	private void greetFirstPlayer()
 	{
-		//V prvom cykle actu inicializuje svoje objekty
-		//initIfNeeded();
-
-		//Prveho hraca pozdravi a povie mu, co ma robit
 		if (this.message == null /*&& this.princeSpace != null*/)
 		{
 			for (Actor actor : getWorld())
@@ -154,8 +152,19 @@ public class Witcher extends AbstractActor implements Item
 				}
 			}
 		}
+	}
 
-		if (this.ghostTimer >= Prince.GHOST_INTERVAL)
+	@Override
+	public void act()
+	{
+		//V prvom cykle actu inicializuje svoje objekty
+		//initIfNeeded();
+
+		//Prveho hraca pozdravi a povie mu, co ma robit
+		greetFirstPlayer();
+
+		//Pokial je jeho mana boostnuta, tak je jeho interval polovicny
+		if (this.ghostTimer >= (Prince.GHOST_INTERVAL / (this.boostedMana ? 2 : 1)))
 		{
 			makeGhost();
 			this.ghostTimer = 0;
@@ -171,5 +180,17 @@ public class Witcher extends AbstractActor implements Item
 		{
 			this.ghostTimer++;
 		}
+	}
+
+	//Gets mana boosted by drinking a Mana Potion
+	@Override
+	public boolean boostMana()
+	{
+		if (!this.boostedMana)
+		{
+			this.boostedMana = true;
+			return true;
+		}
+		return false;
 	}
 }

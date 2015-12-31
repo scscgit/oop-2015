@@ -76,7 +76,7 @@ public class Use extends AbstractAction<Actor, Void>
 
 	public static Message newMessage(String title, String message, Actor actor)
 	{
-		if(Use.lastError != null)
+		if (Use.lastError != null)
 		{
 			Use.lastError.remove();
 		}
@@ -123,34 +123,44 @@ public class Use extends AbstractAction<Actor, Void>
 	//@return true if collision happened, in both successful action or error, e.g. picking up item to a full inventory
 	private boolean collisionActions(Player player)
 	{
-		//Store information about happening of collision
-		boolean collisionHappened = false;
+		//Returns information about happening of collision
+		//boolean collisionHappened = false;
 
-		//First, try to collect any collectable items
+		//First, try to collect any collectable item
 		for (Actor collisionActor : player.getWorld())
 		{
 			//Collect collectable actor
-			if (collisionActor instanceof Collectable && collisionActor.intersects(player) && collect(player, ((Collectable)collisionActor)))
+			if
+				(
+				collisionActor instanceof Collectable
+				&&
+				collisionActor.intersects(player)
+				&&
+				collect(player, ((Collectable) collisionActor))
+				)
 			{
-					collisionHappened = true;
-					break;
+				return true;
 			}
 		}
 
-		//If no collectable items were found, try to find usable items in the vicinity of the Player
-		if(!collisionHappened)
+		//If no collectable items were found, try to find and use any usable item in the vicinity of the Player
+		for (Actor collisionActor : player.getWorld())
 		{
-			for (Actor collisionActor : player.getWorld())
+			//Use usable actors
+			if
+				(
+				collisionActor instanceof Usable
+				&&
+				collisionActor.intersects(player)
+				&&
+				use(player, ((Usable) collisionActor))
+				)
 			{
-				//Use usable actors
-				if (collisionActor instanceof Usable && collisionActor.intersects(player) && use(player, ((Usable)collisionActor)))
-				{
-					collisionHappened = true;
-					break;
-				}
+				return true;
 			}
 		}
 
-		return collisionHappened;
+		//returns false in the case nothing were found
+		return false;
 	}
 }

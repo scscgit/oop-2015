@@ -27,7 +27,6 @@
 
 package sk.tuke.yolkfolk.spaces;
 
-import sk.tuke.gamelib2.Actor;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
@@ -50,30 +49,10 @@ public class FlyZone extends AbstractSpace
 		super(FlyZone.NAME);
 	}
 
-	//Akcie vykonane po dotyku s actorom
-	protected void actorIntersects(Actor actor)
-	{
-		if (actor instanceof Player)
-		{
-			playerIntersects((Player) actor);
-		}
-	}
-
 	//Akcie vykonane po dotyku s hracom
+	@Override
 	protected void playerIntersects(Player player)
 	{
 		player.setFlyable(true);
-	}
-
-	@Override
-	public void act()
-	{
-		for (Actor actor : getWorld())
-		{
-			if (actor.intersects(this))
-			{
-				actorIntersects(actor);
-			}
-		}
 	}
 }

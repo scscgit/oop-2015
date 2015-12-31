@@ -29,6 +29,7 @@ package sk.tuke.yolkfolk.actors.characters;
 
 import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Message;
+import sk.tuke.gamelib2.NoGravity;
 import sk.tuke.yolkfolk.GameMusic;
 import sk.tuke.yolkfolk.NewWorldOrder;
 import sk.tuke.yolkfolk.actors.AbstractActor;
@@ -43,14 +44,14 @@ import sk.tuke.yolkfolk.collectables.Ring;
  * <p/>
  * Created by Steve on 3.12.2015.
  */
-public class Devil extends AbstractActor
+public class Devil extends AbstractActor implements NoGravity
 {
 	//Constants
 	public static final String NAME = "Devil";
 	//Zranenie, ktore udeli hracovi po svojej smrti
 	public static final int DAMAGE_ON_DEATH = 20;
 	//Vzdialenost v nasobkoch rozmerov Devila, na ktoru si vsimne hraca a povie mu spravu
-	private static final float DETECTION_RADIUS = 2.0f;
+	private static final float DETECTION_RADIUS = 2f;
 	//Doba, po ktoru musi stat hrac na jeho hlave aby zomrel
 	private static final int ON_HEAD_TIME = 15;
 
@@ -80,7 +81,7 @@ public class Devil extends AbstractActor
 	//Akcie vykonane v suvislosti s kazdym prstenom. Vracia true ak nastane zmena actora.
 	protected boolean actOnRing(Ring ring)
 	{
-		if (isNear(ring, getWidth(), getHeight()))
+		if (isNear(ring, Devil.DETECTION_RADIUS*getWidth(), Devil.DETECTION_RADIUS*getHeight()))
 		{
 			if (this.message != null)
 			{
@@ -187,5 +188,15 @@ public class Devil extends AbstractActor
 				break;
 			}
 		}
+	}
+
+	//After the game ends, he visits Daisy
+	public void daisyEnd()
+	{
+		if(this.message != null)
+		{
+			this.message.remove();
+		}
+		this.message = new Message("You think you won?", "I now truly own Daisy\nfor the eternity!",this);
 	}
 }

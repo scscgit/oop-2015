@@ -41,22 +41,31 @@ import sk.tuke.gamelib2.World;
 public class NewWorldOrder extends World
 {
 	//Constants
-	//Konstanta urcujuca, ako daleko sa predmet ma nachadzat, aby ho nebolo vidno
+	//Konstanta urcujuca, ako daleko sa predmet ma nachadzat, aby ho nebolo vidno (z dovodu hotfixu crashu)
 	public static final int OUTSIDE_WORLD = 800;
 
 	//Variables
 	private Music music;
 	private String musicPath;
+	private boolean musicIsFinal;
 
+	//Initialization
 	{
 		this.music = null;
 		this.musicPath = "";
+		this.musicIsFinal = false;
 	}
 
-	//Nacita hlavnu hudbu pre celu hru. Vzdy moze byt naraz spustena iba jedna.
+	//Sets current music as final, unoverridable
+	public void finalMusic()
+	{
+		this.musicIsFinal = true;
+	}
+
+	//Nacita novu hlavnu hudbu pre celu hru. Vzdy moze byt naraz spustena iba jedna.
 	public void loadMusic(String path)
 	{
-		if (!musicPath.equals(path))
+		if (!this.musicIsFinal && !musicPath.equals(path))
 		{
 			stopMusic();
 			this.music = new Music(path);
