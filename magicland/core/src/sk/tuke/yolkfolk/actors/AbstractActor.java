@@ -156,7 +156,7 @@ public abstract class AbstractActor implements Actor
 	private boolean intersectsX(Actor actor)
 	{
 		//GameLib Hotfix
-		if(getX() == 0 && getY() == 0)
+		if (getX() == 0 && getY() == 0)
 		{
 			return false;
 		}
@@ -172,7 +172,7 @@ public abstract class AbstractActor implements Actor
 	private boolean intersectsY(Actor actor)
 	{
 		//GameLib Hotfix
-		if(getX() == 0 && getY() == 0)
+		if (getX() == 0 && getY() == 0)
 		{
 			return false;
 		}
@@ -191,7 +191,7 @@ public abstract class AbstractActor implements Actor
 	public boolean intersects(Actor actor)
 	{
 		//GameLib Hotfix
-		if(getX() == 0 && getY() == 0)
+		if (getX() == 0 && getY() == 0)
 		{
 			return false;
 		}
@@ -211,7 +211,7 @@ public abstract class AbstractActor implements Actor
 	public boolean intersectsAbove(Actor actor, float yAbove)
 	{
 		//GameLib Hotfix
-		if(getX() == 0 && getY() == 0)
+		if (getX() == 0 && getY() == 0)
 		{
 			return false;
 		}
@@ -235,7 +235,7 @@ public abstract class AbstractActor implements Actor
 	public boolean isNear(Actor actor, float xNear, float yNear)
 	{
 		//GameLib Hotfix
-		if(getX() == 0 && getY() == 0)
+		if (getX() == 0 && getY() == 0)
 		{
 			return false;
 		}
@@ -254,7 +254,7 @@ public abstract class AbstractActor implements Actor
 	public boolean standsOn(Actor actor)
 	{
 		//GameLib Hotfix
-		if(getX() == 0 && getY() == 0)
+		if (getX() == 0 && getY() == 0)
 		{
 			return false;
 		}
@@ -290,7 +290,7 @@ public abstract class AbstractActor implements Actor
 		world.addActor(this);
 	}
 	//Removes this actor from the current world
-	public  void removeFromWorld()
+	public void removeFromWorld()
 	{
 		getWorld().removeActor(this);
 	}

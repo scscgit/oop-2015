@@ -48,9 +48,9 @@ public class Prince extends AbstractActor implements Item
 	//Doba medzi jednotlivym duchmi
 	public static final int GHOST_INTERVAL = 100;
 	//Doba zobrazenia spravy, ze bol Princ porazeny
-	public static final int DEFEATED_INTERVAL = 200;
+	public static final int DEFEATED_INTERVAL = 500;
 	//Doba zobrazenia uvitacej spravy
-	public static final int GREETING_INTERVAL = 200;
+	public static final int GREETING_INTERVAL = 220;
 
 	//Variables
 	private int ghostTimer;
@@ -62,7 +62,7 @@ public class Prince extends AbstractActor implements Item
 	private boolean greetingDone;
 
 	//Slaves
-	private Daisy daisy;
+	//private Daisy daisy;
 
 	//Objects
 	private Message message;
@@ -75,7 +75,7 @@ public class Prince extends AbstractActor implements Item
 		this.ghostTimer = 0;
 		this.defeated = false;
 		this.defeatedTimer = 0;
-		this.daisy = null;
+		//this.daisy = null;
 		this.message = null;
 		this.player = null;
 		this.princeSpace = null;
@@ -88,9 +88,7 @@ public class Prince extends AbstractActor implements Item
 	//Spusti cinematic obraz
 	protected void runCinematic()
 	{
-		CinematicZone cinematic = null;
-		removeMessage();
-
+		//CinematicZone cinematic = null;
 		for (Actor actor : getWorld())
 		{
 			if (actor instanceof CinematicZone)
@@ -195,6 +193,7 @@ public class Prince extends AbstractActor implements Item
 			{
 				//Vrati ovladanie hracovi
 				unfreezePlayer();
+				removeMessage();
 				this.greetingDone = true;
 			}
 			else
@@ -227,12 +226,14 @@ public class Prince extends AbstractActor implements Item
 				}
 			}
 
+			/*
 			//Prince has Daisy as a slave
 			Actor daisyActor = getActorByName("Daisy");
 			if (daisyActor instanceof Daisy)
 			{
 				this.daisy = (Daisy) daisyActor;
 			}
+			*/
 
 			this.initialization = true;
 		}

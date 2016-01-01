@@ -92,6 +92,10 @@ public class ExitZone extends AbstractSpace
 	}
 
 	@Override
+	protected void playerIntersects(Player player)
+	{
+	}
+	@Override
 	public void act()
 	{
 		Player player = null;

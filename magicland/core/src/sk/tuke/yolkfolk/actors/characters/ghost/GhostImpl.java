@@ -47,14 +47,14 @@ public class GhostImpl extends AbstractAnimatedActor implements Ghost
 
 	//Variables
 	private Direction direction;
-	private boolean isEnemy;
-	private boolean isAlly;
+	private boolean enemy;
+	private boolean ally;
 	private boolean inWorld;
 
 	//Initialization
 	{
-		this.isEnemy = false;
-		this.isAlly = false;
+		this.enemy = false;
+		this.ally = false;
 		this.inWorld = false;
 	}
 
@@ -63,12 +63,26 @@ public class GhostImpl extends AbstractAnimatedActor implements Ghost
 		super(GhostImpl.NAME, "sprites/ghost_right.png", 48, 42);
 		getAnimation().setPingPong(true);
 
-		//Nastavenie animacie so smerom dolava
+		//Inicializacia (nie je to najefektivnejsie riesenie v konstruktore, ale ma reprezentovat vzor Decorator)
+		initAnimation();
+		initMovement();
+	}
+
+	@Override
+	public void initAnimation()
+	{
+		//Prestavim animaciu bieleho ducha v smere dolava
 		Animation leftAnimation = new Animation("sprites/ghost_left.png", 48, 42);
 		leftAnimation.setPingPong(true);
 		setAnimationLeft(leftAnimation);
 		setAnimationJumpLeft(leftAnimation);
 
+		//Spustenie default stavu noveho ducha (u GhostImpl dane implicitne konstruktorom)
+		//setAnimation();
+	}
+	@Override
+	public void initMovement()
+	{
 		//Inicializacia bez smeru pohybu, lieta na mieste bez pohybu
 		stop();
 	}
@@ -77,20 +91,20 @@ public class GhostImpl extends AbstractAnimatedActor implements Ghost
 	@Override
 	public void addToWorld(World world)
 	{
-		if(!this.inWorld)
+		if (!this.inWorld)
 		{
 			super.addToWorld(world);
-			this.inWorld =true;
+			this.inWorld = true;
 		}
 	}
 	//Hotfix pre GameLib kniznicu, synchronizacia PhysicalActor - Actor
 	@Override
 	public void removeFromWorld()
 	{
-		if(this.inWorld)
+		if (this.inWorld)
 		{
 			super.removeFromWorld();
-			this.inWorld =false;
+			this.inWorld = false;
 		}
 	}
 
@@ -161,22 +175,22 @@ public class GhostImpl extends AbstractAnimatedActor implements Ghost
 	//Becomes enemy of Player and will try to haunt him for eternity, then killing him
 	public final void becomeEnemy()
 	{
-		this.isEnemy = true;
-		this.isAlly = false;
+		this.enemy = true;
+		this.ally = false;
 	}
 	public final boolean isEnemy()
 	{
-		return this.isEnemy;
+		return this.enemy;
 	}
 	//Becomes friend of Player and will try to kill Prince and his Ghosts
 	public final void becomeAlly()
 	{
-		this.isEnemy = false;
-		this.isAlly = true;
+		this.enemy = false;
+		this.ally = true;
 	}
 	public final boolean isAlly()
 	{
-		return this.isAlly;
+		return this.ally;
 	}
 
 	//Tries to kill player on sight
@@ -208,7 +222,7 @@ public class GhostImpl extends AbstractAnimatedActor implements Ghost
 			//Ak narazi na Princa, tak ho porazi a zmizne
 			if (actor instanceof Prince && intersects(actor))
 			{
-				((Prince) actor).defeat(); //todo impl defeated that lets dizzy find key and open the door
+				((Prince) actor).defeat();
 				removeFromWorld();
 				return true;
 			}
@@ -246,11 +260,11 @@ public class GhostImpl extends AbstractAnimatedActor implements Ghost
 		*/
 
 		//Will kill their enemy on sight
-		if (this.isEnemy)
+		if (isEnemy())
 		{
 			hauntPlayer();
 		}
-		else if (this.isAlly && hauntPrince())
+		else if (isAlly() && hauntPrince())
 		{
 			return;
 		}
@@ -258,7 +272,7 @@ public class GhostImpl extends AbstractAnimatedActor implements Ghost
 		try
 		{
 			//Stale sa bude hybat v pozadovanom smere
-			if(this.inWorld)
+			if (this.inWorld)
 			{
 				doMovement();
 			}

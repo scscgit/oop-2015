@@ -37,7 +37,7 @@ import sk.tuke.yolkfolk.actors.AbstractAnimatedDecorator;
 public abstract class AbstractGhostDecorator extends AbstractAnimatedDecorator implements Ghost
 {
 	//Dekorovany duch
-	Ghost ghost;
+	private Ghost ghost;
 
 	public AbstractGhostDecorator(Ghost ghost)
 	{
@@ -46,6 +46,16 @@ public abstract class AbstractGhostDecorator extends AbstractAnimatedDecorator i
 		this.ghost = ghost;
 	}
 
+	@Override
+	public void initAnimation()
+	{
+		this.ghost.initAnimation();
+	}
+	@Override
+	public void initMovement()
+	{
+		this.ghost.initMovement();
+	}
 	@Override
 	public void becomeEnemy()
 	{

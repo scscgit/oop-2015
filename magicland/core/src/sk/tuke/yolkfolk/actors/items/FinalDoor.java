@@ -25,63 +25,64 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.characters;
+package sk.tuke.yolkfolk.actors.items;
 
-import sk.tuke.gamelib2.Item;
-import sk.tuke.gamelib2.Message;
-import sk.tuke.yolkfolk.actors.AbstractActor;
-import sk.tuke.yolkfolk.actors.player.Player;
-import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
+import sk.tuke.yolkfolk.collectables.FinalKey;
+import sk.tuke.yolkfolk.collectables.Key;
 
 /**
- * He robs in hood. This is bad neighborhood.
+ * FinalDoor that requires FinalKey before allowing a Final cinematic to be shown to a Player (by Daisy).
  * <p/>
- * Created by Steve on 27.12.2015.
+ * Created by Steve on 1.1.2016.
  */
-public class RobinHood extends AbstractActor implements Item, HoodedVisitor
+public class FinalDoor extends SimpleDoor
 {
 	//Constants
-	public static final String NAME = "RobinHood";
-	public static final int BIRD_CHARISMA = 150;
-	public static final int DIZZY_CHARISMA = 350;
+	public static final String NAME = "FinalDoor";
 
-	public RobinHood()
+	//Static link to previous door that was created before this, used for automagical intertwining of doors at creation
+	private static Door previousDoor;
+
+	//Staticka inicializacia
+	static
 	{
-		super(RobinHood.NAME, "sprites/robinhood.png", 32, 48);
+		FinalDoor.previousDoor = null;
 	}
 
-	@Override
-	public void act()
+	//Specific magic door without automagical pairing
+	public FinalDoor(Door destination)
 	{
+		super(FinalDoor.NAME, destination);
 	}
 
-	//Makes birds be full of joy
-	@Override
-	public void visit(Bird bird)
+	//When this default constructor is used, automagical pairing of doors happens
+	public FinalDoor()
 	{
-		if (bird != null && isNear(bird, getWidth() * 2, getHeight() * 2))
+		super(FinalDoor.NAME);
+	}
+
+	//Method for automagical pairing of doors happens, no pairing happens when it returns null
+	@Override
+	protected Door getPreviousDoor()
+	{
+		return FinalDoor.previousDoor;
+	}
+	//Sets a door as the previous door, that will get automagicaly paired with the next door
+	@Override
+	protected void setPreviousDoor(Door door)
+	{
+		FinalDoor.previousDoor = door;
+	}
+
+	//Pomocou kluca sa skusia otvorit dvere a metoda vrati hodnotu uspechu
+	@Override
+	public boolean unlock(Key key)
+	{
+		if (key instanceof FinalKey)
 		{
-			bird.doChirp(RobinHood.BIRD_CHARISMA);
+			open();
+			return true;
 		}
-	}
-	//Dizzy, our hero of this chapter has special purpose
-	@Override
-	public void visit(Dizzy dizzy)
-	{
-		if (dizzy != null && isNear(dizzy, getWidth() * 2, getHeight() * 2))
-		{
-			dizzy.beSpooked(RobinHood.DIZZY_CHARISMA);
-		}
-	}
-
-	//Greets a first generic player (my map does not plan to activate this method)
-	@Override
-	@Deprecated
-	public void visit(Player player)
-	{
-		if (player != null && isNear(player, getWidth() * 2, getHeight() * 2))
-		{
-			new Message("A new hero?", "Welcome to my home.", this);
-		}
+		return false;
 	}
 }

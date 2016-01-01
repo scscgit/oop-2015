@@ -25,74 +25,19 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.cinematic;
+package sk.tuke.yolkfolk.actors.characters;
 
 import sk.tuke.yolkfolk.actors.player.Player;
-import sk.tuke.yolkfolk.spaces.CinematicZone;
+import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
 
 /**
- * Cinematicky zazitok v abstraktnej forme.
+ * A watcher (visitor) of Birds who also likes to greet strangers (Players).
  * <p/>
- * Created by Steve on 31.12.2015.
+ * Created by Steve on 1.1.2016.
  */
-public abstract class AbstractCinematicStrategy implements CinematicStrategy
+public interface HoodedVisitor
 {
-	//Variables
-	private int duration;
-	private int counter;
-
-	//Objects
-	private Player player;
-	private CinematicZone zone;
-
-	public AbstractCinematicStrategy()
-	{
-		this.duration = 0;
-		this.counter = 0;
-		this.player = null;
-		this.zone = null;
-	}
-
-	@Override
-	public void setPlayer(Player player)
-	{
-		this.player = player;
-	}
-	public Player getPlayer()
-	{
-		return this.player;
-	}
-
-	@Override
-	public void setZone(CinematicZone zone)
-	{
-		this.zone = zone;
-	}
-	@Override
-	public CinematicZone getZone()
-	{
-		return this.zone;
-	}
-
-	@Override
-	public void setDuration(int duration)
-	{
-		this.duration = duration;
-	}
-	@Override
-	public int getDuration()
-	{
-		return this.duration;
-	}
-
-	@Override
-	public void setCounter(int counter)
-	{
-		this.counter = counter;
-	}
-	@Override
-	public int getCounter()
-	{
-		return this.counter;
-	}
+	void visit(Bird bird);
+	void visit(Dizzy dizzy);
+	void visit(Player dizzy);
 }

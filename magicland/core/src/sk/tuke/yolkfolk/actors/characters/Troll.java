@@ -98,7 +98,7 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 	//Akcie, ktore nastanu po smrti Trolla po zabiti hracom
 	protected void onDeath(boolean makeSound)
 	{
-		if(makeSound)
+		if (makeSound)
 		{
 			GameMusic.playFinishHim();
 		}
@@ -126,7 +126,7 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 	}
 
 	//Ak sa utopi, tak zomrie
-	private boolean dieIfDrown()
+	private boolean dieIfDrowns()
 	{
 		if (intersectsAbove(this.player, this.player.getHeight() / 2))
 		{
@@ -134,7 +134,7 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 			removeFromWorld();
 			return true;
 		}
-		else if(this.drownCounter>Troll.DROWN_TIME)
+		else if (this.drownCounter > Troll.DROWN_TIME)
 		{
 			//Silently dies
 			onDeath(false);
@@ -157,7 +157,7 @@ public class Troll extends AbstractAnimatedActor implements Swimmable
 			this.player.decreaseEnergy(1);
 		}
 		//Ak ho jeho uhlavny nepriatel najde vo vode, tak ho udusi (skocenim na hlavu), a teda zabije
-		else if (this.swimming && dieIfDrown())
+		else if (this.swimming && dieIfDrowns())
 		{
 			return true;
 		}

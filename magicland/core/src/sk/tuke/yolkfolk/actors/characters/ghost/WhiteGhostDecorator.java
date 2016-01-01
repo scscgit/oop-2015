@@ -41,13 +41,25 @@ public class WhiteGhostDecorator extends AbstractGhostDecorator
 	public static final String NAME = "WhiteGhost";
 
 	//Decorated ghost
-	Ghost ghost;
+	private Ghost ghost;
 
 	public WhiteGhostDecorator(Ghost ghost)
 	{
 		//Inicializacia dekoratora
 		super(ghost);
 		this.ghost = ghost;
+
+		//Nastavenie mena bieleho ducha
+		this.ghost.setName(WhiteGhostDecorator.NAME);
+
+		//Znovu-nastavenie animacie
+		initAnimation();
+	}
+
+	@Override
+	public void initAnimation()
+	{
+		super.initAnimation();
 
 		//Nahradenie animacii ducha novou farbou
 		Animation leftAnimation = new Animation("sprites/ghost_left.png", 48, 42);
@@ -60,8 +72,8 @@ public class WhiteGhostDecorator extends AbstractGhostDecorator
 		this.ghost.setAnimationRight(rightAnimation);
 		this.ghost.setAnimationJumpRight(rightAnimation);
 
-		//Nastavenie hodnot bieleho ducha
-		this.ghost.setName(WhiteGhostDecorator.NAME);
+		//Spustenie default stavu noveho ducha
+		this.ghost.setAnimation();
 	}
 
 	/*@Override

@@ -27,6 +27,8 @@
 
 package sk.tuke.yolkfolk.spaces;
 
+import sk.tuke.yolkfolk.actors.player.Player;
+
 /**
  * Neviditelna prekazka, ktora zastavi (a obrati) lietanie vtakov dolava.
  * <p/>
@@ -42,6 +44,10 @@ public class BirdBorderLeft extends AbstractSpace
 		super(BirdBorderLeft.NAME);
 	}
 
+	@Override
+	protected void playerIntersects(Player player)
+	{
+	}
 	@Override
 	public void act()
 	{

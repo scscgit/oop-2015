@@ -27,10 +27,7 @@
 
 package sk.tuke.yolkfolk.actors.characters;
 
-import sk.tuke.gamelib2.Actor;
-import sk.tuke.gamelib2.Animation;
-import sk.tuke.gamelib2.NoGravity;
-import sk.tuke.gamelib2.PhysicsHelper;
+import sk.tuke.gamelib2.*;
 import sk.tuke.yolkfolk.actors.AbstractAnimatedActor;
 import sk.tuke.yolkfolk.actors.objects.Rubbish;
 import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
@@ -51,6 +48,10 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 	//Smer, false=vlavo, true=vpravo
 	private boolean direction;
 	private boolean nextVelocity;
+	private int chirpCounter;
+
+	//Objects
+	private Message chirpMessage;
 
 	//Static animations
 	private static Animation animationLeft;
@@ -65,6 +66,9 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 	{
 		super(Bird.NAME, "sprites/birdright.png", 16, 16);
 		this.direction = true;
+		this.nextVelocity = false;
+		this.chirpCounter = 0;
+		this.chirpMessage = null;
 		setStep(0.5f);
 
 		//Spustenie pohybu
@@ -110,6 +114,10 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 		Rubbish rubbish = new Rubbish(Bird.NAME);
 		rubbish.setPosition(getX(), getY());
 		getWorld().addActor(rubbish);
+		if (this.chirpMessage != null)
+		{
+			this.chirpMessage.remove();
+		}
 		this.removeFromWorld();
 	}
 
@@ -140,7 +148,23 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 		{
 			intersectsBorder();
 		}
+
+		//The bird will most certainly be noticed and visited.
+		//A.K.A void accept(Visitor visitor), but more compact and automatic.
+		if (actor instanceof HoodedVisitor)
+		{
+			((HoodedVisitor) actor).visit(this);
+		}
 		return false;
+	}
+
+	//Zacvirika
+	public void doChirp(int time)
+	{
+		if (this.chirpMessage == null)
+		{
+			this.chirpCounter = time;
+		}
 	}
 
 	@Override
@@ -153,7 +177,20 @@ public class Bird extends AbstractAnimatedActor implements NoGravity
 			PhysicsHelper.setLinearVelocity(this, this.direction ? getStep() : -getStep(), 0);
 		}
 
-		//Vykonanie relevantnych intersect operacii s ostatnymi actormi
+		//Cvirikat bude iba chvilu
+		if (this.chirpMessage != null)
+		{
+			this.chirpMessage.remove();
+			this.chirpMessage = null;
+		}
+		if (this.chirpCounter > 0)
+		{
+			this.chirpMessage = new Message("Chirp", "Chirp", this);
+			this.chirpMessage.setPosition(getX() - getWidth(), getY() + getHeight());
+			this.chirpCounter--;
+		}
+
+		//Vykonanie relevantnych intersect operacii s ostatnymi actormi, vratane visitu Visitorov
 		for (Actor actor : getWorld())
 		{
 			if (actionWithActor(actor))

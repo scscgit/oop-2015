@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="150">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="151">
  <tileset firstgid="1" name="magiclanddizzy_tiles" tilewidth="16" tileheight="16" spacing="2" tilecount="1056">
   <image source="magiclanddizzy_tiles.gif" width="790" height="430"/>
  </tileset>
@@ -72,7 +72,7 @@
   <object id="17" name="Fire" x="584" y="128" width="16" height="16"/>
   <object id="18" name="Bird" x="736" y="160" width="16" height="16"/>
   <object id="19" name="DaisyElevator" x="43" y="565" width="32" height="9"/>
-  <object id="32" name="SimpleDoor" x="148.5" y="575.5" width="40" height="50"/>
+  <object id="32" name="FinalDoor" x="148.5" y="575.5" width="40" height="50"/>
   <object id="33" name="Lever" x="155.5" y="529.333" width="16" height="16"/>
   <object id="34" name="BirdBorderRight" x="800" y="144" width="48" height="48"/>
   <object id="35" name="BirdBorderLeft" x="-48" y="144" width="48" height="48"/>
@@ -92,7 +92,7 @@
   <object id="66" name="Monkey" x="480" y="252" width="48" height="32"/>
   <object id="73" name="MonkeyStoneSpace" x="479.727" y="262" width="48" height="48"/>
   <object id="74" name="MagicDoor" x="242.667" y="175" width="40" height="50"/>
-  <object id="75" name="SimpleDoor" x="102.152" y="238.758" width="40" height="50"/>
+  <object id="75" name="FinalDoor" x="102.152" y="238.758" width="40" height="50"/>
   <object id="76" name="Lever" x="97.125" y="384.875" width="16" height="16"/>
   <object id="82" name="Devil" x="250.667" y="304.5" width="32" height="48"/>
   <object id="83" name="RobinHood" x="442" y="33" width="32" height="48"/>
@@ -130,8 +130,9 @@
   <object id="141" name="RobinHoodPlatform" x="576" y="84" width="32" height="9"/>
   <object id="142" name="Lever" x="176" y="208" width="16" height="16"/>
   <object id="144" name="Witch" x="526" y="572" width="64" height="64"/>
-  <object id="145" name="SimpleKey" x="71.3333" y="207.333" width="16" height="16"/>
+  <object id="145" name="FinalKey" x="71.3333" y="207.333" width="16" height="16"/>
   <object id="148" name="SimpleKey" x="215.333" y="605.5" width="16" height="16"/>
   <object id="149" name="Dizzy" x="258.833" y="558.167" width="25" height="25"/>
+  <object id="150" name="Diamond" x="739" y="305" width="16" height="16"/>
  </objectgroup>
 </map>

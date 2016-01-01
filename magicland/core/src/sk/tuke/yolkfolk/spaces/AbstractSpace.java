@@ -54,9 +54,7 @@ public abstract class AbstractSpace extends AbstractActor implements Item
 	}
 
 	//Akcie vykonane po dotyku s hracom
-	protected void playerIntersects(Player player)
-	{
-	}
+	protected abstract void playerIntersects(Player player);
 
 	@Override
 	public void act()

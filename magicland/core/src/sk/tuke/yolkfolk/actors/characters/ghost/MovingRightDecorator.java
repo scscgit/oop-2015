@@ -37,11 +37,24 @@ public class MovingRightDecorator extends AbstractGhostDecorator
 	//Constants
 	public static final float SPEED = 0.07f;
 
+	//Dekorovany duch
+	private Ghost ghost;
+
 	public MovingRightDecorator(Ghost ghost)
 	{
 		super(ghost);
+		this.ghost = ghost;
 
-		ghost.setStep(MovingRightDecorator.SPEED);
-		ghost.runRight();
+		//Znovu-nastavenie pohybu
+		initMovement();
+	}
+
+	@Override
+	public void initMovement()
+	{
+		super.initMovement();
+
+		this.ghost.setStep(MovingRightDecorator.SPEED);
+		this.ghost.runRight();
 	}
 }

@@ -27,6 +27,8 @@
 
 package sk.tuke.yolkfolk.spaces;
 
+import sk.tuke.yolkfolk.actors.player.Player;
+
 /**
  * Player-detection space of the Prince.
  * <p/>
@@ -42,6 +44,10 @@ public class PrinceSpace extends AbstractSpace
 		super(PrinceSpace.NAME);
 	}
 
+	@Override
+	protected void playerIntersects(Player player)
+	{
+	}
 	@Override
 	public void act()
 	{

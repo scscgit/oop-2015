@@ -40,13 +40,25 @@ public class GreenGhostDecorator extends AbstractGhostDecorator
 	public static final String NAME = "GreenGhost";
 
 	//Decorated ghost
-	Ghost ghost;
+	private Ghost ghost;
 
 	public GreenGhostDecorator(Ghost ghost)
 	{
 		//Inicializacia dekoratora
 		super(ghost);
 		this.ghost = ghost;
+
+		//Nastavenie mena zeleneho ducha
+		this.ghost.setName(GreenGhostDecorator.NAME);
+
+		//Znovu-nastavenie animacie
+		initAnimation();
+	}
+
+	@Override
+	public void initAnimation()
+	{
+		super.initAnimation();
 
 		//Nahradenie animacii ducha novou farbou
 		Animation leftAnimation = new Animation("sprites/ghost_left_green.png", 48, 42);
@@ -59,8 +71,8 @@ public class GreenGhostDecorator extends AbstractGhostDecorator
 		this.ghost.setAnimationRight(rightAnimation);
 		this.ghost.setAnimationJumpRight(rightAnimation);
 
-		//Nastavenie hodnot zeleneho ducha
-		this.ghost.setName(GreenGhostDecorator.NAME);
+		//Spustenie default stavu noveho ducha
+		this.ghost.setAnimation();
 	}
 
 	/*@Override
