@@ -40,7 +40,7 @@ public class GameMusic
 	private static final String PATH_VAULT = "music/vault.mp3";
 	private static final String PATH_CORE = "music/core.mp3";
 	private static final String PATH_SECRET = "music/secret.mp3";
-	private static final String PATH_DOGSONG = "music/dogsong.mp3"; //todo use as winning theme
+	private static final String PATH_DOGSONG = "music/dogsong.mp3";
 	private static final String PATH_GAME_OVER = "music/game_over.mp3";
 	private static final String PATH_FINISH_HIM = "music/finish_him.mp3";
 

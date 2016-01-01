@@ -28,6 +28,7 @@
 package sk.tuke.yolkfolk.actors.player.states;
 
 import sk.tuke.gamelib2.Message;
+import sk.tuke.yolkfolk.actions.player.Exit;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
@@ -37,6 +38,7 @@ import sk.tuke.yolkfolk.actors.player.Player;
  */
 public class PlayerFrozen extends AbstractPlayerState
 {
+	//Objects
 	private Message freezeMessage;
 
 	public PlayerFrozen(Player player)
@@ -68,10 +70,21 @@ public class PlayerFrozen extends AbstractPlayerState
 		getPlayer().stopAnimationRight();
 	}
 
+	//Prida relevantne akcie
+	protected void addActions()
+	{
+		addAction(new Exit());
+	}
+
 	@Override
 	public void act()
 	{
 		//Zastavi pohyb do stran, hrac moze iba padat
 		stopVelocity(true);
+
+		//Zmrazeny hrac moze hru iba skoncit
+		resetActions();
+		addActions();
+		runActions(getPlayer());
 	}
 }

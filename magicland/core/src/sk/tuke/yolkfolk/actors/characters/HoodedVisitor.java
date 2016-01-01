@@ -25,45 +25,19 @@
  * along with this program.  If not, see < http://www.gnu.org/licenses/ >.
  */
 
-package sk.tuke.yolkfolk.actors.objects;
+package sk.tuke.yolkfolk.actors.characters;
+
+import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
 
 /**
- * Horizontalna plosina.
+ * A watcher (visitor) of Birds who also likes to greet strangers (Players).
  * <p/>
- * Re-definuje vyznam premennej step na pohyb horizontalny, true=vpravo, false=vlavo.
- * <p/>
- * Created by Steve on 31.12.2015.
+ * Created by Steve on 1.1.2016.
  */
-public class HorizontalPlatform extends AbstractMovingPlatform
+public interface HoodedVisitor
 {
-	//Constants
-	public static final String NAME = "HorizontalPlatform";
-
-	public HorizontalPlatform(String name)
-	{
-		super(name);
-	}
-
-	public HorizontalPlatform()
-	{
-		this(HorizontalPlatform.NAME);
-	}
-
-	//Horizontalna platforma sa pohybuje v smere X.
-	@Override
-	protected float currentPosition()
-	{
-		return getX();
-	}
-
-	@Override
-	protected float nextX()
-	{
-		return getDirection() ? getSpeed() : -getSpeed();
-	}
-	@Override
-	protected float nextY()
-	{
-		return 0;
-	}
+	void visit(Bird bird);
+	void visit(Dizzy dizzy);
+	void visit(Player dizzy);
 }

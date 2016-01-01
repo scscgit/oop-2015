@@ -81,7 +81,7 @@ public class Devil extends AbstractActor implements NoGravity
 	//Akcie vykonane v suvislosti s kazdym prstenom. Vracia true ak nastane zmena actora.
 	protected boolean actOnRing(Ring ring)
 	{
-		if (isNear(ring, Devil.DETECTION_RADIUS*getWidth(), Devil.DETECTION_RADIUS*getHeight()))
+		if (isNear(ring, Devil.DETECTION_RADIUS * getWidth(), Devil.DETECTION_RADIUS * getHeight()))
 		{
 			if (this.message != null)
 			{
@@ -193,10 +193,10 @@ public class Devil extends AbstractActor implements NoGravity
 	//After the game ends, he visits Daisy
 	public void daisyEnd()
 	{
-		if(this.message != null)
+		if (this.message != null)
 		{
 			this.message.remove();
 		}
-		this.message = new Message("You think you won?", "I now truly own Daisy\nfor the eternity!",this);
+		this.message = new Message("You think you won?", "I now truly own Daisy\nfor the eternity!", this);
 	}
 }

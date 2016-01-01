@@ -35,10 +35,10 @@ import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.Cursable;
 import sk.tuke.yolkfolk.actors.CurseEvent;
 import sk.tuke.yolkfolk.actors.Observer;
+import sk.tuke.yolkfolk.collectables.FinalKey;
 import sk.tuke.yolkfolk.collectables.Key;
 import sk.tuke.yolkfolk.collectables.Potion;
 import sk.tuke.yolkfolk.collectables.Ring;
-import sk.tuke.yolkfolk.collectables.SimpleKey;
 
 /**
  * Secret character.
@@ -133,7 +133,7 @@ public class Witch extends AbstractActor implements SpellCaster, Observer<Cursab
 				this.potion = null;
 
 				//A brand new Key appears
-				Key key = new SimpleKey();
+				Key key = new FinalKey();
 				key.setPosition(this.spellCaster.getX(), this.spellCaster.getY());
 				getWorld().addActor(key);
 				return true;

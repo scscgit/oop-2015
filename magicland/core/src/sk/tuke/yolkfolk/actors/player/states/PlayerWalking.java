@@ -63,7 +63,7 @@ public class PlayerWalking extends AbstractGroundState
 
 	//Zahajenie pohybu v pozadovanom smere
 	private void refreshVelocity()
-	{//todo horizontal try experiment negated commented<< etc
+	{
 		if (!getPlayer().noHorizontalChange() || getPlayer().standsOnSolid())
 		{
 			setVelocity(this.direction);

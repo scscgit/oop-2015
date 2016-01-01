@@ -108,7 +108,7 @@ public class Diamond extends AbstractActor implements Item, Usable
 			                   ((player.getNumberOfDiamonds() > 9) ? " and his bag is getting heavy." : "."));
 
 			//I only want one message at the time, there is too much clutter
-			if(Diamond.message!=null)
+			if (Diamond.message != null)
 			{
 				Diamond.message.remove();
 			}

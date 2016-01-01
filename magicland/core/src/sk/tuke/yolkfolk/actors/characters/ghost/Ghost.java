@@ -44,6 +44,9 @@ public interface Ghost extends Actor, AnimatedMovement, Item, ActorDecorator
 		STOPPED, LEFT, RIGHT
 	}
 
+	void initAnimation();
+	void initMovement();
+
 	void becomeEnemy();
 	boolean isEnemy();
 	void becomeAlly();

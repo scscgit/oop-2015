@@ -189,6 +189,9 @@ public class Witcher extends AbstractActor implements Item, SpellCaster
 		if (!this.boostedMana)
 		{
 			this.boostedMana = true;
+
+			//After drinking the sacred potion, he becomes less annoying with all the Text Messages
+			this.message.remove();
 			return true;
 		}
 		return false;

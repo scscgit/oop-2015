@@ -37,11 +37,24 @@ public class MovingLeftDecorator extends AbstractGhostDecorator
 	//Constants
 	public static final float SPEED = 0.07f;
 
+	//Dekorovany duch
+	private Ghost ghost;
+
 	public MovingLeftDecorator(Ghost ghost)
 	{
 		super(ghost);
+		this.ghost = ghost;
 
-		ghost.setStep(MovingLeftDecorator.SPEED);
-		ghost.runLeft();
+		//Znovu-nastavenie pohybu
+		initMovement();
+	}
+
+	@Override
+	public void initMovement()
+	{
+		super.initMovement();
+
+		this.ghost.setStep(MovingLeftDecorator.SPEED);
+		this.ghost.runLeft();
 	}
 }

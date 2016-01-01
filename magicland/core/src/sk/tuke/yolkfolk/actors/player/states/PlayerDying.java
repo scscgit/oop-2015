@@ -29,6 +29,7 @@ package sk.tuke.yolkfolk.actors.player.states;
 
 import sk.tuke.gamelib2.Animation;
 import sk.tuke.yolkfolk.NewWorldOrder;
+import sk.tuke.yolkfolk.actions.player.Exit;
 import sk.tuke.yolkfolk.actors.player.Player;
 
 /**
@@ -38,6 +39,7 @@ import sk.tuke.yolkfolk.actors.player.Player;
  */
 public class PlayerDying extends PlayerFrozen
 {
+	//Objects
 	private Animation dyingAnimation;
 
 	public PlayerDying(Player player, Animation dyingAnimation)
@@ -91,6 +93,16 @@ public class PlayerDying extends PlayerFrozen
 		       getDyingAnimation().getCurrentFrame() == getDyingAnimation().getFrameCount() - 1;
 	}
 
+	//Skoncenie hry povoli iba ak skoncila animacia
+	@Override
+	protected void addActions()
+	{
+		if (animationEnded())
+		{
+			addAction(new Exit());
+		}
+	}
+
 	@Override
 	public void act()
 	{
@@ -103,7 +115,7 @@ public class PlayerDying extends PlayerFrozen
 			newMessage(getPlayer().getName() + " has died :(", "Game Over!");
 
 			//Kym neskonci animacia, tak neumoznim pouzivatelovi skoncit hru.
-			if (input().enterRising() || input().escape())
+			if (input().enterRising())
 			{
 				System.exit(0);
 			}

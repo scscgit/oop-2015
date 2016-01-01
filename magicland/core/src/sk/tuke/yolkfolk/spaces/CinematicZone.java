@@ -27,6 +27,8 @@
 
 package sk.tuke.yolkfolk.spaces;
 
+import sk.tuke.yolkfolk.actors.player.Player;
+
 /**
  * Helps to show a black screen suitable for text outside the map.
  * <p/>
@@ -42,6 +44,10 @@ public class CinematicZone extends AbstractSpace
 		super(CinematicZone.NAME);
 	}
 
+	@Override
+	protected void playerIntersects(Player player)
+	{
+	}
 	@Override
 	public void act()
 	{

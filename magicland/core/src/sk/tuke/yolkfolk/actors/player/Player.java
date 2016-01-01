@@ -35,6 +35,7 @@ import sk.tuke.yolkfolk.input.CustomInput;
 
 /**
  * Rozhranie definujuce zakladne predpoklady pre posobenie actora ako hraca, ktoreho ovlada pouzivatel.
+ * Protip: odporuca sa vytvorit ho ako posledny objekt v Tiled editore mapy, aby mal najvacsie ID a bol pred ostatnymi.
  * <p/>
  * Created by Steve on 2.12.2015.
  */
@@ -52,8 +53,6 @@ public interface Player extends Actor, AnimatedMovement, AirborneSupport
 	//If velocity Y (in both directions) is less than this value, Player can be considered standing on ground
 	//povodna hodnota 0.1f robila problemy pri schodoch a nerovnych povrchoch
 	float SPEED_Y_IS_ON_GND = 0.9f; //nova verzia bola 0.6f a smykal sa
-	//Constant for method enoughTimeNoSolid()
-	int MAX_TIME_NO_SOLID = 15;
 
 	void setStep(float step);
 	float getStep();

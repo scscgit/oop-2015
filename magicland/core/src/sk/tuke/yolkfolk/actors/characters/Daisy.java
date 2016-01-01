@@ -31,10 +31,9 @@ import sk.tuke.gamelib2.Actor;
 import sk.tuke.gamelib2.Item;
 import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
-import sk.tuke.yolkfolk.actors.ActorFactoryImpl;
 import sk.tuke.yolkfolk.actors.Greeter;
 import sk.tuke.yolkfolk.actors.Usable;
-import sk.tuke.yolkfolk.actors.items.SimpleDoor;
+import sk.tuke.yolkfolk.actors.items.FinalDoor;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.cinematic.CinematicEffect;
 import sk.tuke.yolkfolk.cinematic.DaisyIsFree;
@@ -108,7 +107,7 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 
 	protected void prepareCinematic()
 	{
-		if(this.firstPlayer != null)
+		if (this.firstPlayer != null)
 		{
 			this.cinematic = new CinematicEffect(new DaisyIsFree(), this.firstPlayer);
 		}
@@ -124,7 +123,7 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 				hackPosition(actor.getX() + getWidth(), actor.getY());
 
 				//The devil also visits her
-				if(this.devil != null)
+				if (this.devil != null)
 				{
 					this.devil.setPosition(actor.getX(), actor.getY());
 					getWorld().addActor(this.devil);
@@ -142,11 +141,11 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 	//Checks if the door is open and if it is, runs there before Player does. Only returns true before first cinematic.
 	private boolean readyToLeave()
 	{
-		if(!this.atExit)
+		if (!this.atExit)
 		{
-			for (Actor actor: getWorld())
+			for (Actor actor : getWorld())
 			{
-				if(actor instanceof SimpleDoor && ((SimpleDoor)actor).isUnlocked())
+				if (actor instanceof FinalDoor && ((FinalDoor) actor).isUnlocked())
 				{
 					return true;
 				}
@@ -155,6 +154,7 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 		return false;
 	}
 
+	//As a Greeter, Daisy must implement this method and expect to be called by it when intersecting Player
 	public boolean greetPlayer(Player player)
 	{
 		//First met player will be remembered forever
@@ -164,10 +164,11 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 		}
 
 		//If the exit door is open, Daisy stops greeting Player and instead starts cinematic and runs to the exit
-		if(readyToLeave())
+		if (readyToLeave())
 		{
 			goToExit();
-			return true; //todo check if needed return but doesnt matter i guess
+			//Return probably is not critical, but better be safe for future reimplementation
+			return true;
 		}
 		//If the player requires greeting, he shall receive one
 		else if (!this.atExit && this.firstPlayer == player && !this.greetingDone)
@@ -243,14 +244,14 @@ public class Daisy extends AbstractActor implements Greeter, Item, Usable
 	@Override
 	public void act()
 	{
-		if(this.scheduledPosition[0] == 1)
+		if (this.scheduledPosition[0] == 1)
 		{
 			setPosition(this.scheduledPosition[1], this.scheduledPosition[2]);
-			this.scheduledPosition[0]=0;
+			this.scheduledPosition[0] = 0;
 		}
 
 		//If Daisy gets to the exit, the cinematic gets run
-		if(this.atExit && this.cinematic != null)
+		if (this.atExit && this.cinematic != null)
 		{
 			this.cinematic.act();
 		}

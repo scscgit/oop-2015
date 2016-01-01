@@ -28,17 +28,22 @@
 package sk.tuke.yolkfolk.actors.characters;
 
 import sk.tuke.gamelib2.Item;
+import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
+import sk.tuke.yolkfolk.actors.player.Player;
+import sk.tuke.yolkfolk.actors.player.players.dizzy.Dizzy;
 
 /**
  * He robs in hood. This is bad neighborhood.
  * <p/>
  * Created by Steve on 27.12.2015.
  */
-public class RobinHood extends AbstractActor implements Item
+public class RobinHood extends AbstractActor implements Item, HoodedVisitor
 {
 	//Constants
 	public static final String NAME = "RobinHood";
+	public static final int BIRD_CHARISMA = 150;
+	public static final int DIZZY_CHARISMA = 350;
 
 	public RobinHood()
 	{
@@ -48,5 +53,35 @@ public class RobinHood extends AbstractActor implements Item
 	@Override
 	public void act()
 	{
+	}
+
+	//Makes birds be full of joy
+	@Override
+	public void visit(Bird bird)
+	{
+		if (bird != null && isNear(bird, getWidth() * 2, getHeight() * 2))
+		{
+			bird.doChirp(RobinHood.BIRD_CHARISMA);
+		}
+	}
+	//Dizzy, our hero of this chapter has special purpose
+	@Override
+	public void visit(Dizzy dizzy)
+	{
+		if (dizzy != null && isNear(dizzy, getWidth() * 2, getHeight() * 2))
+		{
+			dizzy.beSpooked(RobinHood.DIZZY_CHARISMA);
+		}
+	}
+
+	//Greets a first generic player (my map does not plan to activate this method)
+	@Override
+	@Deprecated
+	public void visit(Player player)
+	{
+		if (player != null && isNear(player, getWidth() * 2, getHeight() * 2))
+		{
+			new Message("A new hero?", "Welcome to my home.", this);
+		}
 	}
 }

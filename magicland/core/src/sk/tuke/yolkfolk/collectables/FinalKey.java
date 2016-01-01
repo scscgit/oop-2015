@@ -32,13 +32,13 @@ package sk.tuke.yolkfolk.collectables;
  * <p/>
  * Created by Steve on 30.12.2015.
  */
-public class SimpleKey extends Key
+public class FinalKey extends Key
 {
 	//Constants
-	public static final String NAME = "SimpleKey";
+	public static final String NAME = "FinalKey";
 
-	public SimpleKey()
+	public FinalKey()
 	{
-		super(SimpleKey.NAME);
+		super(FinalKey.NAME);
 	}
 }

@@ -37,7 +37,7 @@ import java.util.List;
 
 /**
  * A good ending of the story.
- *
+ * <p/>
  * Created by Steve on 31.12.2015.
  */
 public class DaisyIsFree extends AbstractCinematicStrategy
@@ -106,7 +106,7 @@ public class DaisyIsFree extends AbstractCinematicStrategy
 	public void startup()
 	{
 		//Runs the winning music
-		if (getPlayer() != null && getPlayer().getWorld() instanceof NewWorldOrder)
+		if (getPlayer().getWorld() instanceof NewWorldOrder)
 		{
 			NewWorldOrder world = (NewWorldOrder) getPlayer().getWorld();
 			world.loadMusic(GameMusic.getWinPath());

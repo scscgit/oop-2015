@@ -34,9 +34,12 @@ import sk.tuke.yolkfolk.GameMusic;
 import sk.tuke.yolkfolk.actors.Cursable;
 import sk.tuke.yolkfolk.actors.CurseEvent;
 import sk.tuke.yolkfolk.actors.Greeter;
+import sk.tuke.yolkfolk.actors.characters.HoodedVisitor;
 import sk.tuke.yolkfolk.actors.player.AbstractPlayer;
 import sk.tuke.yolkfolk.actors.player.states.PlayerState;
 import sk.tuke.yolkfolk.actors.player.states.PlayerStates;
+import sk.tuke.yolkfolk.input.CustomInput;
+import sk.tuke.yolkfolk.input.ReversedInput;
 
 /**
  * Dizzy, nas prvy hlavny hrdina.
@@ -54,9 +57,13 @@ public class Dizzy extends AbstractPlayer implements Cursable
 	private boolean cursed;
 	private int birdsCaught;
 	private boolean monkeyFinished;
+	//Sprava reprezentujuca, ze bol hrac uz vystraseny (null ak este nebol)
+	private Message gotSpooked;
+	private CustomInput oldInput;
+	private int oldInputCounter;
 	//private boolean initialized;
 
-	public Dizzy() //TODO be last actor created on map
+	public Dizzy()
 	{
 		//Nastavenie animacii
 		super(Dizzy.NAME, "sprites/dizzy.png", 25, 25);
@@ -80,20 +87,33 @@ public class Dizzy extends AbstractPlayer implements Cursable
 		this.cursed = false;
 		this.birdsCaught = 0;
 		this.monkeyFinished = false;
+		this.gotSpooked = null;
+		this.oldInput = null;
+		this.oldInputCounter = 0;
 		//this.initialized = false;
 	}
 
-	/*@Override
+	@Override
 	public void act()
 	{
-		if(!this.initialized)
+		//Ak po stretnuti Robin Hooda zmenil svoj pohyb, tak ho za chvilu vrati naspat
+		if (this.oldInput != null)
 		{
-			this.initialized = true;
+			if (this.oldInputCounter > 0)
+			{
+				this.oldInputCounter--;
+			}
+			else
+			{
+				setPlayerInput(this.oldInput);
+				this.oldInput = null;
+				this.gotSpooked.remove();
+			}
 		}
 
 		//Vykonaj act, ktory ma vykonat kazdy Player
 		super.act();
-	}*/
+	}
 
 	//Operacie s ostatnymi actormi vo svete, ktorych sa Player dotyka.
 	@Override
@@ -107,6 +127,12 @@ public class Dizzy extends AbstractPlayer implements Cursable
 			{
 				return true;
 			}
+		}
+
+		//Look for visitors
+		if (actor instanceof HoodedVisitor)
+		{
+			((HoodedVisitor) actor).visit(this);
 		}
 		return false;
 	}
@@ -172,6 +198,20 @@ public class Dizzy extends AbstractPlayer implements Cursable
 		return this.monkeyFinished;
 	}
 
+	//A.K.A void accept(HoodedVisitor visitor)
+	public void beSpooked(int duration)
+	{
+		//Git sp00ked
+		if (this.gotSpooked == null)
+		{
+			this.oldInput = getPlayerInput();
+			setPlayerInput(new ReversedInput());
+			this.gotSpooked = new Message("Whoops", "That Hunter scared me.", this);
+			this.gotSpooked.setPosition(getX() - 1.5f * getHeight(), getY() + 1.5f * getHeight());
+			this.oldInputCounter = duration;
+		}
+	}
+
 	//Operations that happen after Dizzy dies
 	@Override
 	public void onDeath()
@@ -186,7 +226,8 @@ public class Dizzy extends AbstractPlayer implements Cursable
 		new Message("Congratulations, you've won this game!",
 		            "Together with Daisy, they'll\n"
 		            + "both live happily ever after.\n" +
-		            "You found " + getNumberOfDiamonds() + " diamond" + (getNumberOfDiamonds()>1?"s.":"."),
+		            "You found " + (getNumberOfDiamonds() > 0 ? getNumberOfDiamonds() : "no") + " diamond" +
+		            (getNumberOfDiamonds() > 1 ? "s." : "."),
 		            this);
 	}
 }

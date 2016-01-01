@@ -34,10 +34,15 @@ package sk.tuke.yolkfolk.actors.characters.ghost;
  */
 public class FriendGhostDecorator extends AbstractGhostDecorator
 {
+	//Decorated ghost
+	//private Ghost ghost;
+
 	public FriendGhostDecorator(Ghost ghost)
 	{
 		super(ghost);
+		//this.ghost = ghost;
 
+		//Ghost becomes a friend
 		ghost.becomeAlly();
 	}
 }

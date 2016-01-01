@@ -33,10 +33,11 @@ import sk.tuke.gamelib2.Message;
 import sk.tuke.yolkfolk.actors.AbstractActor;
 import sk.tuke.yolkfolk.actors.player.Player;
 import sk.tuke.yolkfolk.collectables.Key;
-import sk.tuke.yolkfolk.collectables.SimpleKey;
 
 /**
  * A generic door, initially closed, unlike most real life doors.
+ * <p/>
+ * A.K.A a DoorImpl.
  * <p/>
  * Created by Steve on 27.12.2015.
  */
@@ -137,7 +138,8 @@ public class SimpleDoor extends AbstractActor implements Door
 	//Pomocou kluca sa skusia otvorit dvere a metoda vrati hodnotu uspechu
 	public boolean unlock(Key key)
 	{
-		if (key instanceof SimpleKey)
+		//Allows any kind of key
+		if (key != null)
 		{
 			open();
 			return true;
@@ -261,6 +263,7 @@ public class SimpleDoor extends AbstractActor implements Door
 	public void act()
 	{
 		//Osetrenie chyby kniznice, prvy act sa nema vykonat
+		//(asi uz nie je potrebny po uprave intersect metod AbstractActora)
 		if (getX() == 0 && getY() == 0)
 		{
 			return;

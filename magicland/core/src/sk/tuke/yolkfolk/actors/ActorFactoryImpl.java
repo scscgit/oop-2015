@@ -67,6 +67,7 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		register("Witcher");
 
 		//Special actor character: A default Ghost
+		//Should be instead created using Decorator
 		setRegisterPath("sk.tuke.yolkfolk.actors.characters.ghost");
 		register("GhostImpl");
 
@@ -77,6 +78,7 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		//Actor items
 		setRegisterPath("sk.tuke.yolkfolk.actors.items");
 		register("Diamond");
+		register("FinalDoor");
 		register("Fire");
 		register("GreenDiamond");
 		register("Lever");
@@ -88,6 +90,8 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		//Actor objects
 		setRegisterPath("sk.tuke.yolkfolk.actors.objects");
 		register("DaisyElevator");
+		register("Elevator");
+		register("HorizontalPlatform");
 		register("RobinHoodPlatform");
 		register("Rubbish");
 		register("Well");
@@ -116,11 +120,11 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		//Collectables
 		setRegisterPath("sk.tuke.yolkfolk.collectables");
 		register("Apple");
+		register("FinalKey");
 		register("Key");
 		register("MagicKey");
 		register("Potion");
 		register("Ring");
-		register("SimpleKey");
 		register("Stone");
 
 		/*
@@ -225,7 +229,7 @@ public class ActorFactoryImpl /*extends ActionQueue<String, Actor>*/ implements 
 		return "";
 	}
 
-	//Registers a new class, that can be created using a default parameterless constructor
+	//Registers a new class, that can be created using a default parameterless constructor. Uses reflection.
 	public static void register(String className)
 	{
 		try
